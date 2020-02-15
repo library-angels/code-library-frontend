@@ -6,7 +6,8 @@
     ],
     "plugins": [
         "react",
-        "prettier"
+        "prettier",
+        "jest"
     ],
     "rules": {
         "react/jsx-filename-extension": [
@@ -22,9 +23,15 @@
         "max-len": [
             "error",
             80
-        ]
+        ],
+        "jest/no-disabled-tests": "warn",
+        "jest/no-focused-tests": "error",
+        "jest/no-identical-title": "error",
+        "jest/prefer-to-have-length": "warn",
+        "jest/valid-expect": "error"
     },
     "env": {
-        "browser": true
+        "browser": true,
+        "jest": true
     }
 }
