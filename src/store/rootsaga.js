@@ -4,7 +4,7 @@ import {
     watchIncrementAsync,
     watchDecrementAsync,
     watchResetAsync,
-} from './counter/saga';
+} from './counter/sagas';
 
 const rootSaga = function* root() {
     yield all([

@@ -16,14 +16,14 @@ export function* onIncrementAsync() {
     yield put(increment()); // { PUT: { TYPE: "INCREMENT" }}
 }
 
-function* onDecrementAsync() {
-    yield delay(1000);
-    yield put(decrement());
+export function* onDecrementAsync() {
+    yield call(delay, 1000); // { CALL: {fn: delay, args: [1000]}}
+    yield put(decrement()); // { PUT: { TYPE: "DECREMENT" }}
 }
 
-function* onResetAsync() {
-    yield delay(1000);
-    yield put(reset());
+export function* onResetAsync() {
+    yield call(delay, 1000); // { CALL: {fn: delay, args: [1000]}}
+    yield put(reset()); // { PUT: { TYPE: "RESET" }}
 }
 
 export function* watchIncrementAsync() {
