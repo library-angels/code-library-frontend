@@ -27,6 +27,11 @@
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
   "lint-staged": {
     "src/**/*.{js,jsx,json,css,md}": [
       "eslint --fix src",
@@ -63,9 +68,10 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.18.3",
+    "eslint-plugin-react-hooks": "^2.3.0",
     "husky": "^4.2.3",
     "lint-staged": "^10.0.7",
     "postcss-normalize": "^8.0.1",
-    "prettier": "^1.19.1"
+    "prettier": "1.19.1"
   }
 }

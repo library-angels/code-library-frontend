@@ -1,27 +1,34 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-
-import { increment, decrement, reset } from '../../store/counter/actions';
-import getCounterState from '../../store/counter/selectors';
-
 import Button from '../Button';
 
+import useCounter from '../hook';
+
 const Counter = () => {
-  const dispatch = useDispatch();
-  const { count } = useSelector(getCounterState);
+    const { actions, state } = useCounter();
+    const { increment, decrement, reset } = actions;
 
-  const onReset = () => dispatch(reset());
-  const onIncrement = () => dispatch(increment());
-  const onDecrement = () => dispatch(decrement());
+    return (
+        <div className="Counter">
+            <h1>Count {state.count}</h1>
+            <Button text="Increment" onClick={increment} />
+            <Button text="Decrement" onClick={decrement} />
+            <Button text="Reset" onClick={reset} />
+        </div>
+    );
+};
 
-  return (
-    <div className="Counter">
-      <h1>Count {count}</h1>
-      <Button text="Increment" onClick={onIncrement} />
-      <Button text="Decrement" onClick={onDecrement} />
-      <Button text="Reset" onClick={onReset} />
-    </div>
-  );
+export const AsyncCounter = () => {
+    const { actions, state } = useCounter();
+    const { incrementAsync, decrementAsync, resetAsync } = actions;
+
+    return (
+        <div className="Counter">
+            <h1>AsyncCount {state.count}</h1>
+            <Button text="Increment" onClick={incrementAsync} />
+            <Button text="Decrement" onClick={decrementAsync} />
+            <Button text="Reset" onClick={resetAsync} />
+        </div>
+    );
 };
 
 export default Counter;

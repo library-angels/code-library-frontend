@@ -6,31 +6,31 @@ export const RESET = 'RESET';
 export const RESET_ASYNC = 'RESET_ASYNC';
 
 export const increment = () => ({
-  type: INCREMENT,
-  payload: {},
+    type: INCREMENT,
+    payload: {},
 });
 
 export const incrementAsync = () => ({
-  type: INCREMENT_ASYNC,
-  payload: {},
+    type: INCREMENT_ASYNC,
+    payload: {},
 });
 
 export const decrement = () => ({
-  type: DECREMENT,
-  payload: {},
+    type: DECREMENT,
+    payload: {},
 });
 
 export const decrementAsync = () => ({
-  type: DECREMENT_ASYNC,
-  payload: {},
+    type: DECREMENT_ASYNC,
+    payload: {},
 });
 
 export const reset = () => ({
-  type: RESET,
-  payload: {},
+    type: RESET,
+    payload: {},
 });
 
 export const resetAsync = () => ({
-  type: RESET_ASYNC,
-  payload: {},
+    type: RESET_ASYNC,
+    payload: {},
 });

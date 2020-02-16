@@ -1,38 +1,39 @@
-import { put, takeEvery } from 'redux-saga/effects';
+import { put, takeEvery, call } from 'redux-saga/effects';
 import {
-  increment,
-  INCREMENT_ASYNC,
-  decrement,
-  DECREMENT_ASYNC,
-  reset,
-  RESET_ASYNC,
+    increment,
+    INCREMENT_ASYNC,
+    decrement,
+    DECREMENT_ASYNC,
+    reset,
+    RESET_ASYNC,
 } from './actions';
 
-const delay = ms => new Promise(res => setTimeout(res, ms));
+export const delay = ms => new Promise(res => setTimeout(res, ms));
 
-function* onIncrementAsync() {
-  yield delay(1000);
-  yield put(increment());
+export function* onIncrementAsync() {
+    // use the call effect
+    yield call(delay, 1000); // { CALL: {fn: delay, args: [1000]}}
+    yield put(increment()); // { PUT: { TYPE: "INCREMENT" }}
 }
 
 function* onDecrementAsync() {
-  yield delay(1000);
-  yield put(decrement());
+    yield delay(1000);
+    yield put(decrement());
 }
 
 function* onResetAsync() {
-  yield delay(1000);
-  yield put(reset());
+    yield delay(1000);
+    yield put(reset());
 }
 
 export function* watchIncrementAsync() {
-  yield takeEvery(INCREMENT_ASYNC, onIncrementAsync);
+    yield takeEvery(INCREMENT_ASYNC, onIncrementAsync);
 }
 
 export function* watchDecrementAsync() {
-  yield takeEvery(DECREMENT_ASYNC, onDecrementAsync);
+    yield takeEvery(DECREMENT_ASYNC, onDecrementAsync);
 }
 
 export function* watchResetAsync() {
-  yield takeEvery(RESET_ASYNC, onResetAsync);
+    yield takeEvery(RESET_ASYNC, onResetAsync);
 }

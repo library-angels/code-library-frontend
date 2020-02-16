@@ -6,14 +6,14 @@ import rootReducer from './reducers';
 import rootSaga from './sagas';
 
 const configureStore = () => {
-  const sagaMiddleware = createSagaMiddleware();
-  const store = createStore(
-    rootReducer,
-    composeWithDevTools(applyMiddleware(sagaMiddleware)),
-  );
-  sagaMiddleware.run(rootSaga);
+    const sagaMiddleware = createSagaMiddleware();
+    const store = createStore(
+        rootReducer,
+        composeWithDevTools(applyMiddleware(sagaMiddleware)),
+    );
+    sagaMiddleware.run(rootSaga);
 
-  return store;
+    return store;
 };
 
 export default configureStore;
