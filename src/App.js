@@ -1,13 +1,10 @@
 import React from 'react';
-
-import Counter, { AsyncCounter } from './components/Counter';
+import Users from './components/Users';
 
 function App() {
     return (
         <div className="App">
-            <h1>Hello Library</h1>
-            <Counter />
-            <AsyncCounter />
+            <Users />
         </div>
     );
 }

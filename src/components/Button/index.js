@@ -10,8 +10,13 @@ const Button = ({ text, onClick }) => {
 };
 
 Button.propTypes = {
-    text: PropTypes.string.isRequired,
-    onClick: PropTypes.func.isRequired,
+    text: PropTypes.string,
+    onClick: PropTypes.func,
+};
+
+Button.defaultProps = {
+    text: '',
+    onClick: () => console.log('button clicked'),
 };
 
 export default Button;
