@@ -1,3 +1,4 @@
+import configureStore from 'redux-mock-store';
 import {
     INCREMENT,
     DECREMENT,
@@ -7,34 +8,51 @@ import {
     reset,
 } from './actions';
 
-describe('Counter actions', () => {
+const middlewares = [];
+const mockStore = configureStore(middlewares);
+
+describe('Counter action creators', () => {
     it('should create an action to increment counter action', () => {
-        const got = increment();
-        const want = {
+        expect(increment()).toEqual({
             type: INCREMENT,
             payload: {},
-        };
-
-        expect(got).toEqual(want);
+        });
     });
 
     it('should create an action to decrement counter action', () => {
-        const got = decrement();
-        const want = {
+        expect(decrement()).toEqual({
             type: DECREMENT,
             payload: {},
-        };
-
-        expect(got).toEqual(want);
+        });
     });
 
     it('should create an action to reset counter action', () => {
-        const got = reset();
-        const want = {
+        expect(reset()).toEqual({
             type: RESET,
             payload: {},
-        };
+        });
+    });
+});
 
-        expect(got).toEqual(want);
+describe('Dispatch Counter actions', () => {
+    it('should dispatch actions', () => {
+        // Initialize mockstore with empty state
+        const initialState = {};
+        const store = mockStore(initialState);
+
+        // Dispatch the action
+        store.dispatch(increment());
+        store.dispatch(decrement());
+        store.dispatch(reset());
+
+        // Test if your store dispatched the expected actions
+        const actions = store.getActions();
+        const expectedPayload = [
+            { type: INCREMENT, payload: {} },
+            { type: DECREMENT, payload: {} },
+            { type: RESET, payload: {} },
+        ];
+
+        expect(actions).toEqual(expectedPayload);
     });
 });
