@@ -1,7 +1,13 @@
 import React from 'react';
+import Search from '../Search';
 
 function Dashboard() {
-    return <div>Dashboard Component</div>;
+    return (
+        <div>
+            <Search />
+            Dashboard Component
+        </div>
+    );
 }
 
 export default Dashboard;
