@@ -1,0 +1,41 @@
+.slick-prev,
+.slick-next,
+.slick-prev:hover,
+.slick-prev:focus,
+.slick-next:hover,
+.slick-next:focus {
+    border-radius: 50%;
+    background: black;
+}
+
+.book-carousel-category {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    a {
+        text-decoration: none;
+        color: black;
+    }
+}
+
+.book-carousel {
+    margin: 0 auto;
+    margin-bottom: 3em;
+    padding-left: 2em;
+    padding-right: 2em;
+    max-width: 1024px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.book-carousel-child {
+    display: flex !important;
+    justify-content: center;
+
+    img {
+        max-width: 100px;
+        max-height: 150px;
+    }
+}
