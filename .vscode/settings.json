@@ -1,0 +1,5 @@
+{
+    "prettier.jsxBracketSameLine": true,
+    "prettier.trailingComma": "es5",
+    "prettier.proseWrap": "always"
+}
