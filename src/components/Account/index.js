@@ -1,10 +1,10 @@
 import React from 'react';
 import ProfilePic from '../ProfilePic';
+
+import './account.css';
 import BorrowingList from '../BorrowingList';
 import WaitingList from '../WaitingList';
 import HistoryList from '../HistoryList';
-import './account.css';
-
 
 function Account() {
     return (
