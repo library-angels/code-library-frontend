@@ -5,7 +5,15 @@
 .slick-next:hover,
 .slick-next:focus {
     border-radius: 50%;
-    background: black;
+    background: white;
+    width: 30px;
+    height: 30px;
+}
+
+.slick-prev::before,
+.slick-next::before {
+    font-size: 30px;
+    color: black;
 }
 
 .book-carousel-category {
@@ -35,6 +43,7 @@
     justify-content: center;
 
     img {
+        border: 1px solid rgb(90, 90, 90);
         max-width: 100px;
         max-height: 150px;
     }
