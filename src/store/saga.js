@@ -7,6 +7,7 @@ import {
 } from './counter/sagas';
 
 import { watchUsersRequest } from './users/users.sagas';
+import { watchBooksRequest } from './books/books.sagas';
 
 const rootSaga = function* root() {
     yield all([
@@ -14,6 +15,7 @@ const rootSaga = function* root() {
         fork(watchDecrementAsync),
         fork(watchResetAsync),
         fork(watchUsersRequest),
+        fork(watchBooksRequest),
     ]);
 };
 
