@@ -6,7 +6,7 @@ import './styles.scss';
 
 function Search() {
     const [search, setSearch] = useState(null);
-    const [select, setSelect] = useState(null);
+    const [select, setSelect] = useState('title');
 
     return (
         <div id="search">
@@ -19,6 +19,7 @@ function Search() {
                 placeholder="Which book are you looking for?"
                 onKeyUp={e => {
                     setSearch(e.target.value);
+                    // eslint-disable-next-line no-console
                     console.log(`Searching for ${select} ${search}`);
                 }}
                 on

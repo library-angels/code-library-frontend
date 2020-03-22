@@ -1,30 +1,38 @@
 import React from 'react';
+
 import Search from '../Search';
 import BookCarousel from '../BookCarousel';
+// import { CategoryView } from '../Category';
 
-import library from '../../library.json';
+import './styles.scss';
+
+import useBooks from '../../hooks/books';
 
 function Dashboard() {
-    const categories = library.reduce((acc, book) => {
-        const { designation } = book;
-
-        if (acc[designation] === undefined) {
-            acc[designation] = [];
-        }
-        acc[designation].push(book);
-
-        return acc;
-    }, {});
+    const {
+        get: { dashboard },
+    } = useBooks();
+    const categories = Object.keys(dashboard);
 
     return (
-        <div>
+        <div id="dashboard-container">
             <Search />
-            {Object.keys(categories).map(category => (
-                <BookCarousel
-                    category={category}
-                    books={categories[category].slice(0, 10)}
-                />
-            ))}
+            {categories
+                .map(c => dashboard[c].length)
+                .reduce((acc, len) => acc + len, 0) <= 0 ? (
+                <div> Loading Data </div>
+            ) : (
+                categories.map(category => (
+                    <BookCarousel
+                        key={category}
+                        category={category}
+                        books={dashboard[category]}
+                    />
+                ))
+            )}
+            {/* <div id="categories-view-container">
+                <CategoryView books={[]} />
+            </div> */}
         </div>
     );
 }

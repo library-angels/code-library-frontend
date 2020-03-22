@@ -48,3 +48,10 @@
         max-height: 150px;
     }
 }
+
+.slick-dots {
+    bottom: -35px;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+}
