@@ -16,62 +16,73 @@ const {
     booksReceiveAll,
 } = BOOKS_ACTION_CREATORS;
 
-const books = {
+const initialState = {
     dashboard: {},
     all: {},
 };
 
 describe('Books action creators', () => {
+    const { dashboard, all } = initialState;
+
     it('should create an action to request dashboard books', () => {
-        expect(booksRequestDashboard()).toEqual({
+        const got = booksRequestDashboard();
+        const want = {
             type: BOOKS_REQUEST_DASHBOARD,
             payload: {},
-        });
+        };
+
+        expect(got).toEqual(want);
     });
 
     it('should create an action to receive dashboard books', () => {
-        expect(booksReceiveDashboard(books.dashboard)).toEqual({
+        const got = booksReceiveDashboard(dashboard);
+        const want = {
             type: BOOKS_RECEIVE_DASHBOARD,
             payload: {
-                books: books.dashboard,
+                books: dashboard,
             },
-        });
+        };
+
+        expect(got).toEqual(want);
     });
 
     it('should create an action to request all books', () => {
-        expect(booksRequestAll()).toEqual({
+        const got = booksRequestAll();
+        const want = {
             type: BOOKS_REQUEST_ALL,
             payload: {},
-        });
+        };
+
+        expect(got).toEqual(want);
     });
 
     it('should create an action to receive all books', () => {
-        expect(booksReceiveAll(books.all)).toEqual({
+        const got = booksReceiveAll(all);
+        const want = {
             type: BOOKS_RECEIVE_ALL,
             payload: {
-                books: books.all,
+                books: all,
             },
-        });
+        };
+
+        expect(got).toEqual(want);
     });
 });
 
-describe('Dispatch User actions', () => {
+describe('Dispatch Books actions', () => {
     it('should dispatch actions', () => {
         const mockStore = configureStore([]);
-
-        // Initialize mockstore with empty state
-        const initialState = {};
         const store = mockStore(initialState);
 
-        // Dispatch the action
-        store.dispatch(booksRequestDashboard());
-        store.dispatch(booksReceiveDashboard(books.dashboard));
-        store.dispatch(booksRequestAll());
-        store.dispatch(booksReceiveAll(books.all));
+        const { dashboard, all } = store;
 
-        // Test if your store dispatched the expected actions
-        const actions = store.getActions();
-        const expectedPayload = [
+        store.dispatch(booksRequestDashboard());
+        store.dispatch(booksReceiveDashboard(dashboard));
+        store.dispatch(booksRequestAll());
+        store.dispatch(booksReceiveAll(all));
+
+        const got = store.getActions();
+        const want = [
             {
                 type: BOOKS_REQUEST_DASHBOARD,
                 payload: {},
@@ -79,7 +90,7 @@ describe('Dispatch User actions', () => {
             {
                 type: BOOKS_RECEIVE_DASHBOARD,
                 payload: {
-                    books: books.dashboard,
+                    books: dashboard,
                 },
             },
             {
@@ -89,11 +100,11 @@ describe('Dispatch User actions', () => {
             {
                 type: BOOKS_RECEIVE_ALL,
                 payload: {
-                    books: books.all,
+                    books: all,
                 },
             },
         ];
 
-        expect(actions).toEqual(expectedPayload);
+        expect(got).toEqual(want);
     });
 });
