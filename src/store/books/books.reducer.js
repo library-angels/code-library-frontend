@@ -8,8 +8,8 @@ const {
 } = BOOKS_ACTIONS;
 
 const initialState = {
-    dashboard: [],
-    all: [],
+    dashboard: {},
+    all: {},
 };
 
 function users(state = initialState, action) {
