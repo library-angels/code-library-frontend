@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
-import Search from '../Search';
+import Search from '../../components/Search';
 
 import useBooks from '../../hooks/books';
 

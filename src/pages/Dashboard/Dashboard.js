@@ -1,8 +1,7 @@
 import React from 'react';
 
-import Search from '../Search';
-import BookCarousel from '../BookCarousel';
-// import { CategoryView } from '../Category';
+import Search from '../../components/Search';
+import BookCarousel from '../../components/BookCarousel';
 
 import './styles.scss';
 
@@ -30,9 +29,6 @@ function Dashboard() {
                     />
                 ))
             )}
-            {/* <div id="categories-view-container">
-                <CategoryView books={[]} />
-            </div> */}
         </div>
     );
 }

@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
+import routes from './router';
+
 import Navigation from './components/Navigation';
-import Dashboard from './components/Dashboard';
-import Account from './components/Account';
-import Category from './components/Category';
-import Logout from './components/Logout';
-import { ThemeProvider } from '@chakra-ui/core';
+import { Dashboard, Account, Category, Logout } from './pages';
 
 import useBooks from './hooks/books';
 
@@ -19,25 +17,23 @@ function App() {
 
     return (
         <div className="app">
-            <ThemeProvider>
-                <Router>
-                    <Navigation />
-                    <Switch>
-                        <Route exact path="/">
-                            <Dashboard />
-                        </Route>
-                        <Route exact path="/account">
-                            <Account />
-                        </Route>
-                        <Route path="/category/:department">
-                            <Category />
-                        </Route>
-                        <Route path="/logout">
-                            <Logout />
-                        </Route>
-                    </Switch>
-                </Router>
-            </ThemeProvider>
+            <Router>
+                <Navigation />
+                <Switch>
+                    <Route exact path={routes.Dashboard}>
+                        <Dashboard />
+                    </Route>
+                    <Route exact path={routes.Account}>
+                        <Account />
+                    </Route>
+                    <Route path={routes.Category}>
+                        <Category />
+                    </Route>
+                    <Route path={routes.Logout}>
+                        <Logout />
+                    </Route>
+                </Switch>
+            </Router>
         </div>
     );
 }
