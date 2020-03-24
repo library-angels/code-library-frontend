@@ -7,12 +7,14 @@ import './styles.scss';
 function Navigation() {
     return (
         <header>
-            <img src={logo} alt="logo" />
+            <div id="logo-box">
+                <Link to="/">
+                    <img src={logo} alt="logo" />
+                </Link>
+                <span>Library</span>
+            </div>
             <nav>
                 <ul>
-                    <li id="library-link">
-                        <Link to="/">Library</Link>
-                    </li>
                     <li id="account-link">
                         <Link to="/account">My Account</Link>
                     </li>
