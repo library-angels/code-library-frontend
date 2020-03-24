@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
+import routes from './router';
+
 import Navigation from './components/Navigation';
-import Dashboard from './components/Dashboard';
-import Account from './components/Account';
-import Category from './components/Category';
-import Logout from './components/Logout';
+import { Dashboard, Account, Category, Logout } from './pages';
 
 import useBooks from './hooks/books';
 
@@ -21,16 +20,16 @@ function App() {
             <Router>
                 <Navigation />
                 <Switch>
-                    <Route exact path="/">
+                    <Route exact path={routes.Dashboard}>
                         <Dashboard />
                     </Route>
-                    <Route exact path="/account">
+                    <Route exact path={routes.Account}>
                         <Account />
                     </Route>
-                    <Route path="/category/:department">
+                    <Route path={routes.Category}>
                         <Category />
                     </Route>
-                    <Route path="/logout">
+                    <Route path={routes.Logout}>
                         <Logout />
                     </Route>
                 </Switch>
