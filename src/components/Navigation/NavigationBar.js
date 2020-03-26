@@ -58,7 +58,7 @@ export default function NavigationBar() {
             height="80px"
             width="100%"
             align="center"
-            zIndex="1"
+            zIndex="3"
         >
             {/* Logo Link Container */}
             <Link
