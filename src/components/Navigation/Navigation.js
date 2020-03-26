@@ -1,30 +1,22 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-import logo from '../../static/code.png';
-import './styles.scss';
+import NavigationBar from './NavigationBar';
+import NavigationSearch from './NavigationSearch';
 
-function Navigation() {
+export default function Navigation({ includeSearch }) {
     return (
-        <header>
-            <div id="logo-box">
-                <Link to="/">
-                    <img src={logo} alt="logo" />
-                </Link>
-                <span>Library</span>
-            </div>
-            <nav>
-                <ul>
-                    <li id="account-link">
-                        <Link to="/account">My Account</Link>
-                    </li>
-                    <li id="logout-link">
-                        <Link to="/logout">Log out</Link>
-                    </li>
-                </ul>
-            </nav>
-        </header>
+        <>
+            <NavigationBar />
+            {includeSearch && <NavigationSearch />}
+        </>
     );
 }
 
-export default Navigation;
+Navigation.propTypes = {
+    includeSearch: PropTypes.bool,
+};
+
+Navigation.defaultProps = {
+    includeSearch: false,
+};
