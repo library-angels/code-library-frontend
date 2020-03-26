@@ -1,4 +1,5 @@
 import React from 'react';
+import { Box, Spinner } from '@chakra-ui/core';
 
 import BookCarousel from '../../components/BookCarousel';
 
@@ -11,11 +12,11 @@ function Dashboard() {
     const categories = Object.keys(dashboard);
 
     return (
-        <div id="dashboard-container">
+        <Box textAlign="center" marginBottom="3rem">
             {categories
                 .map(c => dashboard[c].length)
                 .reduce((acc, len) => acc + len, 0) <= 0 ? (
-                <div> Loading Data </div>
+                <Spinner marginTop="3rem" />
             ) : (
                 categories.map(category => (
                     <BookCarousel
@@ -25,7 +26,7 @@ function Dashboard() {
                     />
                 ))
             )}
-        </div>
+        </Box>
     );
 }
 
