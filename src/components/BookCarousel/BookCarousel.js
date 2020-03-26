@@ -35,8 +35,6 @@ function BookCarousel({ category, books }) {
         >
             <Flex
                 justifyContent="space-between"
-                border="2px solid black"
-                borderRadius="0.25rem"
                 margin="0 auto"
                 width={['100%']}
             >
@@ -48,11 +46,15 @@ function BookCarousel({ category, books }) {
                     to={`/category/${category}`}
                     _hover={{
                         textDecoration: 'none',
+                        color: 'white',
+                        background: 'black',
                     }}
                     display="flex"
                     justifyContent="center"
                     alignItems="center"
-                    paddingRight="1rem"
+                    paddingX="1rem"
+                    border="2px solid black"
+                    borderRadius=".250rem"
                 >
                     Show All
                 </Link>

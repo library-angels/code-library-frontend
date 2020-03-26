@@ -76,7 +76,7 @@ function NavigationSearch() {
                 value={select}
                 onChange={({ target }) => setSelect(target.value)}
                 placeholder="Select option"
-                width={['100%', '110px']}
+                width={['100%', '160px']}
                 background="transparent"
                 _focus={{
                     borderColor: 'black',
