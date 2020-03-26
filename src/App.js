@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
+import { ThemeProvider, CSSReset } from '@chakra-ui/core';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import routes from './router';
+import Routes from './router';
 
 import Navigation from './components/Navigation';
 import { Dashboard, Account, Category, Logout } from './pages';
@@ -16,25 +17,28 @@ function App() {
     }, []);
 
     return (
-        <div className="app">
-            <Router>
-                <Navigation />
-                <Switch>
-                    <Route exact path={routes.Dashboard}>
-                        <Dashboard />
-                    </Route>
-                    <Route exact path={routes.Account}>
-                        <Account />
-                    </Route>
-                    <Route path={routes.Category}>
-                        <Category />
-                    </Route>
-                    <Route path={routes.Logout}>
-                        <Logout />
-                    </Route>
-                </Switch>
-            </Router>
-        </div>
+        <ThemeProvider>
+            <CSSReset />
+            <div className="app">
+                <Router>
+                    <Navigation includeSearch />
+                    <Switch>
+                        <Route exact path={Routes.Dashboard}>
+                            <Dashboard />
+                        </Route>
+                        <Route exact path={Routes.Account}>
+                            <Account />
+                        </Route>
+                        <Route path={Routes.Category}>
+                            <Category />
+                        </Route>
+                        <Route path={Routes.Logout}>
+                            <Logout />
+                        </Route>
+                    </Switch>
+                </Router>
+            </div>
+        </ThemeProvider>
     );
 }
 
