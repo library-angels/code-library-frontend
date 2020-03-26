@@ -6,7 +6,7 @@ import { Link as RouterLink } from 'react-router-dom';
 
 import logo from '../../static/code.png';
 
-import Routes from '../../router';
+import Routes from '../../routes';
 
 export const NavigationLink = ({ to, text, justifyContent }) => (
     <Link
