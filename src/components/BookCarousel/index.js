@@ -1,3 +1,3 @@
-import BookCarousel from './BooksCarousel';
+import BookCarousel from './BookCarousel';
 
 export default BookCarousel;

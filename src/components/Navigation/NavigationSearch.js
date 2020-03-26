@@ -34,23 +34,23 @@ function NavigationSearch() {
     return (
         <Stack
             spacing={1}
-            marginTop="90px"
+            marginTop="calc(80px + 2em)"
+            marginX="auto"
             width="100%"
+            maxWidth="1024px"
             display="flex"
-            flexDirection={['column', 'column', 'column', 'row']}
+            flexDirection={['column', 'row', 'row', 'row']}
             justifyContent={[
-                'space-around',
-                'space-around',
-                'space-around',
                 'center',
+                'space-between',
+                'space-between',
+                'space-between',
             ]}
-            alignItems="center"
+            alignItems={['flex-start']}
+            paddingX="2rem"
         >
             {/* Search Bar  */}
-            <InputGroup
-                width={['85%', '75%', '65%', '645px']}
-                marginRight={['0', '0', '0', '1em']}
-            >
+            <InputGroup width={['100%', '100%']} marginRight={['0', '1em']}>
                 <InputLeftElement>
                     <FontAwesomeIcon icon={faSearch} />
                 </InputLeftElement>
@@ -76,8 +76,7 @@ function NavigationSearch() {
                 value={select}
                 onChange={({ target }) => setSelect(target.value)}
                 placeholder="Select option"
-                width={['85%', '75%', '65%', '150px']}
-                marginTop={['1em', '1em', '1em', '0em']}
+                width={['100%', '110px']}
                 background="transparent"
                 _focus={{
                     borderColor: 'black',
