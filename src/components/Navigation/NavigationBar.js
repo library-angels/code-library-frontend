@@ -85,6 +85,7 @@ export default function NavigationBar() {
             <Flex as="nav" height="100%" align="center" justify="center">
                 {links.map(({ to, text, justifyContent }) => (
                     <NavigationLink
+                        key={text}
                         to={to}
                         text={text}
                         justifyContent={justifyContent}

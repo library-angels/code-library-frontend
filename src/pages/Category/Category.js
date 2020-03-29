@@ -2,8 +2,9 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 
 import { Flex, Spinner } from '@chakra-ui/core';
+
+import { BookCategory } from '../../components/Book';
 import useBooks from '../../hooks/books';
-import CategoryBook from './Category.Book';
 
 export default function Category() {
     const { department } = useParams();
@@ -18,7 +19,7 @@ export default function Category() {
                     <Spinner marginTop="3rem" />
                 ) : (
                     category.map(({ author, title1: title, cover }) => (
-                        <CategoryBook
+                        <BookCategory
                             author={author}
                             title={title}
                             cover={cover}
