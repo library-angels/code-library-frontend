@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Flex, PseudoBox, Image, Divider } from '@chakra-ui/core';
 
-export default function CateroryBook({ author, title, cover }) {
+export default function BookCategory({ author, title, cover }) {
     return (
         <PseudoBox
             display="flex"
@@ -68,7 +68,7 @@ export default function CateroryBook({ author, title, cover }) {
     );
 }
 
-CateroryBook.propTypes = {
+BookCategory.propTypes = {
     author: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     cover: PropTypes.string.isRequired,

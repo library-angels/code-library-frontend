@@ -16,7 +16,7 @@ async function fetchUsers() {
 }
 
 export function createGetUsers(fetchUsersFunc) {
-    return function*() {
+    return function* getUsersSaga() {
         try {
             const response = yield call(fetchUsersFunc);
             yield put(usersReceived(response));

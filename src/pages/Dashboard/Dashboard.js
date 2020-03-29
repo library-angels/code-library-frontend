@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Spinner } from '@chakra-ui/core';
 
-import BookCarousel from '../../components/BookCarousel';
+import { BookCarousel } from '../../components/Book';
 
 import useBooks from '../../hooks/books';
 
