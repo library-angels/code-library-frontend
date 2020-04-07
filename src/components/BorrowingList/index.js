@@ -3,8 +3,8 @@ import Carousel from '../Carousel';
 
 function BorrowingList(props) {
     return (
-        <div >
-            <Carousel title={props.title} />
+        <div>
+            <Carousel title={props.title} book={props.book} />
         </div>
     );
 }
