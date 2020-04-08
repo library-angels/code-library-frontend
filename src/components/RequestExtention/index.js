@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 
 import {
+    Select,
     Text,
     Flex,
     Image,
@@ -12,11 +13,6 @@ import {
     ModalBody,
     ModalCloseButton,
     useDisclosure,
-    NumberInput,
-    NumberInputField,
-    NumberInputStepper,
-    NumberIncrementStepper,
-    NumberDecrementStepper,
 } from '@chakra-ui/core';
 import useToggle from '../../hooks/toggle';
 import data from '../../LibTestApi/LibTestApiJson.json';
@@ -27,7 +23,21 @@ function RequestExtention(props) {
     const URL = 'https://library.code.berlin/';
     const book = data.filter(book => book.id === props.id);
     const [value, setValue] = React.useState(0);
-    const handleChange = value => setValue(value);
+    const handleChange = e => setValue(e.target.value);
+
+    function OptionList() {
+        const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+        const OptionItems = numbers.map(number => (
+            <option key={number} value={number.toString()}>
+                {number}
+            </option>
+        ));
+        return (
+            <Select w="20%" m="5px" onChange={handleChange}>
+                {OptionItems}
+            </Select>
+        );
+    }
 
     useEffect(() => {
         onOpen();
@@ -41,7 +51,7 @@ function RequestExtention(props) {
                 blockScrollOnMount={false}
                 closeOnOverlayClick={false}
             >
-                <ModalOverlay closeOnOverlayClick="false" />
+                <ModalOverlay />
                 <ModalContent>
                     <ModalCloseButton onClick={() => modal.toggleView()} />
                     <ModalBody mt="20px">
@@ -77,23 +87,8 @@ function RequestExtention(props) {
                     <ModalFooter flexDirection="column">
                         <Flex flexDirection="row" alignItems="baseline">
                             <Text>Request extention time of</Text>
-                            <NumberInput
-                                keepWithinRange={true}
-                                clampValueOnBlur={true}
-                                defaultValue={0}
-                                min={0}
-                                max={14}
-                                w="17%"
-                                m="5px"
-                                onChange={handleChange}
-                            >
-                                <NumberInputField />
-                                <NumberInputStepper>
-                                    <NumberIncrementStepper />
-                                    <NumberDecrementStepper />
-                                </NumberInputStepper>
-                            </NumberInput>
-                            <Text>day{value !== 1 ? 's' : null}</Text>
+                            {OptionList()}
+                            <Text>day{value !== '1' ? 's' : null}</Text>
                         </Flex>
                         <Button variantColor="blue" mr={3}>
                             Request
