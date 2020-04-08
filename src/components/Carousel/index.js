@@ -4,16 +4,17 @@ import { Box, Flex, Image, Collapse, Button } from '@chakra-ui/core';
 import RequestExtention from '../RequestExtention';
 
 import useToggle from '../../hooks/toggle';
+import useBookDetails from '../../hooks/bookDetails';
 
 function Carousel(props) {
+    const { bookDetails } = useBookDetails();
     const { modal } = useToggle();
-    const URL = 'https://library.code.berlin/';
     const [show, setShow] = useState(false);
     const handleToggle = () => setShow(!show);
-    const [ID, setID] = useState(null);
+    const URL = 'https://library.code.berlin/';
 
     const handleRequestExt = id => {
-        setID(id);
+        bookDetails.bookView(id);
         modal.toggleView();
     };
 
@@ -58,10 +59,6 @@ function Carousel(props) {
                     </Flex>
                 </Flex>
             )}
-
-            {modal.getState.show && ID !== null ? (
-                <RequestExtention id={ID} />
-            ) : null}
         </>
     );
 }
