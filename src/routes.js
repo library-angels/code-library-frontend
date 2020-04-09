@@ -4,3 +4,7 @@ export default {
     Category: '/category/:department',
     Logout: '/logout',
 };
+
+export const createLinks = {
+    toCategoryDepartment: department => `/category/${department}`,
+};

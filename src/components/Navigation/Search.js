@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {
+    Box,
     Stack,
     Select,
     Input,
@@ -10,27 +12,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
-import './styles.scss';
-
-function NavigationSearch() {
-    const [search, setSearch] = useState(null);
-    const [select, setSelect] = useState('title');
-
-    const options = [
-        {
-            value: 'title',
-            text: 'Title',
-        },
-        {
-            value: 'author',
-            text: 'Author',
-        },
-        {
-            value: 'tags',
-            text: 'Text',
-        },
-    ];
-
+function Search({ currentOption, allOptions, onSelectOption, onSearchInput }) {
     return (
         <Stack
             spacing={1}
@@ -56,14 +38,10 @@ function NavigationSearch() {
                 </InputLeftElement>
                 <Input
                     placeholder="Which book are you looking for?"
-                    onKeyUp={e => {
-                        setSearch(e.target.value);
-                        // eslint-disable-next-line no-console
-                        console.log(`Searching for ${select} ${search}`);
-                    }}
+                    onKeyUp={e => onSearchInput(e.target.value)}
                     variant="filled"
                     borderRadius="0"
-                    borderBottom="1px solid black"
+                    borderBottom="0.125rem solid black"
                     background="transparent"
                     _focus={{
                         borderColor: 'black',
@@ -73,23 +51,31 @@ function NavigationSearch() {
             </InputGroup>
             {/* Seach Options */}
             <Select
-                value={select}
-                onChange={({ target }) => setSelect(target.value)}
-                placeholder="Select option"
+                value={currentOption}
+                onChange={({ target }) => onSelectOption(target.value)}
                 width={['100%', '160px']}
                 background="transparent"
+                border="0.125rem solid"
+                textAlign="center"
                 _focus={{
                     borderColor: 'black',
                 }}
             >
-                {options.map(({ value, text }) => (
-                    <option key={value} value={value}>
-                        {text}
-                    </option>
+                {allOptions.map(option => (
+                    <Box as="option" key={option} value={option}>
+                        {option}
+                    </Box>
                 ))}
             </Select>
         </Stack>
     );
 }
 
-export default NavigationSearch;
+Search.propTypes = {
+    currentOption: PropTypes.string.isRequired,
+    allOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
+    onSelectOption: PropTypes.func.isRequired,
+    onSearchInput: PropTypes.func.isRequired,
+};
+
+export default Search;

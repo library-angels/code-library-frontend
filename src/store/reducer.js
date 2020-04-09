@@ -1,13 +1,11 @@
 import { combineReducers } from 'redux';
 
-import counterReducer from './counter/reducer';
-import usersReducer from './users/users.reducer';
 import booksReducer from './books/books.reducer';
+import booksSearchReducer from './search/search.reducer';
 
 const rootReducer = combineReducers({
-    counterCollection: counterReducer,
-    usersCollection: usersReducer,
     booksCollection: booksReducer,
+    booksSearch: booksSearchReducer,
 });
 
 export default rootReducer;

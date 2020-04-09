@@ -1,3 +1,4 @@
-import Navigation from './Navigation';
+import NavigationWithSearch from './NavigationBarWithSearch';
+import NavigationWithoutSearch from './NavigationBar';
 
-export default Navigation;
+export { NavigationWithSearch, NavigationWithoutSearch };

@@ -9,7 +9,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './styles.scss';
 
-function BookCarousel({ category, books }) {
+function BookCarousel({ category, books, buttonLink }) {
     const responsiveBreakpoints = [
         { breakpoint: 900, slides: 5 },
         { breakpoint: 800, slides: 4 },
@@ -43,7 +43,7 @@ function BookCarousel({ category, books }) {
                 </Heading>
                 <Link
                     as={RouterLink}
-                    to={`/category/${category}`}
+                    to={buttonLink}
                     _hover={{
                         textDecoration: 'none',
                         color: 'white',
@@ -92,21 +92,12 @@ function BookCarousel({ category, books }) {
 }
 
 BookCarousel.propTypes = {
-    category: PropTypes.string,
+    category: PropTypes.string.isRequired,
     books: PropTypes.arrayOf({
         id: PropTypes.number,
         cover: PropTypes.string,
-    }),
-};
-
-BookCarousel.defaultProps = {
-    category: '',
-    books: [
-        {
-            id: 0,
-            cover: '',
-        },
-    ],
+    }).isRequired,
+    buttonLink: PropTypes.string.isRequired,
 };
 
 export default BookCarousel;
