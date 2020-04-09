@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-import Navigation from './components/Navigation';
+import { NavigationWithSearch } from './components/Navigation';
 import { Dashboard, Account, Category, Logout } from './pages';
 
 import Routes from './routes';
@@ -9,7 +9,7 @@ import Routes from './routes';
 export default function Router() {
     return (
         <BrowserRouter>
-            <Navigation includeSearch />
+            <NavigationWithSearch />
             <Switch>
                 <Route exact path={Routes.Dashboard}>
                     <Dashboard />

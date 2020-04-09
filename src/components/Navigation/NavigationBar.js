@@ -8,25 +8,26 @@ import logo from '../../static/code.png';
 
 import Routes from '../../routes';
 
-export const NavigationLink = ({ to, text, justifyContent }) => (
-    <Link
-        as={RouterLink}
-        to={to}
+const NavigationLink = ({ to, text, justifyContent }) => (
+    <Flex
         height="100%"
         flex="1"
         display="flex"
         alignItems="center"
         justifyContent={justifyContent}
-        paddingLeft="1em"
-        paddingRight="1em"
         textAlign="center"
         color="black"
-        _hover={{
-            textDecoration: 'none',
-        }}
     >
-        {text}
-    </Link>
+        <Link
+            as={RouterLink}
+            to={to}
+            _hover={{
+                textDecoration: 'none',
+            }}
+        >
+            {text}
+        </Link>
+    </Flex>
 );
 
 NavigationLink.propTypes = {
@@ -45,7 +46,7 @@ export default function NavigationBar() {
         {
             to: Routes.Logout,
             text: 'Log out',
-            justifyContent: ['center', 'flex-start'],
+            justifyContent: ['center', 'center'],
         },
     ];
 
@@ -61,28 +62,28 @@ export default function NavigationBar() {
             zIndex="3"
         >
             {/* Logo Link Container */}
-            <Link
-                as={RouterLink}
-                to={Routes.Dashboard}
+            <Flex
+                justify="flex-start"
+                align="center"
                 height="100%"
                 width={['50%', '50%', '75%']}
             >
-                <Flex
-                    height="100%"
-                    display="flex"
-                    justify="flex-start"
-                    align="center"
-                >
+                <Link as={RouterLink} to={Routes.Dashboard} marginLeft="1em">
                     <Image
-                        marginLeft="1em"
                         src={logo}
                         alt="logo"
                         height={['25px', '35px', '50px']}
                     />
-                </Flex>
-            </Link>
+                </Link>
+            </Flex>
             {/* Navigation Links Container */}
-            <Flex as="nav" height="100%" align="center" justify="center">
+            <Flex
+                as="nav"
+                height="100%"
+                align="center"
+                justify="center"
+                width={['50%', '50%', '25%']}
+            >
                 {links.map(({ to, text, justifyContent }) => (
                     <NavigationLink
                         key={text}

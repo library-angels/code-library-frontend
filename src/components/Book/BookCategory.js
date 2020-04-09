@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Flex, PseudoBox, Image, Divider } from '@chakra-ui/core';
+import { Box, Flex, PseudoBox, Image, Divider } from '@chakra-ui/core';
 
 export default function BookCategory({ author, title, cover }) {
     return (
@@ -13,7 +13,7 @@ export default function BookCategory({ author, title, cover }) {
             border="1px solid transparent"
             borderRadius="0.25rem"
             padding="1em"
-            margin={['0em', '1em']}
+            margin={['1em']}
             _hover={{
                 borderColor: 'black',
                 cursor: 'pointer',
@@ -46,7 +46,7 @@ export default function BookCategory({ author, title, cover }) {
                     alignItems="center"
                     fontWeight="bold"
                 >
-                    <span>{title}</span>
+                    <Box as="span">{title}</Box>
                 </Flex>
                 <Divider
                     marginLeft="1em"
@@ -61,7 +61,7 @@ export default function BookCategory({ author, title, cover }) {
                     justifyContent="flex-start"
                     alignItems="center"
                 >
-                    <span>{author}</span>
+                    <Box as="span">{author}</Box>
                 </Flex>
             </Flex>
         </PseudoBox>

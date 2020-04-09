@@ -4,6 +4,7 @@ import { Box, Spinner } from '@chakra-ui/core';
 import { BookCarousel } from '../../components/Book';
 
 import useBooks from '../../hooks/books';
+import { createLinks } from '../../routes';
 
 function Dashboard() {
     const {
@@ -23,6 +24,7 @@ function Dashboard() {
                         key={category}
                         category={category}
                         books={dashboard[category]}
+                        buttonLink={createLinks.toCategoryDepartment(category)}
                     />
                 ))
             )}
