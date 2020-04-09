@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import Navigation from './components/Navigation';
@@ -8,7 +8,15 @@ import Category from './components/Category';
 import Logout from './components/Logout';
 import { ThemeProvider } from '@chakra-ui/core';
 
+import useBooks from './hooks/books';
+
 function App() {
+    const { load } = useBooks();
+
+    useEffect(() => {
+        load();
+    }, []);
+
     return (
         <div className="app">
             <ThemeProvider>
