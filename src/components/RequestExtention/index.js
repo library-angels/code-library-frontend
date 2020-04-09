@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import useBookDetails from '../../hooks/bookDetails';
 
 import {
     Select,
@@ -18,6 +19,7 @@ import useToggle from '../../hooks/toggle';
 import data from '../../LibTestApi/LibTestApiJson.json';
 
 function RequestExtention(props) {
+    const { resetBookDetails } = useBookDetails();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const { modal } = useToggle();
     const URL = 'https://library.code.berlin/';
@@ -53,7 +55,12 @@ function RequestExtention(props) {
             >
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalCloseButton onClick={() => modal.toggleView()} />
+                    <ModalCloseButton
+                        onClick={() => {
+                            resetBookDetails.resetBookView();
+                            modal.toggleView();
+                        }}
+                    />
                     <ModalBody mt="20px">
                         <Flex>
                             <Image
@@ -98,6 +105,7 @@ function RequestExtention(props) {
                             mr={3}
                             mt={3}
                             onClick={() => {
+                                resetBookDetails.resetBookView();
                                 onClose();
                                 modal.toggleView();
                             }}
