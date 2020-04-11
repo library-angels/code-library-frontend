@@ -13,14 +13,10 @@ export default function useSearch() {
     const dispatch = useDispatch();
 
     return {
-        set: {
-            setInput: input => dispatch(searchInputTyping(input)),
-            setField: field => dispatch(searchSelectField(field)),
-        },
-        get: {
-            fields: useSelector(getFields),
-            field: useSelector(getField),
-            input: useSelector(getInput),
-        },
+        setInput: input => dispatch(searchInputTyping(input)),
+        setField: field => dispatch(searchSelectField(field)),
+        getFields: useSelector(getFields),
+        getField: useSelector(getField),
+        getInput: useSelector(getInput),
     };
 }

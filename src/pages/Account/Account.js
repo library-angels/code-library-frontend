@@ -1,32 +1,48 @@
 import React from 'react';
-import ProfilePic from '../ProfilePic';
+import { Box } from '@chakra-ui/core';
 
-import './account.css';
-import data from '../../LibTestApi/LibTestApiJson.json';
-import BorrowingList from '../BorrowingList';
-import WaitingList from '../WaitingList';
-import HistoryList from '../HistoryList';
-import RequestExtention from '../RequestExtention';
-import useToggle from '../../hooks/toggle';
-import useBookDetails from '../../hooks/bookDetails';
+import data from '../../library.json';
+
+import {
+    ProfilePic,
+    ProfileCarousel,
+    RequestExtention,
+} from '../../components/Account';
+
+import { useSetShowID, useToggleModal } from '../../hooks/account';
+
+import { useGetBookById } from '../../hooks/books';
 
 function Account() {
-    const borrowing = data.slice(0, 5);
-    const waitinglist = data.slice(5, 8);
-    const historylist = data.slice(8, 20);
-    const { modal } = useToggle();
-    const { bookDetails } = useBookDetails();
+    const { getModal, setModal } = useToggleModal();
+    const { getShowID, setShowID } = useSetShowID();
+
+    const selectedBook = useGetBookById(getShowID);
+
+    const handleRequestExtension = id => {
+        setShowID(id);
+        setModal();
+    };
 
     return (
-        <div className="profilepic">
+        <Box margin="calc(80px + 2em) auto" maxWidth="760px">
             <ProfilePic />
-            <BorrowingList title="Borrowing" book={borrowing} />
-            <WaitingList title="Waiting List" book={waitinglist} />
-            <HistoryList title="History" book={historylist} />
-            {modal.getState.show ? (
-                <RequestExtention id={bookDetails.getState.showID} />
-            ) : null}
-        </div>
+            {[
+                { title: 'Borrowing', books: data.slice(0, 5) },
+                { title: 'Waiting List', books: data.slice(5, 8) },
+                { title: 'History', books: data.slice(8, 20) },
+            ].map(({ title, books }) => (
+                <ProfileCarousel
+                    key={title}
+                    onProfileCarouselBookClick={handleRequestExtension}
+                    title={title}
+                    books={books}
+                />
+            ))}
+            {getModal && selectedBook && (
+                <RequestExtention book={selectedBook} onModalClose={setModal} />
+            )}
+        </Box>
     );
 }
 

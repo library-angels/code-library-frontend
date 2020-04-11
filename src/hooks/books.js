@@ -5,11 +5,12 @@ import {
     getDashboard,
     getAllBooks,
     getCategory,
+    getBookByID,
 } from '../store/books/books.selectors';
 
 const { booksRequestDashboard, booksRequestAll } = BOOKS_ACTION_CREATORS;
 
-export default function useBooks(category) {
+export default function useBooksByCategory() {
     const dispatch = useDispatch();
 
     return {
@@ -17,10 +18,13 @@ export default function useBooks(category) {
             dispatch(booksRequestDashboard());
             dispatch(booksRequestAll());
         },
-        get: {
-            dashboard: useSelector(getDashboard),
-            all: useSelector(getAllBooks),
-            category: useSelector(getCategory(category)),
-        },
+        useGetByCategory: category => useSelector(getCategory(category)),
+        getDashboard: useSelector(getDashboard),
+        getAll: useSelector(getAllBooks),
+        getCategories: Object.keys(useSelector(getAllBooks)),
     };
+}
+
+export function useGetBookById(id) {
+    return useSelector(getBookByID(id));
 }

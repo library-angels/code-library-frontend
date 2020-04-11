@@ -71,7 +71,7 @@ function BookCarousel({ category, books, buttonLink }) {
                 responsive={responsiveBreakpoints}
             >
                 {/* Slider Child  */}
-                {books.map(({ id, cover }) => (
+                {books.map(({ id, cover, title1 }) => (
                     <Box
                         key={id}
                         className="book-carousel-child"
@@ -79,7 +79,7 @@ function BookCarousel({ category, books, buttonLink }) {
                     >
                         <Image
                             src={`https://library.code.berlin${cover}`}
-                            alt="book"
+                            alt={title1}
                             border="1px solid rgb(90, 90, 90)"
                             maxWidth="100px"
                             maxHeight="150px"

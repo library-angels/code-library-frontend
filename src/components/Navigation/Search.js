@@ -16,7 +16,6 @@ function Search({ currentOption, allOptions, onSelectOption, onSearchInput }) {
     return (
         <Stack
             spacing={1}
-            marginTop="calc(80px + 2em)"
             marginX="auto"
             width="100%"
             maxWidth="1024px"

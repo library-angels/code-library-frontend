@@ -60,6 +60,7 @@ export default function NavigationBar() {
             width="100%"
             align="center"
             zIndex="3"
+            background="white"
         >
             {/* Logo Link Container */}
             <Flex
