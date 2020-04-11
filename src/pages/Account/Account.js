@@ -1,13 +1,13 @@
 import React from 'react';
 import { Box } from '@chakra-ui/core';
 
-import data from '../../library.json';
-
 import {
     ProfilePic,
     ProfileCarousel,
     RequestExtention,
 } from '../../components/Account';
+
+import data from '../../library.json';
 
 import { useSetShowID, useToggleModal } from '../../hooks/account';
 
