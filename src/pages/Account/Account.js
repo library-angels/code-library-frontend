@@ -9,19 +9,18 @@ import {
 
 import data from '../../library.json';
 
-import { useSetShowID, useToggleModal } from '../../hooks/account';
-
-import { useGetBookById } from '../../hooks/books';
+import { useBookByID } from '../../hooks/books';
+import { useAccountDispatch, useAccountSelector } from '../../hooks/account';
 
 function Account() {
-    const { getModal, setModal } = useToggleModal();
-    const { getShowID, setShowID } = useSetShowID();
+    const { showID, showModal } = useAccountSelector();
+    const { setShowID, toggleShowModal } = useAccountDispatch();
 
-    const selectedBook = useGetBookById(getShowID);
+    const currentBook = useBookByID(showID);
 
     const handleRequestExtension = id => {
         setShowID(id);
-        setModal();
+        toggleShowModal();
     };
 
     return (
@@ -39,8 +38,11 @@ function Account() {
                     books={books}
                 />
             ))}
-            {getModal && selectedBook && (
-                <RequestExtention book={selectedBook} onModalClose={setModal} />
+            {showModal && currentBook && (
+                <RequestExtention
+                    book={currentBook}
+                    onModalClose={toggleShowModal}
+                />
             )}
         </Box>
     );

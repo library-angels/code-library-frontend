@@ -4,7 +4,7 @@ const { SEARCH_INPUT_TYPING, SEARCH_SELECT_FIELD } = SEARCH_ACTIONS;
 
 const initialState = {
     fields: ['Title', 'Author', 'Text'],
-    field: null,
+    field: 'Title',
     input: null,
 };
 

@@ -1,12 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { Image, Box, Heading } from '@chakra-ui/core';
 
-function ProfilePic() {
+function ProfilePic({ text, src, alt }) {
     return (
         <Box>
             <Heading as="h1" size="lg">
-                My Profile
+                {text}
             </Heading>
             <Box size="sm" p={[2, 4]} height="25%">
                 <Image
@@ -19,12 +20,24 @@ function ProfilePic() {
                         0 41.8px 33.4px rgba(0, 0, 0, 0.086),
                         0 100px 80px rgba(0, 0, 0, 0.12)`}
                     rounded="full"
-                    src="https://bit.ly/sage-adebayo"
-                    alt="Segun Adebayo"
+                    src={src}
+                    alt={alt}
                 />
             </Box>
         </Box>
     );
 }
+
+ProfilePic.propTypes = {
+    text: PropTypes.string,
+    src: PropTypes.string,
+    alt: PropTypes.string,
+};
+
+ProfilePic.defaultProps = {
+    text: 'My profile',
+    src: 'https://bit.ly/sage-adebayo',
+    alt: 'Segun Adebayo',
+};
 
 export default ProfilePic;

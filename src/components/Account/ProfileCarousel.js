@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Box, Flex, Image, Collapse, Button } from '@chakra-ui/core';
 
-function ProfileCarouselBook({ id, cover, title1, onClick }) {
+function ProfileCarouselBook({ id, title1, src, onClick }) {
     return (
         <Flex key={id} m={2} width="20%" pb={[6, 2]}>
             <Image
@@ -11,7 +11,7 @@ function ProfileCarouselBook({ id, cover, title1, onClick }) {
                 alt={title1}
                 maxW="100%"
                 maxH="120px"
-                src={`'https://library.code.berlin/${cover}'`}
+                src={src}
                 boxShadow={`
             0 2.8px 2.2px rgba(0, 0, 0, 0.034),
             0 6.7px 5.3px rgba(0, 0, 0, 0.048),
@@ -22,9 +22,9 @@ function ProfileCarouselBook({ id, cover, title1, onClick }) {
 }
 
 ProfileCarouselBook.propTypes = {
-    id: PropTypes.string.isRequired,
-    cover: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
     title1: PropTypes.string.isRequired,
+    src: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
 };
 
@@ -43,7 +43,7 @@ function ProfileCarousel({ title, books, onProfileCarouselBookClick }) {
                         <ProfileCarouselBook
                             key={id}
                             id={id}
-                            cover={cover}
+                            src={`https://library.code.berlin/${cover}`}
                             title1={title1}
                             onClick={onProfileCarouselBookClick}
                         />
@@ -70,11 +70,13 @@ function ProfileCarousel({ title, books, onProfileCarouselBookClick }) {
 
 ProfileCarousel.propTypes = {
     title: PropTypes.string.isRequired,
-    books: PropTypes.arrayOf({
-        id: PropTypes.string,
-        title1: PropTypes.string,
-        cover: PropTypes.string,
-    }).isRequired,
+    books: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.number,
+            title1: PropTypes.string,
+            cover: PropTypes.string,
+        }),
+    ).isRequired,
     onProfileCarouselBookClick: PropTypes.func.isRequired,
 };
 

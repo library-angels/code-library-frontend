@@ -1,22 +1,26 @@
 import { useSelector, useDispatch } from 'react-redux';
 
 import { SEARCH_ACTION_CREATORS } from '../store/search/search.actions';
-import {
-    getFields,
-    getField,
-    getInput,
-} from '../store/search/search.selectors';
+import SEARCH_SELECTORS from '../store/search/search.selectors';
 
-const { searchInputTyping, searchSelectField } = SEARCH_ACTION_CREATORS;
-
-export default function useSearch() {
+export function useSearchDispatch() {
     const dispatch = useDispatch();
 
+    const setInput = input =>
+        dispatch(SEARCH_ACTION_CREATORS.searchInputTyping(input));
+    const setSelected = field =>
+        dispatch(SEARCH_ACTION_CREATORS.searchSelectField(field));
+
     return {
-        setInput: input => dispatch(searchInputTyping(input)),
-        setField: field => dispatch(searchSelectField(field)),
-        getFields: useSelector(getFields),
-        getField: useSelector(getField),
-        getInput: useSelector(getInput),
+        setInput,
+        setSelected,
+    };
+}
+
+export function useSearchSelector() {
+    return {
+        currentField: useSelector(SEARCH_SELECTORS.getField),
+        allFields: useSelector(SEARCH_SELECTORS.getFields),
+        currentInput: useSelector(SEARCH_SELECTORS.getInput),
     };
 }

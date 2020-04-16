@@ -119,7 +119,7 @@ function RequestExtention({ book, onModalClose }) {
 }
 
 RequestExtention.propTypes = {
-    book: PropTypes.objectOf({
+    book: PropTypes.shape({
         cover: PropTypes.string,
         title1: PropTypes.string,
         title2: PropTypes.string,

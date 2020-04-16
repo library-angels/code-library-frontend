@@ -1,30 +1,29 @@
 import { useSelector, useDispatch } from 'react-redux';
 
 import { BOOKS_ACTION_CREATORS } from '../store/books/books.actions';
-import {
-    getDashboard,
-    getAllBooks,
-    getCategory,
-    getBookByID,
-} from '../store/books/books.selectors';
+import BOOKS_SELECTORS from '../store/books/books.selectors';
 
-const { booksRequestDashboard, booksRequestAll } = BOOKS_ACTION_CREATORS;
-
-export default function useBooksByCategory() {
+export function useBooksDispatch() {
     const dispatch = useDispatch();
 
+    const loadBooks = () => dispatch(BOOKS_ACTION_CREATORS.requestAll());
+
     return {
-        load: () => {
-            dispatch(booksRequestDashboard());
-            dispatch(booksRequestAll());
-        },
-        useGetByCategory: category => useSelector(getCategory(category)),
-        getDashboard: useSelector(getDashboard),
-        getAll: useSelector(getAllBooks),
-        getCategories: Object.keys(useSelector(getAllBooks)),
+        loadBooks,
     };
 }
 
-export function useGetBookById(id) {
-    return useSelector(getBookByID(id));
+export function useBooksSelector() {
+    return {
+        dashboard: useSelector(BOOKS_SELECTORS.getDashboardBooks),
+        categories: useSelector(BOOKS_SELECTORS.getCategories),
+    };
 }
+
+export const useCategoryBooks = category =>
+    useSelector(BOOKS_SELECTORS.getBooksByCategory(category));
+
+export const useBookByID = id => useSelector(BOOKS_SELECTORS.getBookByID(id));
+
+export const useBooksByIDs = ids =>
+    useSelector(BOOKS_SELECTORS.getBooksByIDs(ids));

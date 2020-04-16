@@ -5,7 +5,7 @@ import booksReducer from './books/books.reducer';
 import booksSearchReducer from './search/search.reducer';
 
 const rootReducer = combineReducers({
-    booksCollection2: booksReducer,
+    booksCollection: booksReducer,
     booksSearch: booksSearchReducer,
     account: accountReducer,
 });

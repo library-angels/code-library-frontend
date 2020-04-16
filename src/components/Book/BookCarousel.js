@@ -93,10 +93,13 @@ function BookCarousel({ category, books, buttonLink }) {
 
 BookCarousel.propTypes = {
     category: PropTypes.string.isRequired,
-    books: PropTypes.arrayOf({
-        id: PropTypes.number,
-        cover: PropTypes.string,
-    }).isRequired,
+    books: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.number,
+            cover: PropTypes.string,
+            title1: PropTypes.string,
+        }),
+    ).isRequired,
     buttonLink: PropTypes.string.isRequired,
 };
 

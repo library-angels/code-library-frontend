@@ -1,35 +1,28 @@
 import { BOOKS_ACTIONS } from './books.actions';
 
-const {
-    BOOKS_REQUEST_DASHBOARD,
-    BOOKS_RECEIVE_DASHBOARD,
-    BOOKS_REQUEST_ALL,
-    BOOKS_RECEIVE_ALL,
-} = BOOKS_ACTIONS;
-
 const initialState = {
-    dashboard: {},
-    all: {},
+    categories: {},
+    dashboardIDs: {},
 };
 
 function users(state = initialState, action) {
     switch (action.type) {
-        case BOOKS_REQUEST_DASHBOARD: {
+        case BOOKS_ACTIONS.REQUEST_DASHBOARD_IDS: {
             return state;
         }
-        case BOOKS_RECEIVE_DASHBOARD: {
+        case BOOKS_ACTIONS.RECEIVE_DASHBOARD_IDS: {
             return {
                 ...state,
-                dashboard: action.payload.books,
+                dashboardIDs: action.payload.dashboardIDs,
             };
         }
-        case BOOKS_REQUEST_ALL: {
+        case BOOKS_ACTIONS.REQUEST_ALL: {
             return state;
         }
-        case BOOKS_RECEIVE_ALL: {
+        case BOOKS_ACTIONS.RECEIVE_ALL: {
             return {
                 ...state,
-                all: action.payload.books,
+                categories: action.payload.books,
             };
         }
         default:

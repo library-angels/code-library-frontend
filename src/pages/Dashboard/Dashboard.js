@@ -4,33 +4,29 @@ import { Box, Spinner } from '@chakra-ui/core';
 import { Search } from '../../components/Navigation';
 import { BookCarousel } from '../../components/Book';
 
-import useSearch from '../../hooks/search';
-import useBooksByCategory from '../../hooks/books';
+import { useSearchSelector, useSearchDispatch } from '../../hooks/search';
+import { useBooksSelector } from '../../hooks/books';
 import { createLinks } from '../../routes';
 
 function Dashboard() {
-    const {
-        getDashboard: dashboard,
-        getCategories: categories,
-    } = useBooksByCategory();
+    const { dashboard } = useBooksSelector();
 
-    const { getField, getFields, setField, setInput } = useSearch();
+    const { allFields, currentField } = useSearchSelector();
+    const { setInput, setSelected } = useSearchDispatch();
 
     return (
         <Box marginTop="calc(80px + 2em)">
             <Search
-                currentOption={getField}
-                allOptions={getFields}
-                onSelectOption={setField}
+                currentOption={currentField}
+                allOptions={allFields}
+                onSelectOption={setSelected}
                 onSearchInput={setInput}
             />
             <Box textAlign="center" marginBottom="3rem">
-                {categories
-                    .map(c => dashboard[c].length)
-                    .reduce((acc, len) => acc + len, 0) <= 0 ? (
+                {Object.keys(dashboard).length <= 0 ? (
                     <Spinner marginTop="3rem" />
                 ) : (
-                    categories.map(category => (
+                    Object.keys(dashboard).map(category => (
                         <BookCarousel
                             key={category}
                             category={category}

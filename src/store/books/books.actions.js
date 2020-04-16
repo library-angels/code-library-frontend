@@ -1,42 +1,40 @@
-const BOOKS_REQUEST_DASHBOARD = 'BOOKS_REQUEST_DASHBOARD';
-const BOOKS_RECEIVE_DASHBOARD = 'BOOKS_RECEIVE_DASHBOARD';
-const BOOKS_REQUEST_ALL = 'BOOKS_REQUEST_ALL';
-const BOOKS_RECEIVE_ALL = 'BOOKS_RECEIVE_ALL';
+const REQUEST_DASHBOARD_IDS = 'BOOKS_REQUEST_DASHBOARD_IDS';
+const RECEIVE_DASHBOARD_IDS = 'BOOKS_RECEIVE_DASHBOARD_IDS';
+const REQUEST_ALL = 'BOOKS_REQUEST_ALL';
+const RECEIVE_ALL = 'BOOKS_RECEIVE_ALL';
 
-const booksRequestDashboard = () => ({
-    type: BOOKS_REQUEST_DASHBOARD,
-    payload: {},
+const requestDashboardIDs = () => ({
+    type: REQUEST_DASHBOARD_IDS,
 });
 
-const booksReceiveDashboard = books => ({
-    type: BOOKS_RECEIVE_DASHBOARD,
+const receiveDashboardIDs = dashboardIDs => ({
+    type: RECEIVE_DASHBOARD_IDS,
     payload: {
-        books,
+        dashboardIDs,
     },
 });
 
-const booksRequestAll = () => ({
-    type: BOOKS_REQUEST_ALL,
-    payload: {},
+const requestAll = () => ({
+    type: REQUEST_ALL,
 });
 
-const booksReceiveAll = books => ({
-    type: BOOKS_RECEIVE_ALL,
+const receiveAll = books => ({
+    type: RECEIVE_ALL,
     payload: {
         books,
     },
 });
 
 export const BOOKS_ACTIONS = {
-    BOOKS_REQUEST_DASHBOARD,
-    BOOKS_RECEIVE_DASHBOARD,
-    BOOKS_REQUEST_ALL,
-    BOOKS_RECEIVE_ALL,
+    REQUEST_ALL,
+    RECEIVE_ALL,
+    REQUEST_DASHBOARD_IDS,
+    RECEIVE_DASHBOARD_IDS,
 };
 
 export const BOOKS_ACTION_CREATORS = {
-    booksRequestDashboard,
-    booksReceiveDashboard,
-    booksRequestAll,
-    booksReceiveAll,
+    requestDashboardIDs,
+    receiveDashboardIDs,
+    requestAll,
+    receiveAll,
 };

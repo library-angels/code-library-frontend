@@ -3,29 +3,17 @@
 import { put, takeEvery, call } from 'redux-saga/effects';
 
 import { BOOKS_ACTIONS, BOOKS_ACTION_CREATORS } from './books.actions';
-import { fetchDashboardBooks, fetchAllBooks } from '../../api/books';
+import api from '../../api/books';
 
-const { BOOKS_REQUEST_DASHBOARD, BOOKS_REQUEST_ALL } = BOOKS_ACTIONS;
-const { booksReceiveDashboard, booksReceiveAll } = BOOKS_ACTION_CREATORS;
-
-export function createFetchDashboardBooks(callback) {
-    return function*() {
-        try {
-            console.log('Fetch dashboard books');
-            const dashboardBooks = yield call(callback);
-            yield put(booksReceiveDashboard(dashboardBooks));
-        } catch (e) {
-            console.error("Couldn't fetch Dashboard books");
-        }
-    };
-}
-
-export function createFetchAllBooks(callback) {
+export function createFetchAllBooks({ fetchAllBooks, fetchDashboardIDs }) {
     return function*() {
         try {
             console.log('Fetch all books');
-            const books = yield call(callback);
-            yield put(booksReceiveAll(books));
+            const books = yield call(fetchAllBooks);
+            yield put(BOOKS_ACTION_CREATORS.receiveAll(books));
+
+            const ids = yield call(fetchDashboardIDs);
+            yield put(BOOKS_ACTION_CREATORS.receiveDashboardIDs(ids));
         } catch (e) {
             console.error(`Couldn't all books`);
         }
@@ -33,11 +21,10 @@ export function createFetchAllBooks(callback) {
 }
 
 export function* watchBooksRequest() {
-    const getDashboardBooksGenerator = createFetchDashboardBooks(
-        fetchDashboardBooks,
-    );
-    const getAllBooksGenerator = createFetchAllBooks(fetchAllBooks);
+    const getAllBooksGenerator = createFetchAllBooks({
+        fetchAllBooks: api.fetchAllBooks,
+        fetchDashboardIDs: api.fetchDashboardIDs,
+    });
 
-    yield takeEvery(BOOKS_REQUEST_DASHBOARD, getDashboardBooksGenerator);
-    yield takeEvery(BOOKS_REQUEST_ALL, getAllBooksGenerator);
+    yield takeEvery(BOOKS_ACTIONS.REQUEST_ALL, getAllBooksGenerator);
 }
