@@ -1,0 +1,29 @@
+.slick-prev,
+.slick-next,
+.slick-prev:hover,
+.slick-prev:focus,
+.slick-next:hover,
+.slick-next:focus {
+    border-radius: 50%;
+    background: white;
+    width: 30px;
+    height: 30px;
+}
+
+.slick-prev::before,
+.slick-next::before {
+    font-size: 30px;
+    color: black;
+}
+
+.slick-dots {
+    bottom: -35px;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+}
+
+.book-carousel-child {
+    display: flex !important;
+    justify-content: center;
+}

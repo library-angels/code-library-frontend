@@ -1,6 +1,6 @@
 import data from '../library.json';
 
-const categories = data.reduce((acc, book) => {
+const booksByCategory = data.reduce((acc, book) => {
     const { designation } = book;
     if (acc[designation] === undefined) {
         acc[designation] = [];
@@ -9,50 +9,67 @@ const categories = data.reduce((acc, book) => {
     return acc;
 }, {});
 
-const allBooks = Object.keys(categories).reduce((acc, category) => {
-    acc[category] = categories[category];
-    return acc;
-}, {});
+// Returns an array of designation objects
+// where the id of a book is mapped to it's details
+const getAllBooksByCategory = Object.keys(booksByCategory).reduce(
+    (acc, category) => {
+        const categoryBooks = booksByCategory[category];
 
-export function fetchDashboardBooks() {
+        acc[category] = {};
+        categoryBooks.forEach(book => {
+            acc[category][book.id] = book;
+        });
+
+        return acc;
+    },
+    {},
+);
+
+function fetchDashboardIDs() {
     return new Promise(resolve => {
         setTimeout(() => {
-            const dashboardBooks = Object.keys(categories).reduce(
+            const randomIDs = Object.keys(booksByCategory).reduce(
                 (acc, category) => {
-                    const categoryBooks = categories[category];
-                    const randomIndexCache = [];
-                    const randomBooks = [];
+                    acc[category] = [];
 
-                    for (let i = 0; i < 10; i += 1) {
-                        // eslint-disable-next-line no-constant-condition
-                        while (true) {
-                            const random = Math.floor(
-                                Math.random() * categoryBooks.length,
-                            );
+                    const categoryBooks = booksByCategory[category];
 
-                            if (!randomIndexCache.includes(random)) {
-                                randomIndexCache.push(random);
-                                randomBooks.push(categoryBooks[random]);
-                                break;
-                            }
+                    const min = categoryBooks[0].id;
+                    const max = categoryBooks[categoryBooks.length - 1].id;
+
+                    const randomIndexCache = {};
+                    while (acc[category].length < 10) {
+                        const randomIndex =
+                            Math.floor(Math.random() * (max - min)) + min;
+
+                        if (!randomIndexCache[randomIndex]) {
+                            randomIndexCache[randomIndex] = 1;
+                            acc[category].push(randomIndex);
                         }
                     }
 
-                    acc[category] = randomBooks;
                     return acc;
                 },
                 {},
             );
 
-            resolve(dashboardBooks);
+            resolve(randomIDs);
         }, 1000);
     });
 }
 
-export function fetchAllBooks() {
+// eslint-disable-next-line import/prefer-default-export
+function fetchAllBooks() {
     return new Promise(resolve => {
         setTimeout(() => {
-            resolve(allBooks);
+            resolve(getAllBooksByCategory);
         }, 1000);
     });
 }
+
+const api = {
+    fetchAllBooks,
+    fetchDashboardIDs,
+};
+
+export default api;

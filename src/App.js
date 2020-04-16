@@ -1,44 +1,21 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { ThemeProvider, CSSReset } from '@chakra-ui/core';
 
-import Navigation from './components/Navigation';
-import Dashboard from './components/Dashboard';
-import Account from './components/Account';
-import Category from './components/Category';
-import Logout from './components/Logout';
-import { ThemeProvider } from '@chakra-ui/core';
-
-import useBooks from './hooks/books';
+import { useBooksDispatch } from './hooks/books';
+import Router from './router';
 
 function App() {
-    const { load } = useBooks();
+    const { loadBooks } = useBooksDispatch();
 
     useEffect(() => {
-        load();
+        loadBooks();
     }, []);
 
     return (
-        <div className="app">
-            <ThemeProvider>
-                <Router>
-                    <Navigation />
-                    <Switch>
-                        <Route exact path="/">
-                            <Dashboard />
-                        </Route>
-                        <Route exact path="/account">
-                            <Account />
-                        </Route>
-                        <Route path="/category/:department">
-                            <Category />
-                        </Route>
-                        <Route path="/logout">
-                            <Logout />
-                        </Route>
-                    </Switch>
-                </Router>
-            </ThemeProvider>
-        </div>
+        <ThemeProvider>
+            <CSSReset />
+            <Router />
+        </ThemeProvider>
     );
 }
 
