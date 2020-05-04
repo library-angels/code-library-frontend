@@ -5,10 +5,11 @@ import { useBooksDispatch } from './hooks/books';
 import Router from './router';
 
 function App() {
-    const { loadBooks } = useBooksDispatch();
+    const { loadBooks, loadDesignations } = useBooksDispatch();
 
     useEffect(() => {
         loadBooks();
+        loadDesignations();
     }, []);
 
     return (
