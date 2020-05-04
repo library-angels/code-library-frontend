@@ -1,9 +1,17 @@
 import { all, fork } from 'redux-saga/effects';
 
-import { watchBooksRequest } from './books/books.sagas';
+import {
+    watchRequestBooksAndDesignations,
+    watchGroupByDesignation,
+    watchReceiveBooksAndDesignations,
+} from './books/books.sagas';
 
 const rootSaga = function* root() {
-    yield all([fork(watchBooksRequest)]);
+    yield all([
+        fork(watchRequestBooksAndDesignations),
+        fork(watchReceiveBooksAndDesignations),
+        fork(watchGroupByDesignation),
+    ]);
 };
 
 export default rootSaga;
