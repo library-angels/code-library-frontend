@@ -6,17 +6,20 @@ import BOOKS_SELECTORS from '../store/books/books.selectors';
 export function useBooksDispatch() {
     const dispatch = useDispatch();
 
-    const loadBooks = () => dispatch(BOOKS_ACTION_CREATORS.requestAll());
+    const loadBooks = () => dispatch(BOOKS_ACTION_CREATORS.request());
+    const loadDesignations = () =>
+        dispatch(BOOKS_ACTION_CREATORS.requestDesignations());
 
     return {
         loadBooks,
+        loadDesignations,
     };
 }
 
 export function useBooksSelector() {
     return {
         dashboard: useSelector(BOOKS_SELECTORS.getDashboardBooks),
-        categories: useSelector(BOOKS_SELECTORS.getCategories),
+        designations: useSelector(BOOKS_SELECTORS.getDesignations),
     };
 }
 
