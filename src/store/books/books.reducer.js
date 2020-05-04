@@ -1,28 +1,44 @@
 import { BOOKS_ACTIONS } from './books.actions';
 
 const initialState = {
-    categories: {},
-    dashboardIDs: {},
+    designations: [],
+    books: [],
+    groups: {},
 };
 
 function users(state = initialState, action) {
     switch (action.type) {
-        case BOOKS_ACTIONS.REQUEST_DASHBOARD_IDS: {
+        case BOOKS_ACTIONS.REQUEST: {
             return state;
         }
-        case BOOKS_ACTIONS.RECEIVE_DASHBOARD_IDS: {
+        case BOOKS_ACTIONS.RECEIVE: {
+            const { books } = action.payload;
+
             return {
                 ...state,
-                dashboardIDs: action.payload.dashboardIDs,
+                books,
             };
         }
-        case BOOKS_ACTIONS.REQUEST_ALL: {
+        case BOOKS_ACTIONS.REQUEST_DESIGNATIONS: {
             return state;
         }
-        case BOOKS_ACTIONS.RECEIVE_ALL: {
+        case BOOKS_ACTIONS.RECEIVE_DESIGNATIONS: {
+            const { designations } = action.payload;
+
             return {
                 ...state,
-                categories: action.payload.books,
+                designations,
+            };
+        }
+        case BOOKS_ACTIONS.REQUEST_DESIGNATION_GROUPS: {
+            return state;
+        }
+        case BOOKS_ACTIONS.RECEIVE_DESIGNATION_GROUPS: {
+            const { groups } = action.payload;
+
+            return {
+                ...state,
+                groups,
             };
         }
         default:
