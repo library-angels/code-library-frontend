@@ -1,58 +1,41 @@
-const getCategories = store => Object.keys(store.booksCollection.categories);
+const getDesignations = store =>
+    store.booksCollection.designations.map(({ name }) => name);
 
 const getBooksByCategory = category => store =>
     store.booksCollection.categories[category] || {};
 
 const getBookByID = id => store => {
-    const categories = getCategories(store);
-
-    return categories.reduce((acc, category) => {
-        const categoryBooksObject = store.booksCollection.categories[category];
-        return categoryBooksObject[id] || acc;
-    }, {});
+    return null;
 };
 
 const getBooksByIDs = ids => store => {
-    const categories = getCategories(store);
-
-    return categories.reduce((acc, category) => {
-        const categoryBooksObject = store.booksCollection.categories[category];
-
-        ids.forEach(id => {
-            if (categoryBooksObject[id]) {
-                acc.push(categoryBooksObject[id]);
-            }
-        });
-
-        return acc;
-    }, []);
+    return null;
 };
 
 const getDashboardBooks = store => {
-    const categories = Object.keys(store.booksCollection.dashboardIDs);
+    const designations = Object.keys(store.booksCollection.groups);
+    const reducer = (acc, designation) => {
+        // get 10 books for each category
+        const books = Object.keys(store.booksCollection.groups[designation])
+            .slice(0, 10)
+            .map(bookID => store.booksCollection.groups[designation][bookID]);
 
-    return categories.reduce((acc, category) => {
-        acc[category] = [];
-
-        const categoryBooksObject = store.booksCollection.categories[category];
-        const categoryIDs = store.booksCollection.dashboardIDs[category];
-
-        categoryIDs.forEach(id => {
-            if (categoryBooksObject[id]) {
-                acc[category].push(categoryBooksObject[id]);
-            }
-        });
-
+        acc[designation] = books;
         return acc;
-    }, {});
+    };
+
+    return designations.reduce(reducer, {});
 };
 
+const getBooks = store => store.booksCollection.books;
+
 const BOOKS_SELECTORS = {
-    getCategories,
     getDashboardBooks,
     getBooksByCategory,
     getBookByID,
     getBooksByIDs,
+    getDesignations,
+    getBooks,
 };
 
 export default BOOKS_SELECTORS;
