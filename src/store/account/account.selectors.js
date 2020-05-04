@@ -1,5 +1,5 @@
-export const getShowModal = store => store.account.showModal;
-export const getShowID = store => store.account.showID;
+const getShowModal = store => store.account.showModal;
+const getShowID = store => store.account.showID;
 
 const ACCOUNT_SELECTORS = {
     getShowModal,
