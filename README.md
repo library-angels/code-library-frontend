@@ -52,7 +52,7 @@ The application revolves around the Redux store, which is the central place wher
 `components` - Presentational components which keep as little local state as possible and do not have direct access to the global state\
 `hooks` - A collection of [hook functions](https://reactjs.org/docs/hooks-intro.html) which have read and write access to the global state (Redux store)\
 `pages` - Each page is composed of presentational components and corresponds to a route. Pages have access to the global state via `hooks` and are thus intermediaries between components and global state\
-`store` - Central storage of the whole application; follows the [ducks pattern](https://github.com/erikras/ducks-modular-redux)\
+`store` - Central storage of the whole application; follows the [ducks pattern](https://github.com/erikras/ducks-modular-redux)
 
 ## Built With
 
