@@ -1,68 +1,71 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+# Code library
 
-In the project directory, you can run:
+## Getting Started
 
-### `yarn start`
+In order to run the project you'll need [node](https://nodejs.org/en/) installed on your machine and a package manager of your choice ([npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)).
+Make sure to install the depencies of the application before starting the development server.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Installing dependenies
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+```
+yarn install
+```
 
-### `yarn test`
+### Running the development server locally
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+yarn run
+```
 
-### `yarn build`
+Access the server on [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-Builds the app for production to the `build` folder.<br />
+###
+
+### Building the application for deployment
+
+```
+yarn build
+```
+
+Builds the app for production to the `build` folder.
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+# Folder Structure Conventions
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The application revolves around the Redux store, which is the central place where all application logic is kept.
 
-### `yarn eject`
+## Project directory layout
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+    .
+    ├── src                     # Source files
+        ├── api                 # Api utility files
+        ├── components          # Presentational components
+        ├── hooks               # Custom hooks
+        ├── pages               # Stateful views
+        ├── store               # Redux store
+        ├── routes.js           # Mapping of page components to routes
+        └── App.js              # Main app component
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+`api` - Utility functions that make http calls to the CODE library backend
+`components` - Presentational components which keep as little local state as possible and do not have direct access to the global state.
+`hooks` - A collection of [hook functions](https://reactjs.org/docs/hooks-intro.html) which have read and write access to the global state (Redux store).
+`pages` - Each page is composed of presentational components and corresponds to a route. Pages have access to the global state via `hooks` and are thus intermediaries between components and global state;
+`store` - Central storage of the whole application; follows the [ducks pattern](https://github.com/erikras/ducks-modular-redux)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Built With
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+-   [Create React App](https://create-react-app.dev/docs/getting-started/) - Officially supported way to create single-page React applications.
+    It offers a modern build setup with no configuration.
+-   [Node](https://nodejs.org/en/) - A JavaScript runtime built on Chrome's V8 JavaScript engine
+-   [Yarn](https://yarnpkg.com/) - Our package manager of choice
+-   [React](https://reactjs.org/) - A JavaScript library for building user interfaces
+-   [Redux](https://redux.js.org/) - A Predictable State Container for JS Apps
+-   [ReduxSaga](https://redux-saga.js.org/) - A library that aims to make application side effects (i.e. asynchronous things like data fetching and impure things like accessing the browser cache) easier to manage, more efficient to execute, easy to test, and better at handling failures.
+-   [ChakraUI](https://chakra-ui.com/) - A simple, modular and accessible React components library
 
-## Learn More
+## Authors
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+-   **Denis Ismail** - [sanevillain](https://github.com/sanevillain)
+-   **Wail Abu Ahmad** - [Wailla](https://github.com/Wailaa)
