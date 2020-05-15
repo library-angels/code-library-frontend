@@ -1,72 +1,96 @@
 /* eslint-disable func-names */
 /* eslint-disable no-console */
-import { put, take, takeEvery, call, select } from 'redux-saga/effects';
+import { put, all, take, takeEvery, call, select } from 'redux-saga/effects';
 
-import { BOOKS_ACTIONS, BOOKS_ACTION_CREATORS } from './books.actions';
-import BOOKS_SELECTORS from './books.selectors';
-import api from '../../api/books';
+import {
+    REQUEST_DESIGNATION_BOOKS,
+    RECEIVE_DESIGNATION_BOOKS,
+    REQUEST_DESIGNATIONS,
+    RECEIVE_DESIGNATIONS,
+    receiveDesignationBooks,
+    receiveDesignations,
+    receiveInitialBooks,
+    requestInitialBooks,
+} from './books.actions';
 
-function* fetchBooksGenerator() {
-    try {
-        const books = yield call(api.fetchAllBooks);
-        yield put(BOOKS_ACTION_CREATORS.receive(books));
-    } catch (e) {
-        console.error(`Couldn't fetch all books`);
-    }
-}
+import { fetchDesignationBooks, fetchDesignations } from '../../api/books';
 
 function* fetchDesignationsGenerator() {
     try {
-        const books = yield call(api.fetchDesignations);
-        yield put(BOOKS_ACTION_CREATORS.receiveDesignations(books));
+        const designationsArray = yield call(fetchDesignations);
+        const designationsMap = designationsArray.reduce(
+            (acc, { id, name }) => {
+                acc[id] = name;
+                return acc;
+            },
+            {},
+        );
+
+        yield put(receiveDesignations(designationsMap));
     } catch (e) {
-        console.error(`Couldn't fetch all designations`);
+        console.error(e);
     }
 }
 
-function* groupBooksByDesignation() {
-    const books = yield select(BOOKS_SELECTORS.getBooks);
-    const designations = yield select(BOOKS_SELECTORS.getDesignations);
-
-    const designationGroups = books.reduce((acc, book) => {
-        const { id, designation_id: designationID } = book;
-        const designation = designations[designationID - 1];
-
-        if (acc[designation] === undefined) {
-            acc[designation] = {};
-        }
-
-        acc[designation][id] = book;
-
-        return acc;
-    }, {});
-
-    yield put(
-        BOOKS_ACTION_CREATORS.receiveDesignationGroups(designationGroups),
+function* fetchDesignationBooksGenerator(action) {
+    const designations = yield select(
+        store => store.booksCollection.designations,
     );
+
+    console.log(designations);
+
+    try {
+        const { offset, limit, designation_id } = action.payload;
+
+        const books = yield call(
+            fetchDesignationBooks,
+            offset,
+            limit,
+            designation_id,
+        );
+
+        yield put(receiveDesignationBooks(books));
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+function* fetchInitialBooksForEachDesignation() {
+    yield put(requestInitialBooks());
+
+    const designations = yield select(
+        store => store.booksCollection.designations,
+    );
+    const designationIDs = Object.keys(designations);
+
+    try {
+        const [...books] = yield all(
+            designationIDs.map(designationID => {
+                const [offset, limit] = [0, 20];
+
+                return call(
+                    fetchDesignationBooks,
+                    offset,
+                    limit,
+                    designationID,
+                );
+            }),
+        );
+
+        const flatBooks = books.reduce((acc, booksArray) => [
+            ...acc,
+            ...booksArray,
+        ]);
+
+        yield put(receiveInitialBooks(flatBooks));
+    } catch (e) {
+        console.error(e);
+    }
 }
 
 // eslint-disable-next-line import/prefer-default-export
-export function* watchRequestBooksAndDesignations() {
-    yield takeEvery(BOOKS_ACTIONS.REQUEST, fetchBooksGenerator);
-    yield takeEvery(
-        BOOKS_ACTIONS.REQUEST_DESIGNATIONS,
-        fetchDesignationsGenerator,
-    );
-}
-
-export function* watchReceiveBooksAndDesignations() {
-    // wait for designations
-    yield take(BOOKS_ACTIONS.RECEIVE_DESIGNATIONS);
-    // wait for library
-    yield take(BOOKS_ACTIONS.RECEIVE);
-    // dispatch group by designation
-    yield put(BOOKS_ACTION_CREATORS.requestDesignationGroups());
-}
-
-export function* watchGroupByDesignation() {
-    yield takeEvery(
-        BOOKS_ACTIONS.REQUEST_DESIGNATION_GROUPS,
-        groupBooksByDesignation,
-    );
+export function* watcher() {
+    yield takeEvery(REQUEST_DESIGNATIONS, fetchDesignationsGenerator);
+    yield takeEvery(RECEIVE_DESIGNATIONS, fetchInitialBooksForEachDesignation);
+    yield takeEvery(REQUEST_DESIGNATION_BOOKS, fetchDesignationsGenerator);
 }

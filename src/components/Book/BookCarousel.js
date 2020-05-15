@@ -78,7 +78,7 @@ function BookCarousel({ category, books, buttonLink }) {
                         marginTop="1rem"
                     >
                         <Image
-                            src={`https://library.code.berlin${cover}`}
+                            src={`https://library.code.berlin/static/book_cover/${cover}.jpg`}
                             alt={title}
                             border="1px solid rgb(90, 90, 90)"
                             maxWidth="100px"
@@ -96,8 +96,8 @@ BookCarousel.propTypes = {
     books: PropTypes.arrayOf(
         PropTypes.shape({
             id: PropTypes.number,
-            cover: PropTypes.string,
-            title1: PropTypes.string,
+            cover: PropTypes.number,
+            title: PropTypes.string,
         }),
     ).isRequired,
     buttonLink: PropTypes.string.isRequired,

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { Box, Flex, Spinner } from '@chakra-ui/core';
@@ -7,19 +8,26 @@ import { Search } from '../../components/Navigation';
 import { BookCategory } from '../../components/Book';
 
 import { useSearchSelector, useSearchDispatch } from '../../hooks/search';
-import { useCategoryBooks } from '../../hooks/books';
 
 export default function Category() {
-    const { department } = useParams();
-
-    const category = useCategoryBooks(department);
-    const categoryBooks = Object.keys(category).reduce((acc, id) => {
-        acc.push(category[id]);
-        return acc;
-    }, []);
+    const { designation_id: designationID } = useParams();
 
     const { allFields, currentField } = useSearchSelector();
     const { setInput, setSelected } = useSearchDispatch();
+
+    const designationBooks = useSelector(
+        store => store.booksCollection.designationBooks,
+    );
+
+    const currentDesignationBooks =
+        Object.keys(designationBooks).length > 0
+            ? Object.keys(designationBooks[designationID]).reduce(
+                  (acc, bookID) => {
+                      return [...acc, designationBooks[designationID][bookID]];
+                  },
+                  [],
+              )
+            : [];
 
     return (
         <Box marginTop="calc(80px + 2em)">
@@ -29,16 +37,15 @@ export default function Category() {
                 onSelectOption={setSelected}
                 onSearchInput={setInput}
             />
-
             <Flex direction="column" alignItems="center">
-                <Flex justifyContent="center" wrap="wrap" maxWidth="1024px">
-                    {categoryBooks.length <= 0 ? (
+                <Flex justifyContent="flex-start" wrap="wrap" maxWidth="1024px">
+                    {currentDesignationBooks.length <= 0 ? (
                         <Spinner marginTop="3rem" />
                     ) : (
-                        categoryBooks.map(
-                            ({ author, title1: title, cover }) => (
+                        currentDesignationBooks.map(
+                            ({ author = 'John Doe', title, cover }, index) => (
                                 <BookCategory
-                                    key={title}
+                                    key={`${title}${index}`}
                                     author={author}
                                     title={title}
                                     cover={cover}

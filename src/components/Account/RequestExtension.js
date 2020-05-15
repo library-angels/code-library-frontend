@@ -49,6 +49,10 @@ function RequestExtention({ book, onModalClose }) {
         onOpen();
     }, [onOpen]);
 
+    console.log(
+        `'https://library.code.berlin/static/book_cover/'${book.cover}.jpg`,
+    );
+
     return (
         <>
             <Modal
@@ -64,7 +68,7 @@ function RequestExtention({ book, onModalClose }) {
                         <Flex>
                             <Image
                                 alignSelf="center"
-                                src={`'https://library.code.berlin/'${book.cover}`}
+                                src={`https://library.code.berlin/static/book_cover/${book.cover}.jpg`}
                                 alt="alternative"
                                 maxW="100%"
                                 maxH="120px"
@@ -79,13 +83,13 @@ function RequestExtention({ book, onModalClose }) {
                                 justifyItems="center"
                                 alignItems="center"
                             >
-                                <Text textAlign="center">{book.title1}</Text>
+                                <Text textAlign="center">{book.title}</Text>
                                 <Text textAlign="center">by {book.author}</Text>
                             </Flex>
                         </Flex>
                         <Flex Flex flexDirection="column">
                             <Text m="10px 0px 0px 0px">About the book</Text>
-                            <Text m="0px">{book.title2}</Text>
+                            <Text m="0px">{book.title}</Text>
                         </Flex>
                     </ModalBody>
                     <ModalFooter flexDirection="column">
@@ -120,9 +124,8 @@ function RequestExtention({ book, onModalClose }) {
 
 RequestExtention.propTypes = {
     book: PropTypes.shape({
-        cover: PropTypes.string,
-        title1: PropTypes.string,
-        title2: PropTypes.string,
+        cover: PropTypes.number,
+        title: PropTypes.string,
         author: PropTypes.string,
     }).isRequired,
     onModalClose: PropTypes.func.isRequired,

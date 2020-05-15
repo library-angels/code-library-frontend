@@ -1,15 +1,22 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Box, Spinner } from '@chakra-ui/core';
 
 import { Search } from '../../components/Navigation';
-import { BookCarousel } from '../../components/Book';
+import { DashboardDesignationsCarousel } from '../../components/Dashboard';
 
 import { useSearchSelector, useSearchDispatch } from '../../hooks/search';
-import { useBooksSelector } from '../../hooks/books';
-import { createLinks } from '../../routes';
 
 function Dashboard() {
-    const { dashboard } = useBooksSelector();
+    const designations = useSelector(
+        store => store.booksCollection.designations,
+    );
+
+    const designationBooks = useSelector(
+        store => store.booksCollection.designationBooks,
+    );
+
+    const designationIDs = Object.keys(designations);
 
     const { allFields, currentField } = useSearchSelector();
     const { setInput, setSelected } = useSearchDispatch();
@@ -23,19 +30,14 @@ function Dashboard() {
                 onSearchInput={setInput}
             />
             <Box textAlign="center" marginBottom="3rem">
-                {Object.keys(dashboard).length <= 0 ? (
+                {designationIDs.length <= 0 ? (
                     <Spinner marginTop="3rem" />
                 ) : (
-                    Object.keys(dashboard).map(category => (
-                        <BookCarousel
-                            key={category}
-                            category={category}
-                            books={dashboard[category]}
-                            buttonLink={createLinks.toCategoryDepartment(
-                                category,
-                            )}
-                        />
-                    ))
+                    <DashboardDesignationsCarousel
+                        designations={designations}
+                        designationIDs={designationIDs}
+                        designationBooks={designationBooks}
+                    />
                 )}
             </Box>
         </Box>
