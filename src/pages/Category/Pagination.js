@@ -1,29 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
 import { Flex, List, ListItem, Link, Icon } from '@chakra-ui/core';
 
 import { createLink } from '../../routes';
 
-const Pagination = ({ designationID, postsPerPage, totalPosts = 300 }) => {
-    const initial = current => {
-        if (current <= 3) {
-            return { current, pages: [1, 2, 3, 4, 5] };
+const Pagination = ({ lastPageIndex, page, designationID }) => {
+    const [pages, setPages] = useState([]);
+
+    useEffect(() => {
+        let [start, end] = [0, 0];
+
+        if (lastPageIndex) {
+            if (lastPageIndex - 2 > page) {
+                start = page - 2 > 1 ? page - 2 : 1;
+                end = start + 4 < lastPageIndex ? start + 4 : lastPageIndex;
+            } else {
+                start = lastPageIndex - 4 > 1 ? lastPageIndex - 4 : 1;
+                end = lastPageIndex;
+            }
+        } else {
+            start = page - 2 > 1 ? page - 2 : 1;
+            end = page + 2 >= 5 ? page + 2 : 5;
         }
 
-        const pages = [];
-        for (let i = current - 2; i <= current + 2; i += 1) {
-            pages.push(i);
+        const pagesArray = [];
+        for (let i = start; i <= end; i += 1) {
+            pagesArray.push(i);
         }
 
-        return { current, pages };
-    };
-
-    const [pageNumbers, setPageNumbers] = useState(initial(1));
-
-    const onPageClick = number => setPageNumbers(initial(number));
-
-    const { current, pages } = pageNumbers;
+        setPages(pagesArray);
+    }, [page, lastPageIndex]);
 
     return (
         <List
@@ -37,13 +44,8 @@ const Pagination = ({ designationID, postsPerPage, totalPosts = 300 }) => {
                     as={RouterLink}
                     to={createLink.toDesignationPage({
                         designationID,
-                        page: current - 1,
+                        page: page > 1 ? page - 1 : page,
                     })}
-                    onClick={() => {
-                        if (current > 1) {
-                            onPageClick(current - 1);
-                        }
-                    }}
                 >
                     <Icon name="chevron-left" size="30px" />
                 </Link>
@@ -52,9 +54,7 @@ const Pagination = ({ designationID, postsPerPage, totalPosts = 300 }) => {
                         padding="0.5em 0.5em"
                         margin="0.5em"
                         borderBottom="2px solid black"
-                        borderColor={
-                            number === current ? 'black' : 'transparent'
-                        }
+                        borderColor={number === page ? 'black' : 'transparent'}
                         key={number}
                     >
                         <Link
@@ -63,7 +63,6 @@ const Pagination = ({ designationID, postsPerPage, totalPosts = 300 }) => {
                                 designationID,
                                 page: number,
                             })}
-                            onClick={() => onPageClick(number)}
                         >
                             {number}
                         </Link>
@@ -73,9 +72,9 @@ const Pagination = ({ designationID, postsPerPage, totalPosts = 300 }) => {
                     as={RouterLink}
                     to={createLink.toDesignationPage({
                         designationID,
-                        page: current + 1,
+                        page: lastPageIndex ? page : page + 1,
                     })}
-                    onClick={() => onPageClick(current + 1)}
+                    onClick={() => {}}
                 >
                     <Icon name="chevron-right" size="30px" />
                 </Link>

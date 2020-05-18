@@ -19,7 +19,7 @@ export async function fetchDesignations() {
 
 export async function fetchBooks(offset = 0, limit = 531) {
     const books = await fetchJSONfromRoot(
-        `/book?offest=${offset}&limit=${limit}`,
+        `/book?offset=${offset}&limit=${limit}`,
     );
 
     return books;
@@ -31,7 +31,7 @@ export async function fetchDesignationBooks(
     designationID = 0,
 ) {
     const books = await fetchJSONfromRoot(
-        `/book?designation_id=${designationID}&offest=${offset}&limit=${limit}`,
+        `/book?designation_id=${designationID}&offset=${offset}&limit=${limit}`,
     );
 
     return books;

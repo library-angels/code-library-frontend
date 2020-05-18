@@ -4,6 +4,7 @@ import {
     RECEIVE_DESIGNATIONS,
     RECEIVE_INITIAL_BOOKS,
     RECEIVE_DESIGNATION_BOOKS,
+    SET_LAST_PAGE_INDEX,
 } from './books.actions';
 
 function groupBooksIntoDesignations(booksArray) {
@@ -22,23 +23,40 @@ function groupBooksIntoDesignations(booksArray) {
 }
 
 const initialState = {
-    designations: [],
+    designations: {},
     designationBooks: {},
+    cache: {},
+    index: {},
 };
 
 export default function books(state = initialState, action) {
     switch (action.type) {
         case RECEIVE_DESIGNATION_BOOKS: {
-            const designationBooks = _.cloneDeep(initialState.designationBooks);
+            const { cache, index } = state;
 
-            action.payload.books.forEach(book => {
-                const { id: bookID, designation_id: designationID } = book;
-                designationBooks[designationID][bookID] = book;
+            const { books, designationID, page } = action.payload;
+
+            if (cache[designationID] === undefined) {
+                cache[designationID] = {
+                    lastPageIndex: null,
+                };
+            }
+
+            cache[designationID][page] = books;
+
+            books.forEach((book, i) => {
+                const { id, designation_id: designationID } = book;
+
+                index[id] = {
+                    designation_id: designationID,
+                    page,
+                    i,
+                };
             });
 
             return {
                 ...state,
-                designationBooks,
+                cache,
             };
         }
         case RECEIVE_INITIAL_BOOKS: {
@@ -57,6 +75,21 @@ export default function books(state = initialState, action) {
             return {
                 ...state,
                 designations,
+            };
+        }
+        case SET_LAST_PAGE_INDEX: {
+            const {
+                designation_id: designationID,
+                lastPageIndex,
+            } = action.payload;
+
+            const { cache } = state;
+
+            cache[designationID].lastPageIndex = lastPageIndex;
+
+            return {
+                ...state,
+                cache,
             };
         }
         default:
