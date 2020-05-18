@@ -49,10 +49,6 @@ function RequestExtention({ book, onModalClose }) {
         onOpen();
     }, [onOpen]);
 
-    console.log(
-        `'https://library.code.berlin/static/book_cover/'${book.cover}.jpg`,
-    );
-
     return (
         <>
             <Modal

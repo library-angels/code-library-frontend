@@ -1,10 +1,9 @@
 /* eslint-disable func-names */
 /* eslint-disable no-console */
-import { put, all, take, takeEvery, call, select } from 'redux-saga/effects';
+import { put, all, takeEvery, call, select } from 'redux-saga/effects';
 
 import {
     REQUEST_DESIGNATION_BOOKS,
-    RECEIVE_DESIGNATION_BOOKS,
     REQUEST_DESIGNATIONS,
     RECEIVE_DESIGNATIONS,
     receiveDesignationBooks,
@@ -40,13 +39,13 @@ function* fetchDesignationBooksGenerator(action) {
     console.log(designations);
 
     try {
-        const { offset, limit, designation_id } = action.payload;
+        const { offset, limit, designation_id: designationID } = action.payload;
 
         const books = yield call(
             fetchDesignationBooks,
             offset,
             limit,
-            designation_id,
+            designationID,
         );
 
         yield put(receiveDesignationBooks(books));
@@ -92,5 +91,5 @@ function* fetchInitialBooksForEachDesignation() {
 export function* watcher() {
     yield takeEvery(REQUEST_DESIGNATIONS, fetchDesignationsGenerator);
     yield takeEvery(RECEIVE_DESIGNATIONS, fetchInitialBooksForEachDesignation);
-    yield takeEvery(REQUEST_DESIGNATION_BOOKS, fetchDesignationsGenerator);
+    yield takeEvery(REQUEST_DESIGNATION_BOOKS, fetchDesignationBooksGenerator);
 }

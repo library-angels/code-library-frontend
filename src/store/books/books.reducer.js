@@ -6,7 +6,7 @@ import {
     RECEIVE_DESIGNATION_BOOKS,
 } from './books.actions';
 
-function groupBooksIntoDesignations(books) {
+function groupBooksIntoDesignations(booksArray) {
     const designationsReducer = (acc, book) => {
         const { id: bookID, designation_id: designationID } = book;
 
@@ -18,7 +18,7 @@ function groupBooksIntoDesignations(books) {
         return acc;
     };
 
-    return books.reduce(designationsReducer, {});
+    return booksArray.reduce(designationsReducer, {});
 }
 
 const initialState = {

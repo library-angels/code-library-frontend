@@ -7,6 +7,8 @@ import { Box, Flex, Spinner } from '@chakra-ui/core';
 import { Search } from '../../components/Navigation';
 import { BookCategory } from '../../components/Book';
 
+import Pagination from './Pagination';
+
 import { useSearchSelector, useSearchDispatch } from '../../hooks/search';
 
 export default function Category() {
@@ -16,8 +18,10 @@ export default function Category() {
     const { setInput, setSelected } = useSearchDispatch();
 
     const designationBooks = useSelector(
-        store => store.booksCollection.designationBooks,
+        store => store.booksCollection.designationBooks || {},
     );
+
+    // console.log(Object.keys(designationBooks));
 
     const currentDesignationBooks =
         Object.keys(designationBooks).length > 0
@@ -38,22 +42,30 @@ export default function Category() {
                 onSearchInput={setInput}
             />
             <Flex direction="column" alignItems="center">
-                <Flex justifyContent="flex-start" wrap="wrap" maxWidth="1024px">
-                    {currentDesignationBooks.length <= 0 ? (
-                        <Spinner marginTop="3rem" />
-                    ) : (
-                        currentDesignationBooks.map(
-                            ({ author = 'John Doe', title, cover }, index) => (
+                {currentDesignationBooks.length <= 0 ? (
+                    <Spinner marginTop="3rem" />
+                ) : (
+                    <Flex
+                        justifyContent="flex-start"
+                        wrap="wrap"
+                        maxWidth="1024px"
+                    >
+                        {currentDesignationBooks.map(
+                            ({ author, title, cover }) => (
                                 <BookCategory
-                                    key={`${title}${index}`}
-                                    author={author}
+                                    key={title}
+                                    author={author || 'John Doe'}
                                     title={title}
                                     cover={cover}
                                 />
                             ),
-                        )
-                    )}
-                </Flex>
+                        )}
+                        <Pagination
+                            designationID={designationID}
+                            postsPerPage={20}
+                        />
+                    </Flex>
+                )}
             </Flex>
         </Box>
     );

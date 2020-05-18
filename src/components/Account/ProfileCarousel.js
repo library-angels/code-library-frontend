@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
@@ -39,12 +40,12 @@ function ProfileCarousel({ title, books, onProfileCarouselBookClick }) {
             </Box>
             <Collapse startingHeight={152} isOpen={show} m={2}>
                 <Flex maxW="760" m={2} flexWrap="wrap">
-                    {books.map(({ id, cover, title }) => (
+                    {books.map(({ id, cover, title: bookTitle }) => (
                         <ProfileCarouselBook
                             key={id}
                             id={id}
                             src={`https://library.code.berlin/static/book_cover/${cover}.jpg`}
-                            title={title}
+                            title={bookTitle}
                             onClick={onProfileCarouselBookClick}
                         />
                     ))}
