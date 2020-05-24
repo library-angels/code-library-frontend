@@ -53,8 +53,6 @@ export default function Category() {
         return null;
     });
 
-    console.log(lastPageIndex);
-
     return (
         <Box marginTop="calc(80px + 2em)">
             <Search

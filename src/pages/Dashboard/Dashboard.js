@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Box, Spinner } from '@chakra-ui/core';
 
 import { Search } from '../../components/Navigation';
-import { DashboardDesignationsCarousel } from '../../components/Dashboard';
+import DesignationsCarousel from './DesignationsCarousel';
 
 import { useSearchSelector, useSearchDispatch } from '../../hooks/search';
 
@@ -12,11 +12,18 @@ function Dashboard() {
         store => store.booksCollection.designations,
     );
 
-    const designationBooks = useSelector(
-        store => store.booksCollection.designationBooks,
-    );
+    const designationBooks = useSelector(store =>
+        Object.keys(designations).map(designationID => {
+            const designation = designations[designationID];
+            const designationPages = store.booksCollection.cache[designationID];
 
-    const designationIDs = Object.keys(designations);
+            return {
+                designation,
+                designationID,
+                books: designationPages ? designationPages[0] : [],
+            };
+        }),
+    );
 
     const { allFields, currentField } = useSearchSelector();
     const { setInput, setSelected } = useSearchDispatch();
@@ -30,14 +37,10 @@ function Dashboard() {
                 onSearchInput={setInput}
             />
             <Box textAlign="center" marginBottom="3rem">
-                {designationIDs.length <= 0 ? (
+                {designationBooks.length <= 0 ? (
                     <Spinner marginTop="3rem" />
                 ) : (
-                    <DashboardDesignationsCarousel
-                        designations={designations}
-                        designationIDs={designationIDs}
-                        designationBooks={designationBooks}
-                    />
+                    <DesignationsCarousel designationBooks={designationBooks} />
                 )}
             </Box>
         </Box>

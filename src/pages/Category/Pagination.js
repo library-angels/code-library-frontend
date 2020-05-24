@@ -21,7 +21,7 @@ const Pagination = ({ lastPageIndex, page, designationID }) => {
             }
         } else {
             start = page - 2 > 1 ? page - 2 : 1;
-            end = page + 2 >= 5 ? page + 2 : 5;
+            end = page + 2 > 5 ? page + 2 : 5;
         }
 
         const pagesArray = [];
@@ -72,9 +72,12 @@ const Pagination = ({ lastPageIndex, page, designationID }) => {
                     as={RouterLink}
                     to={createLink.toDesignationPage({
                         designationID,
-                        page: lastPageIndex ? page : page + 1,
+                        page: lastPageIndex
+                            ? page < lastPageIndex
+                                ? page + 1
+                                : page
+                            : page + 1,
                     })}
-                    onClick={() => {}}
                 >
                     <Icon name="chevron-right" size="30px" />
                 </Link>

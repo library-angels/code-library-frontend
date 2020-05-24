@@ -1,98 +1,60 @@
-import _ from 'lodash';
+import produce from 'immer';
 
 import {
     RECEIVE_DESIGNATIONS,
-    RECEIVE_INITIAL_BOOKS,
     RECEIVE_DESIGNATION_BOOKS,
     SET_LAST_PAGE_INDEX,
 } from './books.actions';
 
-function groupBooksIntoDesignations(booksArray) {
-    const designationsReducer = (acc, book) => {
-        const { id: bookID, designation_id: designationID } = book;
-
-        if (acc[designationID] === undefined) {
-            acc[designationID] = {};
-        }
-
-        acc[designationID][bookID] = book;
-        return acc;
-    };
-
-    return booksArray.reduce(designationsReducer, {});
-}
-
 const initialState = {
     designations: {},
-    designationBooks: {},
     cache: {},
     index: {},
 };
 
 export default function books(state = initialState, action) {
-    switch (action.type) {
-        case RECEIVE_DESIGNATION_BOOKS: {
-            const { cache, index } = state;
+    return produce(state, draft => {
+        switch (action.type) {
+            case RECEIVE_DESIGNATION_BOOKS: {
+                const { books, designation_id, page } = action.payload;
 
-            const { books, designationID, page } = action.payload;
+                if (draft.cache[designation_id] === undefined) {
+                    draft.cache[designation_id] = {
+                        lastPageIndex: null,
+                    };
+                }
 
-            if (cache[designationID] === undefined) {
-                cache[designationID] = {
-                    lastPageIndex: null,
-                };
+                draft.cache[designation_id][page] = books;
+
+                // add each books 'location' to the index
+                books.forEach(({ id, designation_id }, i) => {
+                    draft.index[id] = {
+                        designation_id,
+                        page,
+                        pageIndex: i,
+                    };
+                });
+
+                return draft;
             }
+            case RECEIVE_DESIGNATIONS: {
+                const { designations } = action.payload;
 
-            cache[designationID][page] = books;
+                designations.forEach(({ id, name }) => {
+                    draft.designations[id] = name;
+                });
 
-            books.forEach((book, i) => {
-                const { id, designation_id: designationID } = book;
+                return draft;
+            }
+            case SET_LAST_PAGE_INDEX: {
+                const { designation_id, lastPageIndex } = action.payload;
 
-                index[id] = {
-                    designation_id: designationID,
-                    page,
-                    i,
-                };
-            });
+                draft.cache[designation_id].lastPageIndex = lastPageIndex;
 
-            return {
-                ...state,
-                cache,
-            };
+                return draft;
+            }
+            default:
+                return draft;
         }
-        case RECEIVE_INITIAL_BOOKS: {
-            const designationBooks = groupBooksIntoDesignations(
-                action.payload.books,
-            );
-
-            return {
-                ...state,
-                designationBooks,
-            };
-        }
-        case RECEIVE_DESIGNATIONS: {
-            const { designations } = action.payload;
-
-            return {
-                ...state,
-                designations,
-            };
-        }
-        case SET_LAST_PAGE_INDEX: {
-            const {
-                designation_id: designationID,
-                lastPageIndex,
-            } = action.payload;
-
-            const { cache } = state;
-
-            cache[designationID].lastPageIndex = lastPageIndex;
-
-            return {
-                ...state,
-                cache,
-            };
-        }
-        default:
-            return state;
-    }
+    });
 }

@@ -8,8 +8,6 @@ import {
     REQUEST_DESIGNATION_BOOKS,
     REQUEST_DESIGNATION_PAGES,
     receiveDesignations,
-    requestInitialBooks,
-    receiveInitialBooks,
     requestDesignationBooks,
     receiveDesignationBooks,
     setLastPageIndex,
@@ -19,39 +17,28 @@ import { fetchDesignationBooks, fetchDesignations } from '../../api/books';
 
 function* fetchDesignationsGenerator() {
     try {
-        const designationsArray = yield call(fetchDesignations);
-        const designationsMap = designationsArray.reduce(
-            (acc, { id, name }) => {
-                acc[id] = name;
-                return acc;
-            },
-            {},
-        );
-
-        yield put(receiveDesignations(designationsMap));
+        const designations = yield call(fetchDesignations);
+        yield put(receiveDesignations(designations));
     } catch (e) {
         console.error(e);
     }
 }
 
 function* fetchDesignationBooksGenerator(action) {
-    const {
-        offset,
-        limit,
-        designation_id: designationID,
-        page,
-    } = action.payload;
+    const { offset, limit, designation_id, page } = action.payload;
 
     const designationBooks = yield select(store => {
-        if (store.booksCollection.cache[designationID] !== undefined) {
-            return store.booksCollection.cache[designationID][page] || [];
+        const designationPages = store.booksCollection.cache[designation_id];
+
+        if (designationPages) {
+            return designationPages[page] || [];
         }
 
         return [];
     });
 
     if (designationBooks.length > 0) {
-        return { books: designationBooks, page };
+        return;
     }
 
     try {
@@ -59,78 +46,64 @@ function* fetchDesignationBooksGenerator(action) {
             fetchDesignationBooks,
             offset,
             limit,
-            designationID,
+            designation_id,
         );
 
-        if (books.length === 0) {
-            return { books: [], page };
+        if (books.length > 0) {
+            const receiveAction = receiveDesignationBooks({
+                books,
+                designation_id,
+                page,
+            });
+
+            yield put(receiveAction);
         }
-
-        const receiveAction = receiveDesignationBooks({
-            books,
-            designationID,
-            page,
-        });
-
-        yield put(receiveAction);
-
-        return { books, page };
     } catch (e) {
         console.error(e);
     }
-
-    return { books: [], page: -1 };
 }
 
 function* fetchDesignationPagesGenerator(action) {
-    const { designation_id: designationID, pages } = action.payload;
+    const { designation_id, pages } = action.payload;
 
     try {
-        const actions = yield all(
-            pages.map(page => {
-                return call(
+        yield all(
+            pages.map(page =>
+                call(
                     fetchDesignationBooksGenerator,
                     requestDesignationBooks({
                         page,
-                        designation_id: designationID,
+                        designation_id,
                     }),
-                );
-            }),
+                ),
+            ),
         );
 
-        const { lastPageIndex } = actions.reduce(
-            (acc, { books, page }) => {
-                if (books.length > 0 && books.length < 20) {
-                    acc.lastPageIndex = page;
-                    return acc;
-                }
+        const designationCache = yield select(store => {
+            const designationPages =
+                store.booksCollection.cache[designation_id];
 
-                if (books.length === 0) {
-                    if (acc.lastPageIndex) {
-                        return acc;
-                    }
+            return designationPages || [];
+        });
 
-                    acc.lastPageIndex = page - 1;
-                }
+        const lastPageIndex = pages.reduce((acc, page) => {
+            const designationPage = designationCache[page] || [];
 
-                return acc;
-            },
-            { lastPageIndex: null },
-        );
-
-        if (lastPageIndex !== null) {
-            const isAlreadySet = yield select(
-                store =>
-                    store.booksCollection.cache[designationID].lastPageIndex,
-            );
-
-            if (isAlreadySet) {
-                return;
+            if (designationPage.length > 0 && designationPage.length < 20) {
+                return page;
             }
 
+            if (designationPage.length === 0) {
+                return acc || page - 1;
+            }
+
+            return acc;
+        }, null);
+
+        if (lastPageIndex) {
             yield put(
                 setLastPageIndex({
-                    designation_id: designationID,
+                    designation_id,
                     lastPageIndex,
                 }),
             );
@@ -141,33 +114,21 @@ function* fetchDesignationPagesGenerator(action) {
 }
 
 function* fetchInitialBooksForEachDesignation() {
-    yield put(requestInitialBooks());
-
     const designations = yield select(
         store => store.booksCollection.designations,
     );
-    const designationIDs = Object.keys(designations);
 
     try {
-        const [...books] = yield all(
-            designationIDs.map(designationID => {
-                const [offset, limit] = [0, 20];
-
-                return call(
-                    fetchDesignationBooks,
-                    offset,
-                    limit,
-                    designationID,
-                );
-            }),
+        yield all(
+            Object.keys(designations).map(designation_id =>
+                call(
+                    fetchDesignationBooksGenerator,
+                    requestDesignationBooks({
+                        designation_id,
+                    }),
+                ),
+            ),
         );
-
-        const flatBooks = books.reduce((acc, booksArray) => [
-            ...acc,
-            ...booksArray,
-        ]);
-
-        yield put(receiveInitialBooks(flatBooks));
     } catch (e) {
         console.error(e);
     }
