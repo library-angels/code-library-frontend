@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useLocation } from 'react-router-dom';
 
 import { Box, Flex, Spinner } from '@chakra-ui/core';
-import { requestDesignationPages } from '../../store/books/books.actions';
 
 import { Search } from '../../components/Navigation';
 import { BookCategory } from '../../components/Book';
 
 import Pagination from './Pagination';
+
+import { useBooksDispatch, useDesignationBooks } from '../../hooks/books';
 
 import { useSearchSelector, useSearchDispatch } from '../../hooks/search';
 
@@ -17,41 +17,23 @@ function getPage(query) {
 }
 
 export default function Category() {
-    const { designation_id: designationID } = useParams();
     const { search } = useLocation();
+    const { designation_id } = useParams();
 
-    const dispatch = useDispatch();
     const page = getPage(search);
+    const { loadDesignationPages } = useBooksDispatch();
 
     useEffect(() => {
-        const pages = page <= 2 ? [1, 2, 3, 4, 5] : [page, page + 1, page + 2];
-
-        dispatch(
-            requestDesignationPages({
-                pages,
-                designation_id: designationID,
-            }),
-        );
+        loadDesignationPages({ page, designation_id });
     }, [search]);
+
+    const { designationBooks, lastPageIndex } = useDesignationBooks({
+        page,
+        designation_id,
+    });
 
     const { allFields, currentField } = useSearchSelector();
     const { setInput, setSelected } = useSearchDispatch();
-
-    const designationBooks = useSelector(store => {
-        if (store.booksCollection.cache[designationID] !== undefined) {
-            return store.booksCollection.cache[designationID][page] || [];
-        }
-
-        return [];
-    });
-
-    const lastPageIndex = useSelector(store => {
-        if (store.booksCollection.cache[designationID] !== undefined) {
-            return store.booksCollection.cache[designationID].lastPageIndex;
-        }
-
-        return null;
-    });
 
     return (
         <Box marginTop="calc(80px + 2em)">
@@ -85,7 +67,7 @@ export default function Category() {
                         <Pagination
                             lastPageIndex={lastPageIndex}
                             page={page}
-                            designationID={designationID}
+                            designationID={designation_id}
                             postsPerPage={20}
                         />
                     </>

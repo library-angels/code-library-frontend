@@ -13,6 +13,12 @@ import {
     setLastPageIndex,
 } from './books.actions';
 
+import {
+    getDesignationCache,
+    getDesignationBooks,
+    getDesignations,
+} from './books.selectors';
+
 import { fetchDesignationBooks, fetchDesignations } from '../../api/books';
 
 function* fetchDesignationsGenerator() {
@@ -27,15 +33,9 @@ function* fetchDesignationsGenerator() {
 function* fetchDesignationBooksGenerator(action) {
     const { offset, limit, designation_id, page } = action.payload;
 
-    const designationBooks = yield select(store => {
-        const designationPages = store.booksCollection.cache[designation_id];
-
-        if (designationPages) {
-            return designationPages[page] || [];
-        }
-
-        return [];
-    });
+    const designationBooks = yield select(
+        getDesignationBooks({ page, designation_id }),
+    );
 
     if (designationBooks.length > 0) {
         return;
@@ -79,12 +79,9 @@ function* fetchDesignationPagesGenerator(action) {
             ),
         );
 
-        const designationCache = yield select(store => {
-            const designationPages =
-                store.booksCollection.cache[designation_id];
-
-            return designationPages || [];
-        });
+        const designationCache = yield select(
+            getDesignationCache(designation_id),
+        );
 
         const lastPageIndex = pages.reduce((acc, page) => {
             const designationPage = designationCache[page] || [];
@@ -114,9 +111,7 @@ function* fetchDesignationPagesGenerator(action) {
 }
 
 function* fetchInitialBooksForEachDesignation() {
-    const designations = yield select(
-        store => store.booksCollection.designations,
-    );
+    const designations = yield select(getDesignations);
 
     try {
         yield all(

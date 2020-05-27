@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { Box } from '@chakra-ui/core';
 
 import {
@@ -8,6 +7,7 @@ import {
     RequestExtention,
 } from '../../components/Account';
 
+import { useBookByID, useAccountBooks } from '../../hooks/books';
 import { useAccountDispatch, useAccountSelector } from '../../hooks/account';
 
 function Account() {
@@ -19,40 +19,14 @@ function Account() {
         toggleShowModal();
     };
 
-    const currentBook = useSelector(store => {
-        const { index, cache } = store.booksCollection;
-
-        const { designation_id, page, pageIndex } = index[showID] || {};
-
-        if (cache[designation_id]) {
-            if (cache[designation_id][page]) {
-                return cache[designation_id][page][pageIndex] || null;
-            }
-        }
-
-        return null;
-    });
-
-    const designations = useSelector(
-        store => store.booksCollection.designations,
-    );
-    const cache = useSelector(store => {
-        return Object.keys(designations).map(designationID =>
-            store.booksCollection.cache[designationID]
-                ? store.booksCollection.cache[designationID][0]
-                : [],
-        );
-    });
+    const accountBooks = useAccountBooks();
+    const selectedBook = useBookByID({ id: showID });
 
     return (
         <Box margin="calc(80px + 2em) auto" maxWidth="760px">
             <ProfilePic />
-            {cache.length > 0 &&
-                [
-                    { title: 'Borrowing', books: cache[0] },
-                    { title: 'Waiting List', books: cache[1] },
-                    { title: 'History', books: cache[2] },
-                ].map(({ title, books }) => (
+            {accountBooks.length > 0 &&
+                accountBooks.map(({ title, books }) => (
                     <ProfileCarousel
                         key={title}
                         onProfileCarouselBookClick={handleRequestExtension}
@@ -60,9 +34,9 @@ function Account() {
                         books={books}
                     />
                 ))}
-            {showModal && currentBook && (
+            {showModal && selectedBook && (
                 <RequestExtention
-                    book={currentBook}
+                    book={selectedBook}
                     onModalClose={toggleShowModal}
                 />
             )}

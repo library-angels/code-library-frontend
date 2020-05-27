@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { ThemeProvider, CSSReset, Link } from '@chakra-ui/core';
+import { ThemeProvider, CSSReset } from '@chakra-ui/core';
 
 import Router from './router';
 
+import { useBooksDispatch } from './hooks/books';
+
 function App() {
-    const dispatch = useDispatch();
+    const { loadDesignations } = useBooksDispatch();
 
     useEffect(() => {
-        dispatch({ type: 'REQUEST_DESIGNATIONS' });
+        loadDesignations();
     }, []);
 
     return (

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+
 import { Link as RouterLink } from 'react-router-dom';
 
 import { Flex, List, ListItem, Link, Icon } from '@chakra-ui/core';
@@ -32,6 +34,16 @@ const Pagination = ({ lastPageIndex, page, designationID }) => {
         setPages(pagesArray);
     }, [page, lastPageIndex]);
 
+    let [prevPage, nextPage] = [page - 1, page + 1];
+
+    if (page <= 1) {
+        prevPage = 1;
+    }
+
+    if (lastPageIndex) {
+        nextPage = page + 1 < lastPageIndex ? nextPage : page;
+    }
+
     return (
         <List
             paddingBottom="2em"
@@ -44,7 +56,7 @@ const Pagination = ({ lastPageIndex, page, designationID }) => {
                     as={RouterLink}
                     to={createLink.toDesignationPage({
                         designationID,
-                        page: page > 1 ? page - 1 : page,
+                        page: prevPage,
                     })}
                 >
                     <Icon name="chevron-left" size="30px" />
@@ -72,11 +84,7 @@ const Pagination = ({ lastPageIndex, page, designationID }) => {
                     as={RouterLink}
                     to={createLink.toDesignationPage({
                         designationID,
-                        page: lastPageIndex
-                            ? page < lastPageIndex
-                                ? page + 1
-                                : page
-                            : page + 1,
+                        page: nextPage,
                     })}
                 >
                     <Icon name="chevron-right" size="30px" />
@@ -84,6 +92,16 @@ const Pagination = ({ lastPageIndex, page, designationID }) => {
             </Flex>
         </List>
     );
+};
+
+Pagination.propTypes = {
+    lastPageIndex: PropTypes.number,
+    page: PropTypes.number.isRequired,
+    designationID: PropTypes.string.isRequired,
+};
+
+Pagination.defaultProps = {
+    lastPageIndex: null,
 };
 
 export default Pagination;

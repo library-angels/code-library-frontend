@@ -75,7 +75,7 @@ ProfileCarousel.propTypes = {
         PropTypes.shape({
             id: PropTypes.number,
             title: PropTypes.string,
-            cover: PropTypes.string,
+            cover: PropTypes.number,
         }),
     ).isRequired,
     onProfileCarouselBookClick: PropTypes.func.isRequired,

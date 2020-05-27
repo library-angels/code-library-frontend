@@ -12,7 +12,7 @@ const initialState = {
     index: {},
 };
 
-export default function books(state = initialState, action) {
+export default function booksReducer(state = initialState, action) {
     return produce(state, draft => {
         switch (action.type) {
             case RECEIVE_DESIGNATION_BOOKS: {
@@ -27,6 +27,8 @@ export default function books(state = initialState, action) {
                 draft.cache[designation_id][page] = books;
 
                 // add each books 'location' to the index
+
+                // eslint-disable-next-line no-shadow
                 books.forEach(({ id, designation_id }, i) => {
                     draft.index[id] = {
                         designation_id,
@@ -38,9 +40,7 @@ export default function books(state = initialState, action) {
                 return draft;
             }
             case RECEIVE_DESIGNATIONS: {
-                const { designations } = action.payload;
-
-                designations.forEach(({ id, name }) => {
+                action.payload.designations.forEach(({ id, name }) => {
                     draft.designations[id] = name;
                 });
 
