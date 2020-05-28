@@ -1,14 +1,15 @@
 import React, { useEffect } from 'react';
 import { ThemeProvider, CSSReset } from '@chakra-ui/core';
 
-import { useBooksDispatch } from './hooks/books';
 import Router from './router';
 
+import { useBooksDispatch } from './hooks/books';
+
 function App() {
-    const { loadBooks } = useBooksDispatch();
+    const { loadDesignations } = useBooksDispatch();
 
     useEffect(() => {
-        loadBooks();
+        loadDesignations();
     }, []);
 
     return (

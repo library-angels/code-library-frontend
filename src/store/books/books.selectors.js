@@ -1,58 +1,58 @@
-const getCategories = store => Object.keys(store.booksCollection.categories);
+export const getIndex = store => store.booksCollection.index;
 
-const getBooksByCategory = category => store =>
-    store.booksCollection.categories[category] || {};
+export const getCache = store => store.booksCollection.cache;
 
-const getBookByID = id => store => {
-    const categories = getCategories(store);
+export const getDesignations = store => store.booksCollection.designations;
 
-    return categories.reduce((acc, category) => {
-        const categoryBooksObject = store.booksCollection.categories[category];
-        return categoryBooksObject[id] || acc;
-    }, {});
+export const getDesignationCache = designation_id => store => {
+    const designationCache = store.booksCollection.cache[designation_id];
+
+    return designationCache || {};
 };
 
-const getBooksByIDs = ids => store => {
-    const categories = getCategories(store);
+export const getDesignationBooks = ({ page = 0, designation_id }) => store => {
+    const designationCache = getDesignationCache(designation_id)(store);
 
-    return categories.reduce((acc, category) => {
-        const categoryBooksObject = store.booksCollection.categories[category];
-
-        ids.forEach(id => {
-            if (categoryBooksObject[id]) {
-                acc.push(categoryBooksObject[id]);
-            }
-        });
-
-        return acc;
-    }, []);
+    return designationCache[page] || [];
 };
 
-const getDashboardBooks = store => {
-    const categories = Object.keys(store.booksCollection.dashboardIDs);
+export const getDashboardBooks = store => {
+    const designations = getDesignations(store);
+    const designationIDs = Object.keys(designations);
 
-    return categories.reduce((acc, category) => {
-        acc[category] = [];
+    const dashboardBooks = designationIDs.map(designationID => {
+        const designation = designations[designationID];
 
-        const categoryBooksObject = store.booksCollection.categories[category];
-        const categoryIDs = store.booksCollection.dashboardIDs[category];
+        const books = getDesignationBooks({ designation_id: designationID })(
+            store,
+        );
 
-        categoryIDs.forEach(id => {
-            if (categoryBooksObject[id]) {
-                acc[category].push(categoryBooksObject[id]);
-            }
-        });
+        return {
+            designation,
+            designationID,
+            books,
+        };
+    });
 
-        return acc;
-    }, {});
+    return dashboardBooks;
 };
 
-const BOOKS_SELECTORS = {
-    getCategories,
-    getDashboardBooks,
-    getBooksByCategory,
-    getBookByID,
-    getBooksByIDs,
+export const getLastPageIndex = designation_id => store => {
+    const designationCache = getDesignationCache(designation_id)(store);
+
+    return designationCache ? designationCache.lastPageIndex : null;
 };
 
-export default BOOKS_SELECTORS;
+export const getBookByID = id => store => {
+    const { index, cache } = store.booksCollection;
+
+    const { designation_id, page, pageIndex } = index[id] || {};
+
+    if (cache[designation_id]) {
+        if (cache[designation_id][page]) {
+            return cache[designation_id][page][pageIndex] || null;
+        }
+    }
+
+    return null;
+};

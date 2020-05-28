@@ -1,40 +1,70 @@
-const REQUEST_DASHBOARD_IDS = 'BOOKS_REQUEST_DASHBOARD_IDS';
-const RECEIVE_DASHBOARD_IDS = 'BOOKS_RECEIVE_DASHBOARD_IDS';
-const REQUEST_ALL = 'BOOKS_REQUEST_ALL';
-const RECEIVE_ALL = 'BOOKS_RECEIVE_ALL';
+export const REQUEST_DESIGNATIONS = 'REQUEST_DESIGNATIONS';
+export const RECEIVE_DESIGNATIONS = 'RECEIVE_DESIGNATIONS';
+export const REQUEST_DESIGNATION_BOOKS = 'REQUEST_DESIGNATION_BOOKS';
+export const RECEIVE_DESIGNATION_BOOKS = 'RECEIVE_DESIGNATION_BOOKS';
+export const REQUEST_DESIGNATION_PAGES = 'REQUEST_DESIGNATION_PAGES';
+export const SET_LAST_PAGE_INDEX = 'SET_LAST_PAGE_INDEX';
 
-const requestDashboardIDs = () => ({
-    type: REQUEST_DASHBOARD_IDS,
+export const requestDesignations = () => ({
+    type: REQUEST_DESIGNATIONS,
 });
 
-const receiveDashboardIDs = dashboardIDs => ({
-    type: RECEIVE_DASHBOARD_IDS,
+export const receiveDesignations = designations => ({
+    type: RECEIVE_DESIGNATIONS,
     payload: {
-        dashboardIDs,
+        designations,
     },
 });
 
-const requestAll = () => ({
-    type: REQUEST_ALL,
-});
+export const requestDesignationBooks = ({
+    offset = 0,
+    limit = 20,
+    page = 0,
+    designation_id = 0,
+} = {}) => {
+    let offsetByPage = offset;
 
-const receiveAll = books => ({
-    type: RECEIVE_ALL,
+    if (page !== 0) {
+        for (let i = page; i > 1; i -= 1) {
+            offsetByPage += 20;
+        }
+    }
+
+    return {
+        type: REQUEST_DESIGNATION_BOOKS,
+        payload: {
+            offset: offsetByPage,
+            limit,
+            designation_id,
+            page,
+        },
+    };
+};
+
+export const receiveDesignationBooks = ({ books, designation_id, page }) => ({
+    type: RECEIVE_DESIGNATION_BOOKS,
     payload: {
         books,
+        designation_id,
+        page,
     },
 });
 
-export const BOOKS_ACTIONS = {
-    REQUEST_ALL,
-    RECEIVE_ALL,
-    REQUEST_DASHBOARD_IDS,
-    RECEIVE_DASHBOARD_IDS,
-};
+export const requestDesignationPages = ({
+    pages = [],
+    designation_id = 0,
+}) => ({
+    type: REQUEST_DESIGNATION_PAGES,
+    payload: {
+        pages,
+        designation_id,
+    },
+});
 
-export const BOOKS_ACTION_CREATORS = {
-    requestDashboardIDs,
-    receiveDashboardIDs,
-    requestAll,
-    receiveAll,
-};
+export const setLastPageIndex = ({ designation_id, lastPageIndex }) => ({
+    type: SET_LAST_PAGE_INDEX,
+    payload: {
+        designation_id,
+        lastPageIndex,
+    },
+});

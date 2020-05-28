@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
@@ -71,15 +72,15 @@ function BookCarousel({ category, books, buttonLink }) {
                 responsive={responsiveBreakpoints}
             >
                 {/* Slider Child  */}
-                {books.map(({ id, cover, title1 }) => (
+                {books.map(({ id, cover, title }) => (
                     <Box
                         key={id}
                         className="book-carousel-child"
                         marginTop="1rem"
                     >
                         <Image
-                            src={`https://library.code.berlin${cover}`}
-                            alt={title1}
+                            src={`https://library.code.berlin/static/book_cover/${cover}.jpg`}
+                            alt={title}
                             border="1px solid rgb(90, 90, 90)"
                             maxWidth="100px"
                             maxHeight="150px"
@@ -96,8 +97,8 @@ BookCarousel.propTypes = {
     books: PropTypes.arrayOf(
         PropTypes.shape({
             id: PropTypes.number,
-            cover: PropTypes.string,
-            title1: PropTypes.string,
+            cover: PropTypes.number,
+            title: PropTypes.string,
         }),
     ).isRequired,
     buttonLink: PropTypes.string.isRequired,

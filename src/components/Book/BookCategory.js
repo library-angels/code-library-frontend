@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -24,7 +25,7 @@ export default function BookCategory({ author, title, cover }) {
             {/* Image Container */}
             <Flex justifyContent="center" alignItems="center">
                 <Image
-                    src={`https://library.code.berlin${cover}`}
+                    src={`https://library.code.berlin/static/book_cover/${cover}.jpg`}
                     alt={title}
                     border="1px solid black"
                     maxWidth="100px"
@@ -71,5 +72,5 @@ export default function BookCategory({ author, title, cover }) {
 BookCategory.propTypes = {
     author: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    cover: PropTypes.string.isRequired,
+    cover: PropTypes.number.isRequired,
 };

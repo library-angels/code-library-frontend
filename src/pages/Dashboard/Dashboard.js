@@ -2,14 +2,14 @@ import React from 'react';
 import { Box, Spinner } from '@chakra-ui/core';
 
 import { Search } from '../../components/Navigation';
-import { BookCarousel } from '../../components/Book';
+import DesignationsCarousel from './DesignationsCarousel';
+
+import { useBooksSelector } from '../../hooks/books';
 
 import { useSearchSelector, useSearchDispatch } from '../../hooks/search';
-import { useBooksSelector } from '../../hooks/books';
-import { createLinks } from '../../routes';
 
 function Dashboard() {
-    const { dashboard } = useBooksSelector();
+    const { dashboardBooks } = useBooksSelector();
 
     const { allFields, currentField } = useSearchSelector();
     const { setInput, setSelected } = useSearchDispatch();
@@ -23,19 +23,10 @@ function Dashboard() {
                 onSearchInput={setInput}
             />
             <Box textAlign="center" marginBottom="3rem">
-                {Object.keys(dashboard).length <= 0 ? (
+                {dashboardBooks.length <= 0 ? (
                     <Spinner marginTop="3rem" />
                 ) : (
-                    Object.keys(dashboard).map(category => (
-                        <BookCarousel
-                            key={category}
-                            category={category}
-                            books={dashboard[category]}
-                            buttonLink={createLinks.toCategoryDepartment(
-                                category,
-                            )}
-                        />
-                    ))
+                    <DesignationsCarousel designationBooks={dashboardBooks} />
                 )}
             </Box>
         </Box>

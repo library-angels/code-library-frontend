@@ -1,75 +1,38 @@
-import data from '../library.json';
-
-const booksByCategory = data.reduce((acc, book) => {
-    const { designation } = book;
-    if (acc[designation] === undefined) {
-        acc[designation] = [];
+/* eslint-disable max-len */
+async function fetchJSONfromRoot(url) {
+    const data = await fetch(`${process.env.REACT_APP_API_ROOT}/${url}`);
+    if (data.status !== 200) {
+        throw new Error(
+            `Something went wrong while fetching on '${process.env.REACT_APP_API_ROOT}/${url}`,
+        );
     }
-    acc[designation].push(book);
-    return acc;
-}, {});
 
-// Returns an array of designation objects
-// where the id of a book is mapped to it's details
-const getAllBooksByCategory = Object.keys(booksByCategory).reduce(
-    (acc, category) => {
-        const categoryBooks = booksByCategory[category];
-
-        acc[category] = {};
-        categoryBooks.forEach(book => {
-            acc[category][book.id] = book;
-        });
-
-        return acc;
-    },
-    {},
-);
-
-function fetchDashboardIDs() {
-    return new Promise(resolve => {
-        setTimeout(() => {
-            const randomIDs = Object.keys(booksByCategory).reduce(
-                (acc, category) => {
-                    acc[category] = [];
-
-                    const categoryBooks = booksByCategory[category];
-
-                    const min = categoryBooks[0].id;
-                    const max = categoryBooks[categoryBooks.length - 1].id;
-
-                    const randomIndexCache = {};
-                    while (acc[category].length < 10) {
-                        const randomIndex =
-                            Math.floor(Math.random() * (max - min)) + min;
-
-                        if (!randomIndexCache[randomIndex]) {
-                            randomIndexCache[randomIndex] = 1;
-                            acc[category].push(randomIndex);
-                        }
-                    }
-
-                    return acc;
-                },
-                {},
-            );
-
-            resolve(randomIDs);
-        }, 1000);
-    });
+    const json = await data.json();
+    return json;
 }
 
-// eslint-disable-next-line import/prefer-default-export
-function fetchAllBooks() {
-    return new Promise(resolve => {
-        setTimeout(() => {
-            resolve(getAllBooksByCategory);
-        }, 1000);
-    });
+export async function fetchDesignations() {
+    const designations = await fetchJSONfromRoot(`/book/designations`);
+
+    return designations;
 }
 
-const api = {
-    fetchAllBooks,
-    fetchDashboardIDs,
-};
+export async function fetchBooks(offset = 0, limit = 531) {
+    const books = await fetchJSONfromRoot(
+        `/book?offset=${offset}&limit=${limit}`,
+    );
 
-export default api;
+    return books;
+}
+
+export async function fetchDesignationBooks(
+    offset = 0,
+    limit = 20,
+    designationID = 0,
+) {
+    const books = await fetchJSONfromRoot(
+        `/book?designation_id=${designationID}&offset=${offset}&limit=${limit}`,
+    );
+
+    return books;
+}
