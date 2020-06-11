@@ -3,6 +3,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import { NavigationBar } from './components/Navigation';
 import { Dashboard, Account, Category, Logout } from './pages';
+import Login from './components/Login';
 
 import Routes from './routes';
 
@@ -11,6 +12,9 @@ export default function Router() {
         <BrowserRouter>
             <NavigationBar />
             <Switch>
+                <Route exact path={Routes.Login}>
+                    <Login />
+                </Route>
                 <Route exact path={Routes.Dashboard}>
                     <Dashboard />
                 </Route>

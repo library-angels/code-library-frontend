@@ -3,6 +3,7 @@ export default {
     Account: '/account',
     Category: '/designation/:designation_id',
     Logout: '/logout',
+    Login: '/login',
 };
 
 export const createLink = {
