@@ -3,8 +3,8 @@ import { LOGIN_ACTIONS } from './login.actions';
 const { LOGIN_GAPI } = LOGIN_ACTIONS;
 
 const initialState = {
-    accessToken: {},
-    refreshToken: {},
+    accessToken: '',
+    refreshToken: '',
 };
 
 export default function loginReducer(state = initialState, action) {
