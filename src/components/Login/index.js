@@ -1,13 +1,15 @@
 /* eslint-disable max-len */
 import React, { useEffect } from 'react';
-
-import { useLogintDispatch, useLoginSelector } from '../../hooks/login';
+import jwt from 'jwt-decode';
+import { useLogintDispatch } from '../../hooks/login';
+import { UserDetailsDispatch } from '../../hooks/user';
 import './style.css';
 import logo from '../../static/codelibrarylogo.png';
 
 function Login() {
     const { setTokens } = useLogintDispatch();
-    const { accessToken, refreshToken } = useLoginSelector();
+    const { setUserDetails } = UserDetailsDispatch();
+
     useEffect(() => {
         const params = {
             client_id:
@@ -40,6 +42,8 @@ function Login() {
             res.json().then(data => {
                 setTokens(data.access_token, data.refresh_token);
                 console.log('data is :', data);
+                console.log(jwt(data.access_token));
+                setUserDetails(jwt(data.access_token));
             });
         });
     };
