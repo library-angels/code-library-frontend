@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { LOGOUT_ACTION_CREATORS } from '../store/logout/logout.actions';
 
-export function useLogOutDispatch() {
+function useLogOutDispatch() {
     const dispatch = useDispatch();
 
     const resetAllState = () => dispatch(LOGOUT_ACTION_CREATORS.logOut());
@@ -10,3 +10,4 @@ export function useLogOutDispatch() {
         resetAllState,
     };
 }
+export default useLogOutDispatch;

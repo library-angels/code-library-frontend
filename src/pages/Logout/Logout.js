@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { useLogOutDispatch } from '../../hooks/logout';
+import { Redirect } from 'react-router-dom';
+import useLogOutDispatch from '../../hooks/logout';
 
 function Logout() {
     const { resetAllState } = useLogOutDispatch();
@@ -7,7 +8,6 @@ function Logout() {
         resetAllState();
     }, []);
 
-    return <div>Log out</div>;
+    return <Redirect to="/" />;
 }
-
 export default Logout;

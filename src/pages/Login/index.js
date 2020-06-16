@@ -1,7 +1,8 @@
 /* eslint-disable max-len */
 import React, { useEffect } from 'react';
+import { Redirect } from 'react-router-dom';
 import jwt from 'jwt-decode';
-import { useLogintDispatch } from '../../hooks/login';
+import { useLogintDispatch, useLoginSelector } from '../../hooks/login';
 import { UserDetailsDispatch } from '../../hooks/user';
 import './style.css';
 import logo from '../../static/codelibrarylogo.png';
@@ -9,6 +10,7 @@ import logo from '../../static/codelibrarylogo.png';
 function Login() {
     const { setTokens } = useLogintDispatch();
     const { setUserDetails } = UserDetailsDispatch();
+    const { accessToken } = useLoginSelector();
 
     useEffect(() => {
         const params = {
@@ -41,8 +43,6 @@ function Login() {
         fetch(serverURL, requestOptions).then(res => {
             res.json().then(data => {
                 setTokens(data.access_token, data.refresh_token);
-                console.log('data is :', data);
-                console.log(jwt(data.access_token));
                 setUserDetails(jwt(data.access_token));
             });
         });
@@ -57,21 +57,30 @@ function Login() {
 
     return (
         <>
-            <div className="Login">
-                <div>
-                    <div className="loginlogo">
-                        <img src={logo} />
-                    </div>
-                    <div
-                        id="customBtn"
-                        className="customGPlusSignIn"
-                        onClick={handleClick}
-                    >
-                        <span className="icon"></span>
-                        <span className="buttonText">Sign in with Google</span>
+            {accessToken ? (
+                <Redirect to="/" />
+            ) : (
+                <div className="Login">
+                    <div>
+                        <div className="loginlogo">
+                            <img src={logo} alt="code library logo" />
+                        </div>
+                        <div
+                            id="customBtn"
+                            className="customGPlusSignIn"
+                            onClick={handleClick}
+                            onKeyDown={handleClick}
+                            role="button"
+                            tabIndex={0}
+                        >
+                            <span className="icon" />
+                            <span className="buttonText">
+                                Sign in with Google
+                            </span>
+                        </div>
                     </div>
                 </div>
-            </div>
+            )}
         </>
     );
 }
