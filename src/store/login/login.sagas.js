@@ -1,8 +1,11 @@
+/* eslint-disable func-names */
+/* eslint-disable no-console */
 import { call, takeLatest, put } from 'redux-saga/effects';
 import jwt from 'jwt-decode';
 import { LOGIN_ACTIONS, LOGIN_ACTION_CREATORS } from './login.actions';
 import { USER_ACTION_CREATORS } from '../user/user.actions';
 import { initializeGoogleAuth2 } from '../../api/GAPI';
+/* eslint-disable no-console */
 import { signInUser } from '../../api/loginApi';
 
 const { REQUEST_TOKENS } = LOGIN_ACTIONS;

@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+
 export function loadGoogleApi() {
     const params = {
         client_id:
