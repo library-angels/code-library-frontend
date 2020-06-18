@@ -4,15 +4,9 @@ import LOGIN_SELECTORS from '../store/login/login.selector';
 
 export function useLogintDispatch() {
     const dispatch = useDispatch();
-
-    const setTokens = (accessToken, refreshToken) =>
-        dispatch(
-            LOGIN_ACTION_CREATORS.loginGoogleApi(accessToken, refreshToken),
-        );
-
-    return {
-        setTokens,
-    };
+    const signInUser = () =>
+        dispatch(LOGIN_ACTION_CREATORS.loginExchangeTokens());
+    return { signInUser };
 }
 
 export function useLoginSelector() {

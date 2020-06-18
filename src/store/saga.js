@@ -1,9 +1,12 @@
-import { all, fork } from 'redux-saga/effects';
+import { fork } from 'redux-saga/effects';
 
 import { watcher } from './books/books.sagas';
+import { gaipSaga } from './GAPI/GAPI.sagas';
+import { loginSaga } from './login/login.sagas';
 
 const rootSaga = function* root() {
-    yield all([fork(watcher)]);
+    yield fork(watcher);
+    yield fork(gaipSaga);
+    yield fork(loginSaga);
 };
-
 export default rootSaga;
