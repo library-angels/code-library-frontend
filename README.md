@@ -64,6 +64,7 @@ The application revolves around the Redux store, which is the central place wher
 -   [Redux](https://redux.js.org/) - A Predictable State Container for JS Apps
 -   [ReduxSaga](https://redux-saga.js.org/) - A library that aims to make application side effects (i.e. asynchronous things like data fetching and impure things like accessing the browser cache) easier to manage, more efficient to execute, easy to test, and better at handling failures.
 -   [ChakraUI](https://chakra-ui.com/) - A simple, modular and accessible React components library
+-   [jwt-decode](https://github.com/auth0/jwt-decode#readme) is a small browser library that helps decoding JWTs token which are Base64Url encoded.
 
 ## Authors
 
