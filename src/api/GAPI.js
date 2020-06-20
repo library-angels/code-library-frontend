@@ -2,9 +2,7 @@
 
 export function loadGoogleApi() {
     const params = {
-        client_id:
-            '55145421475-5v3b8519i457v6jock86v4t4letfrsju.apps.googleusercontent.com',
-
+        client_id: process.env.REACT_APP_CLIENT_ID,
         response_type: 'code',
         access_type: 'offline',
         promt: 'consent',
