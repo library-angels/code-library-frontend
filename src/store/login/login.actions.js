@@ -3,11 +3,11 @@ const LOGIN_GAPI = 'LOGIN_GAPI';
 const REQUEST_TOKENS = 'REQUEST_TOKENS';
 const RESET_TOKENS = 'RESET_TOKENS';
 
-const loginGoogleApi = tokens => ({
+const loginGoogleApi = ({ access_token, refresh_token }) => ({
     type: LOGIN_GAPI,
     payload: {
-        accessToken: tokens.access_token,
-        refreshToken: tokens.refresh_token,
+        accessToken: access_token,
+        refreshToken: refresh_token,
     },
 });
 
