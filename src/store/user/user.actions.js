@@ -1,4 +1,5 @@
 const USER_DETAILS = 'USER_DETAILS';
+const RESET_USER_DATA = 'RESET_USER_DATA';
 
 const userDetails = user => ({
     type: USER_DETAILS,
@@ -9,10 +10,17 @@ const userDetails = user => ({
         profilePic: user.picture,
     },
 });
+
+const resetUserTokens = () => ({
+    type: RESET_USER_DATA,
+});
+
 export const USER_ACTIONS = {
     USER_DETAILS,
+    RESET_USER_DATA,
 };
 
 export const USER_ACTION_CREATORS = {
     userDetails,
+    resetUserTokens,
 };

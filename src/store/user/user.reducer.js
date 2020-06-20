@@ -1,6 +1,6 @@
 import { USER_ACTIONS } from './user.actions';
 
-const { USER_DETAILS } = USER_ACTIONS;
+const { USER_DETAILS, RESET_USER_DATA } = USER_ACTIONS;
 
 const initialState = {
     firstName: '',
@@ -20,6 +20,12 @@ export default function userReducer(state = initialState, action) {
                 profilePic: action.payload.profilePic,
             };
         }
+        case RESET_USER_DATA: {
+            return {
+                state: undefined,
+            };
+        }
+
         default:
             return state;
     }
