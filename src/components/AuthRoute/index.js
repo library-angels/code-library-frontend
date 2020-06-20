@@ -4,8 +4,9 @@ import { Route, Redirect } from 'react-router-dom';
 import routes from '../../routes';
 import { useLoginSelector } from '../../hooks/login';
 
-function AuthRoute({ children, path }) {
+export default function AuthRoute({ children, path }) {
     const { accessToken } = useLoginSelector();
+
     return (
         <Route
             path={path}
@@ -20,5 +21,3 @@ AuthRoute.propTypes = {
     children: PropTypes.objectOf(PropTypes.any).isRequired,
     path: PropTypes.string.isRequired,
 };
-
-export default AuthRoute;

@@ -5,7 +5,7 @@ import { useLoginSelector, useLogintDispatch } from '../../hooks/login';
 import './style.css';
 import logo from '../../static/codelibrarylogo.png';
 
-function Login() {
+export default function Login() {
     const { accessToken } = useLoginSelector();
     const { signInUser } = useLogintDispatch();
 
@@ -42,5 +42,3 @@ function Login() {
         </>
     );
 }
-
-export default Login;
