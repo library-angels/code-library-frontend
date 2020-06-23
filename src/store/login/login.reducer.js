@@ -2,24 +2,20 @@ import { LOGIN_ACTIONS } from './login.actions';
 
 const { LOGIN_GAPI, RESET_TOKENS } = LOGIN_ACTIONS;
 
-const initialState = {
-    accessToken: '',
-    refreshToken: '',
-};
+function updateObject(state, action) {
+    return {
+        ...state,
+        ...action.payload,
+    };
+}
 
-export default function loginReducer(state = initialState, action) {
+export default function loginReducer(state = {}, action) {
     switch (action.type) {
         case LOGIN_GAPI: {
-            return {
-                ...state,
-                accessToken: action.payload.accessToken,
-                refreshToken: action.payload.refreshToken,
-            };
+            return updateObject(state, action);
         }
         case RESET_TOKENS: {
-            return {
-                state: undefined,
-            };
+            return updateObject(state, action);
         }
         default:
             return state;

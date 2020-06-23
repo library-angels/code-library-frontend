@@ -13,6 +13,12 @@ const userDetails = user => ({
 
 const resetUserTokens = () => ({
     type: RESET_USER_DATA,
+    payload: {
+        firstName: '',
+        lastName: '',
+        email: '',
+        profilePic: '',
+    },
 });
 
 export const USER_ACTIONS = {

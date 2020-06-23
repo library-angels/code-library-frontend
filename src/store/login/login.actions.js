@@ -13,6 +13,9 @@ const loginGoogleApi = ({ access_token, refresh_token }) => ({
 
 const resetLoginTokens = () => ({
     type: RESET_TOKENS,
+    payload: {
+        accessToken: '',
+    },
 });
 
 const loginExchangeTokens = () => ({
