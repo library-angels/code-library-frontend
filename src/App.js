@@ -1,17 +1,13 @@
 import React, { useEffect } from 'react';
 import { ThemeProvider, CSSReset } from '@chakra-ui/core';
-
+import { useGapiDispatch } from './hooks/GAPI';
 import Router from './router';
 
-import { useBooksDispatch } from './hooks/books';
-
 function App() {
-    const { loadDesignations } = useBooksDispatch();
-
+    const { loadGapi } = useGapiDispatch();
     useEffect(() => {
-        loadDesignations();
+        loadGapi();
     }, []);
-
     return (
         <ThemeProvider>
             <CSSReset />
