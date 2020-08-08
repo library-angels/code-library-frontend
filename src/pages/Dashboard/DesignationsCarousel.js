@@ -5,18 +5,21 @@ import { createLink } from '../../routes';
 
 import { BookCarousel } from '../../components/Book';
 
-export default function DesignationsCarousel({ designationBooks }) {
+export default function DesignationsCarousel({
+    designationBooks,
+    onDashboardCarouselBookClick,
+}) {
     return (
         <div>
             {designationBooks.map(({ designation, designationID, books }) => {
                 const buttonLink = createLink.toDesignation(designationID);
-
                 return (
                     <BookCarousel
                         key={designation}
                         category={designation}
-                        books={books}
+                        books={books.slice(0, 10)}
                         buttonLink={buttonLink}
+                        onClick={onDashboardCarouselBookClick}
                     />
                 );
             })}
@@ -26,4 +29,5 @@ export default function DesignationsCarousel({ designationBooks }) {
 
 DesignationsCarousel.propTypes = {
     designationBooks: PropTypes.array.isRequired,
+    onDashboardCarouselBookClick: PropTypes.func.isRequired,
 };

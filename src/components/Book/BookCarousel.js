@@ -10,7 +10,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './styles.scss';
 
-function BookCarousel({ category, books, buttonLink }) {
+function BookCarousel({ category, books, buttonLink, onClick }) {
     const responsiveBreakpoints = [
         { breakpoint: 900, slides: 5 },
         { breakpoint: 800, slides: 4 },
@@ -46,18 +46,15 @@ function BookCarousel({ category, books, buttonLink }) {
                     as={RouterLink}
                     to={buttonLink}
                     _hover={{
-                        textDecoration: 'none',
                         color: 'white',
                         background: 'black',
+                        borderColor: 'white',
                     }}
                     display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                    paddingX="1rem"
-                    border="2px solid black"
-                    borderRadius=".250rem"
+                    alignSelf="flex-end"
+                    textDecoration="underline"
                 >
-                    Show All
+                    View all
                 </Link>
             </Flex>
             {/* Slider */}
@@ -79,11 +76,13 @@ function BookCarousel({ category, books, buttonLink }) {
                         marginTop="1rem"
                     >
                         <Image
+                            id={id}
                             src={`https://library.code.berlin/static/book_cover/${cover}.jpg`}
                             alt={title}
                             border="1px solid rgb(90, 90, 90)"
                             maxWidth="100px"
                             maxHeight="150px"
+                            onClick={() => onClick(id)}
                         />
                     </Box>
                 ))}
@@ -102,6 +101,7 @@ BookCarousel.propTypes = {
         }),
     ).isRequired,
     buttonLink: PropTypes.string.isRequired,
+    onClick: PropTypes.func.isRequired,
 };
 
 export default BookCarousel;

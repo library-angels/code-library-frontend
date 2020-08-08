@@ -14,8 +14,18 @@
 .slick-next::before {
     font-size: 30px;
     color: black;
+    background: transparent;
 }
-
+.slick-prev::before {
+    content: '\276C';
+}
+.slick-arrow {
+    height: 100% !important;
+    background: transparent !important;
+}
+.slick-next::before {
+    content: '\276D';
+}
 .slick-dots {
     bottom: -35px;
     display: flex !important;
@@ -26,4 +36,15 @@
 .book-carousel-child {
     display: flex !important;
     justify-content: center;
+}
+.slick-dots li button::before {
+    content: '\26AC';
+    font-size: 25px;
+    opacity: 0.4;
+}
+.slick-dots li.slick-active button::before {
+    content: '•';
+    font-size: 13px;
+    top: 4px;
+    opacity: 0.6;
 }
