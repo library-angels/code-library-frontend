@@ -2,6 +2,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
     requestDesignations,
     requestDesignationPages,
+    requestPublishersAndSeries,
+    dashboardScrollHeight,
 } from '../store/books/books.actions';
 import {
     getDesignations,
@@ -10,6 +12,7 @@ import {
     getLastPageIndex,
     getBookByID,
     getCache,
+    getDashboardScrollHeight,
 } from '../store/books/books.selectors';
 
 export function useBooksDispatch() {
@@ -102,4 +105,26 @@ export function useAccountBooks() {
         { title: 'Waiting List', books: waitingList },
         { title: 'History', books: history },
     ];
+}
+
+export function useBooksDetailsDispatch() {
+    const dispatch = useDispatch();
+
+    const loadPublishersAndSeries = () =>
+        dispatch(requestPublishersAndSeries());
+
+    return {
+        loadPublishersAndSeries,
+    };
+}
+
+export function useDashboardHeightDispatch() {
+    const dispatch = useDispatch();
+    const pageHeight = useSelector(getDashboardScrollHeight);
+    const changePageHeight = height => dispatch(dashboardScrollHeight(height));
+
+    return {
+        changePageHeight,
+        pageHeight,
+    };
 }
