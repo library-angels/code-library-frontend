@@ -5,14 +5,16 @@ import { NavigationBar } from './components/Navigation';
 import { Dashboard, Account, Category, Logout, Login } from './pages';
 import AuthRoute from './components/AuthRoute';
 import { useLoginSelector } from './hooks/login';
+import { UseUserDetails } from './hooks/user';
 
 export default function Router() {
     const { accessToken } = useLoginSelector();
+    const { picture } = UseUserDetails();
 
     return (
         <>
             <BrowserRouter>
-                {accessToken ? <NavigationBar /> : null}
+                {accessToken ? <NavigationBar src={picture} /> : null}
                 <Switch>
                     <AuthRoute exact path={Routes.Dashboard}>
                         <Dashboard />
