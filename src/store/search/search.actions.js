@@ -4,6 +4,8 @@ const SEARCH_FILTER_SELECTED_OPTIONS = 'SEARCH_FILTER_SELECTED_OPTIONS';
 const SEARCH_CLONE_PUBLISHER = 'SEARCH_CLONE_PUBLISHER';
 const SEARCH_SUBMIT_SELECTED_OPTIONS = 'SEARCH_SUBMIT_SELECTED_OPTIONS';
 const SEARCH_SUBMIT_SELECTED_CLONE = 'SEARCH_SUBMIT_SELECTED_CLONE';
+const SEARCH_REQUEST_FILTERED_BOOKS = 'SEARCH_REQUEST_FILTERED_BOOKS';
+const SEARCH_RECEIVE_FILTERED_BOOKS = 'SEARCH_RECEIVE_FILTERED_BOOKS';
 
 const searchInputTyping = input => ({
     type: SEARCH_INPUT_TYPING,
@@ -43,6 +45,23 @@ const assignSelectedToSubmited = () => ({
     type: SEARCH_SUBMIT_SELECTED_CLONE,
 });
 
+const requestFilteredBooks = (offset = 0) => ({
+    type: SEARCH_REQUEST_FILTERED_BOOKS,
+    payload: {
+        offset,
+    },
+});
+
+const receiveFilteredBooks = (filteredList, offset, LastPageIndex, page) => ({
+    type: SEARCH_RECEIVE_FILTERED_BOOKS,
+    payload: {
+        filteredList,
+        offset,
+        LastPageIndex,
+        page,
+    },
+});
+
 export const SEARCH_ACTIONS = {
     SEARCH_INPUT_TYPING,
     SEARCH_FILTER_PUBLISHER_OPTION,
@@ -50,6 +69,8 @@ export const SEARCH_ACTIONS = {
     SEARCH_CLONE_PUBLISHER,
     SEARCH_SUBMIT_SELECTED_OPTIONS,
     SEARCH_SUBMIT_SELECTED_CLONE,
+    SEARCH_REQUEST_FILTERED_BOOKS,
+    SEARCH_RECEIVE_FILTERED_BOOKS,
 };
 
 export const SEARCH_ACTION_CREATORS = {
@@ -59,4 +80,6 @@ export const SEARCH_ACTION_CREATORS = {
     searchClonePublisher,
     submitSelectedoptions,
     assignSelectedToSubmited,
+    requestFilteredBooks,
+    receiveFilteredBooks,
 };

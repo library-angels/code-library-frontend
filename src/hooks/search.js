@@ -44,6 +44,14 @@ export function useSearchSelectedOptionDispatch() {
     return { selectedOptions, submitSelectedOption, toggleObjects };
 }
 
+export function useFilterDispatch() {
+    const dispatch = useDispatch();
+    const requestFilteredList = () => {
+        dispatch(SEARCH_ACTION_CREATORS.requestFilteredBooks());
+    };
+    return { requestFilteredList };
+}
+
 export function useSearchSelector() {
     return {
         allFields: useSelector(SEARCH_SELECTORS.getFields),
@@ -54,5 +62,7 @@ export function useSearchSelector() {
             SEARCH_SELECTORS.getPublisherSearchedTerm,
         ),
         submitedFilterOption: useSelector(SEARCH_SELECTORS.getSubmitSelected),
+        filteredBooks: useSelector(SEARCH_SELECTORS.getFilteredBooks),
+        LastPageIndex: useSelector(SEARCH_SELECTORS.getSearchLastIndex),
     };
 }

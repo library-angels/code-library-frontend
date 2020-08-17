@@ -36,6 +36,13 @@ const getSearchFilter = store => {
     };
 };
 
+const getFilteredBooks = store => store.booksSearch.filteredBooks;
+const getSearchLastIndex = store => {
+    const FilteredBooks = getFilteredBooks(store);
+    const { lastPageIndex } = FilteredBooks;
+    return lastPageIndex;
+};
+
 const SEARCH_SELECTORS = {
     getFields,
     getInput,
@@ -45,6 +52,8 @@ const SEARCH_SELECTORS = {
     getselectedOptions,
     getPublisherSearchedTerm,
     getSubmitSelected,
+    getFilteredBooks,
+    getSearchLastIndex,
 };
 
 export default SEARCH_SELECTORS;

@@ -7,6 +7,7 @@ const {
     SEARCH_CLONE_PUBLISHER,
     SEARCH_SUBMIT_SELECTED_OPTIONS,
     SEARCH_SUBMIT_SELECTED_CLONE,
+    SEARCH_RECEIVE_FILTERED_BOOKS,
 } = SEARCH_ACTIONS;
 
 const initialState = {
@@ -18,7 +19,7 @@ const initialState = {
     fields: { 1: 'All', 2: 'Title', 3: 'Author' },
     input: null,
     PublisherSearchedTerm: '',
-    filteredPublishers: null,
+    filteredPublishers: {},
     selectedOptions: {
         'Search by': [],
         Category: [],
@@ -32,6 +33,10 @@ const initialState = {
         Series: ['All'],
         Publishers: ['All'],
         'Sort by': ['Alphabetical'],
+    },
+    filteredBooks: {
+        result: {},
+        lastPageIndex: null,
     },
 };
 
@@ -121,6 +126,20 @@ function search(state = initialState, action) {
             };
         }
 
+        case SEARCH_RECEIVE_FILTERED_BOOKS: {
+            return {
+                ...state,
+                filteredBooks: {
+                    result: {
+                        ...state.filteredBooks.result,
+                        [action.payload.page + 1]: [
+                            ...action.payload.filteredList,
+                        ],
+                    },
+                    lastPageIndex: action.payload.LastPageIndex,
+                },
+            };
+        }
         default:
             return state;
     }
