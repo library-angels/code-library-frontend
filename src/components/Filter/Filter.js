@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { MenuList, Tabs, TabPanels, TabPanel } from '@chakra-ui/core';
 import TabOption from './TapOption';
 import TabPanelOptions from './TapPanelOptions';
-
 import TapMainCategories from './TapMainCategories';
 
 export default function Filter({
@@ -24,7 +23,7 @@ export default function Filter({
     return (
         <MenuList
             minWidth={['210px', '210px', '260px']}
-            mr={['2.5rem', '1rem']}
+            mr={['3rem']}
             mt="1rem !important"
             borderRadius="10px"
             padding="0px"

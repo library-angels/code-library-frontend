@@ -13,7 +13,6 @@ export default function TabOption({
     useEffect(() => {
         setShowArrow(true);
         filterModalBackground(true);
-
         return () => {
             setShowArrow(false);
             filterModalBackground(false);

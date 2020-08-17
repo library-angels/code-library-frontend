@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useHistory, useLocation } from 'react-router-dom';
 import {
     Input,
     Stack,
@@ -22,6 +23,9 @@ export default function TabPanelOptions({
     submitSelectedOption,
     toggleObjects,
 }) {
+    const history = useHistory();
+    const location = useLocation();
+
     useEffect(() => {
         toggleObjects();
         // eslint-disable-next-line
@@ -51,6 +55,7 @@ export default function TabPanelOptions({
                     {searchDetails.length !== 0
                         ? searchDetails.map((value, index) => (
                               <Flex
+                                  key={`TabPanelOptionsMenu${value}`}
                                   flexDirection="row"
                                   m="0px 10px"
                                   borderBottom={
@@ -61,7 +66,6 @@ export default function TabPanelOptions({
                               >
                                   <MenuItem
                                       w="90%"
-                                      key={`TabPanelOptionsMenu${value}`}
                                       pl="0px"
                                       pr="1rem"
                                       value={value}
@@ -97,6 +101,9 @@ export default function TabPanelOptions({
                     setTabIndex(0);
                     setDisplayTap('');
                     submitSelectedOption();
+                    if (location.pathname !== '/search') {
+                        history.push('/search?page=1');
+                    }
                 }}
             >
                 Apply
