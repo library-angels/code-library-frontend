@@ -98,18 +98,9 @@ function Search({
                                     w="0px "
                                     borderLeft="6px solid transparent "
                                     borderRight="6px solid transparent "
-                                    borderBottom="18px solid #d2d5d8"
+                                    borderBottom="18px solid #fdfdfe"
                                     justifyContent="center"
-                                >
-                                    <Flex
-                                        position="relative"
-                                        h="0px "
-                                        w="0px "
-                                        borderLeft="6px solid transparent "
-                                        borderRight="6px solid transparent "
-                                        borderBottom="18px solid #fdfdfe"
-                                    />
-                                </Flex>
+                                />
                             </Flex>
                         )}
 

@@ -1,4 +1,3 @@
-import NavigationBar from './NavigationBar';
-import Search from './Search';
+import TopPage from './TopPage';
 
-export { NavigationBar, Search };
+export { TopPage };
