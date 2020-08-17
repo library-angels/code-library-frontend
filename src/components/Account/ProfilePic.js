@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Image, Box, Heading } from '@chakra-ui/core';
 
-function ProfilePic({ text, src, alt }) {
+function ProfilePic({ src, alt, text }) {
     return (
         <Box>
             <Heading as="h1" size="lg">
@@ -22,6 +22,7 @@ function ProfilePic({ text, src, alt }) {
                     rounded="full"
                     src={src}
                     alt={alt}
+                    referrerPolicy="no-referrer"
                 />
             </Box>
         </Box>
@@ -29,15 +30,9 @@ function ProfilePic({ text, src, alt }) {
 }
 
 ProfilePic.propTypes = {
-    text: PropTypes.string,
-    src: PropTypes.string,
-    alt: PropTypes.string,
-};
-
-ProfilePic.defaultProps = {
-    text: 'My profile',
-    src: 'https://bit.ly/sage-adebayo',
-    alt: 'Segun Adebayo',
+    text: PropTypes.string.isRequired,
+    src: PropTypes.string.isRequired,
+    alt: PropTypes.string.isRequired,
 };
 
 export default ProfilePic;
