@@ -111,11 +111,12 @@ const Pagination = ({ lastPageIndex, page, designationID }) => {
 Pagination.propTypes = {
     lastPageIndex: PropTypes.number,
     page: PropTypes.number.isRequired,
-    designationID: PropTypes.string.isRequired,
+    designationID: PropTypes.string,
 };
 
 Pagination.defaultProps = {
     lastPageIndex: null,
+    designationID: null,
 };
 
 export default Pagination;
