@@ -52,7 +52,15 @@ export function useFilterDispatch() {
     return { requestFilteredList };
 }
 
-export function useSearchSelector() {
+export function useResetFilterDispatch() {
+    const dispatch = useDispatch();
+    const resetAllFilterOptions = () => {
+        dispatch(SEARCH_ACTION_CREATORS.resetFilterOptions());
+    };
+    return { resetAllFilterOptions };
+}
+
+export function useSearchSelector(showAllTags = null) {
     return {
         allFields: useSelector(SEARCH_SELECTORS.getFields),
         currentInput: useSelector(SEARCH_SELECTORS.getInput),
@@ -64,5 +72,7 @@ export function useSearchSelector() {
         submitedFilterOption: useSelector(SEARCH_SELECTORS.getSubmitSelected),
         filteredBooks: useSelector(SEARCH_SELECTORS.getFilteredBooks),
         LastPageIndex: useSelector(SEARCH_SELECTORS.getSearchLastIndex),
+        showTags: useSelector(SEARCH_SELECTORS.getShowTags),
+        tagsItems: useSelector(SEARCH_SELECTORS.getTagItems(showAllTags)),
     };
 }

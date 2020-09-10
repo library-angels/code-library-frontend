@@ -8,6 +8,7 @@ const {
     SEARCH_SUBMIT_SELECTED_OPTIONS,
     SEARCH_SUBMIT_SELECTED_CLONE,
     SEARCH_RECEIVE_FILTERED_BOOKS,
+    SEARCH_FILTER_RESET,
 } = SEARCH_ACTIONS;
 
 const initialState = {
@@ -137,6 +138,19 @@ function search(state = initialState, action) {
                         ],
                     },
                     lastPageIndex: action.payload.LastPageIndex,
+                },
+            };
+        }
+
+        case SEARCH_FILTER_RESET: {
+            return {
+                ...state,
+                submitSelected: {
+                    'Search by': ['All'],
+                    Category: ['All'],
+                    Series: ['All'],
+                    Publishers: ['All'],
+                    'Sort by': ['Alphabetical'],
                 },
             };
         }

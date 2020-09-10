@@ -43,6 +43,35 @@ const getSearchLastIndex = store => {
     return lastPageIndex;
 };
 
+const getShowTags = store => {
+    const filteredValues = Object.values(getSubmitSelected(store));
+    const result = filteredValues.some(
+        item =>
+            item.filter(value => value !== 'All' && value !== 'Alphabetical')
+                .length > 0,
+    );
+    const tagsLength = filteredValues.reduce((acc, arr) => acc + arr.length, 0);
+
+    return { result, tagsLength };
+};
+
+const getTagItems = showAllTags => store => {
+    const tagsArray = [];
+    const submitedFilterOption = getSubmitSelected(store);
+
+    Object.keys(submitedFilterOption).forEach(category =>
+        submitedFilterOption[category].forEach(value => {
+            tagsArray.push({ category, value });
+        }),
+    );
+
+    if (showAllTags) {
+        return tagsArray;
+    }
+
+    return tagsArray.slice(0, 2);
+};
+
 const SEARCH_SELECTORS = {
     getFields,
     getInput,
@@ -54,6 +83,8 @@ const SEARCH_SELECTORS = {
     getSubmitSelected,
     getFilteredBooks,
     getSearchLastIndex,
+    getShowTags,
+    getTagItems,
 };
 
 export default SEARCH_SELECTORS;

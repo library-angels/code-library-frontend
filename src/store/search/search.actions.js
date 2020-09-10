@@ -6,6 +6,7 @@ const SEARCH_SUBMIT_SELECTED_OPTIONS = 'SEARCH_SUBMIT_SELECTED_OPTIONS';
 const SEARCH_SUBMIT_SELECTED_CLONE = 'SEARCH_SUBMIT_SELECTED_CLONE';
 const SEARCH_REQUEST_FILTERED_BOOKS = 'SEARCH_REQUEST_FILTERED_BOOKS';
 const SEARCH_RECEIVE_FILTERED_BOOKS = 'SEARCH_RECEIVE_FILTERED_BOOKS';
+const SEARCH_FILTER_RESET = 'SEARCH_FILTER_RESET';
 
 const searchInputTyping = input => ({
     type: SEARCH_INPUT_TYPING,
@@ -61,6 +62,9 @@ const receiveFilteredBooks = (filteredList, offset, LastPageIndex, page) => ({
         page,
     },
 });
+const resetFilterOptions = () => ({
+    type: SEARCH_FILTER_RESET,
+});
 
 export const SEARCH_ACTIONS = {
     SEARCH_INPUT_TYPING,
@@ -71,6 +75,7 @@ export const SEARCH_ACTIONS = {
     SEARCH_SUBMIT_SELECTED_CLONE,
     SEARCH_REQUEST_FILTERED_BOOKS,
     SEARCH_RECEIVE_FILTERED_BOOKS,
+    SEARCH_FILTER_RESET,
 };
 
 export const SEARCH_ACTION_CREATORS = {
@@ -82,4 +87,5 @@ export const SEARCH_ACTION_CREATORS = {
     assignSelectedToSubmited,
     requestFilteredBooks,
     receiveFilteredBooks,
+    resetFilterOptions,
 };
