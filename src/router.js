@@ -11,6 +11,8 @@ import {
     SearchPage,
 } from './pages';
 import AuthRoute from './components/AuthRoute';
+import { ErrorDisplay } from './components/ErrorMessage';
+import { Footer } from './components/Footer';
 import { useLoginSelector } from './hooks/login';
 import { UseUserDetails } from './hooks/user';
 import {
@@ -105,6 +107,8 @@ export default function Router() {
                     </Route>
                 </Switch>
             </BrowserRouter>
+            {accessToken && <Footer />}
+            <ErrorDisplay />
         </>
     );
 }
