@@ -26,33 +26,40 @@ export default function BookSearch({
             {/* Image Container */}
             <Skeleton isLoaded={loading}>
                 <Flex>
-                    <Image
-                        src={`https://library.code.berlin/static/book_cover/${cover}.jpg`}
-                        alt={title}
-                        id={id}
-                        border="1px solid black"
-                        w="100%"
-                        maxW="180px"
-                        maxHeight="230px"
-                        mr={mr}
-                        onLoad={() => {
-                            setLoading(true);
-                        }}
-                        onError={() => {
-                            setLoading(true);
-                            setImageFallBack(true);
-                        }}
-                        onClick={
-                            mr === '0px'
-                                ? () => {
-                                      handleRequestExtension(id);
-                                  }
-                                : null
-                        }
-                        fallbackSrc={
-                            ImageFallBack ? testing_missing_cover : transparent
-                        }
-                    />
+                    <PseudoBox
+                        tabIndex="0"
+                        _focus={{ outline: '4px solid #8ec2ed' }}
+                    >
+                        <Image
+                            src={`https://library.code.berlin/static/book_cover/${cover}.jpg`}
+                            alt={title}
+                            id={id}
+                            border="1px solid black"
+                            w="100%"
+                            maxW="180px"
+                            maxHeight="230px"
+                            mr={mr}
+                            onLoad={() => {
+                                setLoading(true);
+                            }}
+                            onError={() => {
+                                setLoading(true);
+                                setImageFallBack(true);
+                            }}
+                            onClick={
+                                mr === '0px'
+                                    ? () => {
+                                          handleRequestExtension(id);
+                                      }
+                                    : null
+                            }
+                            fallbackSrc={
+                                ImageFallBack
+                                    ? testing_missing_cover
+                                    : transparent
+                            }
+                        />
+                    </PseudoBox>
                 </Flex>
             </Skeleton>
 
@@ -64,7 +71,12 @@ export default function BookSearch({
                     fontSize="16px"
                     flexGrow="1"
                 >
-                    <Box as="span" textAlign="start">
+                    <Box
+                        as="span"
+                        textAlign="start"
+                        tabIndex="0"
+                        aria-describedby={`title :${title}`}
+                    >
                         <Skeleton
                             m={loading ? '0px' : '10px 0'}
                             isLoaded={loading}
@@ -75,7 +87,7 @@ export default function BookSearch({
                 </Flex>
 
                 <Flex width="100%" fontSize="13px" flexGrow="1">
-                    <Box as="span" textAlign="start">
+                    <Box as="span" textAlign="start" tabIndex="0">
                         <Skeleton
                             m={loading ? '0px' : '10px 0'}
                             isLoaded={loading}

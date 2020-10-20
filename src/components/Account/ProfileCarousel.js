@@ -1,24 +1,50 @@
 /* eslint-disable max-len */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-
-import { Box, Flex, Image, Collapse, Button } from '@chakra-ui/core';
+import {
+    Box,
+    Flex,
+    Image,
+    Collapse,
+    Button,
+    Skeleton,
+    PseudoBox,
+} from '@chakra-ui/core';
+import testing_missing_cover from '../../static/testing_missing_cover.png';
+import transparent from '../../static/transparent.png';
 
 function ProfileCarouselBook({ id, title, src, onClick }) {
+    const [loading, setLoading] = useState(false);
+    const [ImageFallBack, setImageFallBack] = useState(false);
     return (
-        <Flex key={id} m={2} width="20%" pb={[6, 2]}>
-            <Image
-                onClick={() => onClick(id)}
-                alt={title}
-                maxW="100%"
-                maxH="120px"
-                src={src}
-                boxShadow={`
-            0 2.8px 2.2px rgba(0, 0, 0, 0.034),
-            0 6.7px 5.3px rgba(0, 0, 0, 0.048),
-            0 12.5px 10px rgba(0, 0, 0, 0.06)`}
-            />
-        </Flex>
+        <Skeleton isLoaded={loading}>
+            <PseudoBox
+                display="flex"
+                width={['120px', '180px']}
+                tabIndex="0"
+                _focus={{ outline: '4px solid #8ec2ed' }}
+                m="12px"
+            >
+                <Image
+                    alt={title}
+                    id={id}
+                    w="100%"
+                    maxHeight="220px"
+                    onLoad={() => {
+                        setLoading(true);
+                    }}
+                    onError={() => {
+                        setLoading(true);
+                        setImageFallBack(true);
+                    }}
+                    src={src}
+                    fallbackSrc={
+                        ImageFallBack ? testing_missing_cover : transparent
+                    }
+                    onClick={() => onClick(id)}
+                />
+            </PseudoBox>
+        </Skeleton>
     );
 }
 
@@ -32,25 +58,23 @@ ProfileCarouselBook.propTypes = {
 function ProfileCarousel({ title, books, onProfileCarouselBookClick }) {
     const [show, setShow] = useState(false);
     const handleToggle = () => setShow(!show);
+    const [collapseHeight, setCollapseHeigth] = useState(window.innerWidth);
+
+    useEffect(() => {
+        function collapseChange() {
+            setCollapseHeigth(window.innerWidth);
+        }
+        window.addEventListener('resize', collapseChange);
+        return () => {
+            window.removeEventListener('resize', collapseChange);
+        };
+    }, []);
 
     return (
         <>
             <Box fontWeight="bold" m={4}>
                 {title}
             </Box>
-            <Collapse startingHeight={152} isOpen={show} m={2}>
-                <Flex maxW="760" m={2} flexWrap="wrap">
-                    {books.map(({ id, cover, title: bookTitle }) => (
-                        <ProfileCarouselBook
-                            key={id}
-                            id={id}
-                            src={`https://library.code.berlin/static/book_cover/${cover}.jpg`}
-                            title={bookTitle}
-                            onClick={onProfileCarouselBookClick}
-                        />
-                    ))}
-                </Flex>
-            </Collapse>
             {books.length >= 5 && (
                 <Flex flexDirection="row-reverse" ml={2}>
                     <Flex pl={['15px', '15px', '0px']} width="32%">
@@ -65,6 +89,23 @@ function ProfileCarousel({ title, books, onProfileCarouselBookClick }) {
                     </Flex>
                 </Flex>
             )}
+            <Collapse
+                startingHeight={collapseHeight < 500 ? 220 : 250}
+                isOpen={show}
+                m={2}
+            >
+                <Flex maxW="820px" m={2} flexWrap="wrap">
+                    {books.map(({ id, cover, title: bookTitle }) => (
+                        <ProfileCarouselBook
+                            key={id}
+                            id={id}
+                            src={`https://library.code.berlin/static/book_cover/${cover}.jpg`}
+                            title={bookTitle}
+                            onClick={onProfileCarouselBookClick}
+                        />
+                    ))}
+                </Flex>
+            </Collapse>
         </>
     );
 }

@@ -3,7 +3,15 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
 import Slider from 'react-slick';
-import { Flex, Link, Heading, Image, Box, Skeleton } from '@chakra-ui/core';
+import {
+    Flex,
+    Link,
+    Heading,
+    Image,
+    Box,
+    Skeleton,
+    PseudoBox,
+} from '@chakra-ui/core';
 import testing_missing_cover from '../../static/testing_missing_cover.png';
 import transparent from '../../static/transparent.png';
 
@@ -82,27 +90,32 @@ function BookCarousel({ category, books, buttonLink, onClick }) {
                         marginTop="1rem"
                     >
                         <Skeleton isLoaded={loading}>
-                            <Image
-                                id={id}
-                                src={`https://library.code.berlin/static/book_cover/${cover}.jpg`}
-                                alt={title}
-                                border="1px solid rgb(90, 90, 90)"
-                                maxWidth="100px"
-                                maxHeight="150px"
-                                onClick={() => onClick(id)}
-                                onLoad={() => {
-                                    setLoading(true);
-                                }}
-                                onError={() => {
-                                    setLoading(true);
-                                    setImageFallBack(true);
-                                }}
-                                fallbackSrc={
-                                    ImageFallBack
-                                        ? testing_missing_cover
-                                        : transparent
-                                }
-                            />
+                            <PseudoBox
+                                tabIndex="0"
+                                _focus={{ outline: '4px solid #8ec2ed' }}
+                            >
+                                <Image
+                                    id={id}
+                                    src={`https://library.code.berlin/static/book_cover/${cover}.jpg`}
+                                    alt={title}
+                                    // border="1px solid rgb(90, 90, 90)"
+                                    maxWidth="100px"
+                                    maxHeight="150px"
+                                    onClick={() => onClick(id)}
+                                    onLoad={() => {
+                                        setLoading(true);
+                                    }}
+                                    onError={() => {
+                                        setLoading(true);
+                                        setImageFallBack(true);
+                                    }}
+                                    fallbackSrc={
+                                        ImageFallBack
+                                            ? testing_missing_cover
+                                            : transparent
+                                    }
+                                />
+                            </PseudoBox>
                         </Skeleton>
                     </Box>
                 ))}
