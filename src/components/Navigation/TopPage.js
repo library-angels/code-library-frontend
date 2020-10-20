@@ -17,6 +17,7 @@ export default function TopPage({
     pageHeight,
     submitedFilterOption,
     toggleObjects,
+    resetAllFilterOptions,
 }) {
     const location = useLocation();
     return (
@@ -35,6 +36,7 @@ export default function TopPage({
                     submitSelectedOption={submitSelectedOption}
                     submitedFilterOption={submitedFilterOption}
                     toggleObjects={toggleObjects}
+                    resetAllFilterOptions={resetAllFilterOptions}
                 />
             )}
         </>
@@ -42,6 +44,7 @@ export default function TopPage({
 }
 
 TopPage.propTypes = {
+    resetAllFilterOptions: PropTypes.func.isRequired,
     src: PropTypes.string.isRequired,
     onSearchInput: PropTypes.func.isRequired,
     searchDetails: PropTypes.shape({

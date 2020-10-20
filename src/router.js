@@ -20,6 +20,7 @@ import {
     useSearchDispatch,
     useSearchSelectedOptionDispatch,
     useSearchPubFilterDispatch,
+    useResetFilterDispatch,
 } from './hooks/search';
 
 import { useDashboardHeightDispatch } from './hooks/books';
@@ -35,6 +36,7 @@ export default function Router() {
     const { accessToken } = useLoginSelector();
     const { picture } = UseUserDetails();
     const { setInput } = useSearchDispatch();
+    const { resetAllFilterOptions } = useResetFilterDispatch();
 
     const { updatePublisherFilter } = useSearchPubFilterDispatch();
     const {
@@ -84,6 +86,7 @@ export default function Router() {
                         submitSelectedOption={submitSelectedOption}
                         submitedFilterOption={submitedFilterOption}
                         toggleObjects={toggleObjects}
+                        resetAllFilterOptions={resetAllFilterOptions}
                     />
                 ) : null}
                 <Switch>

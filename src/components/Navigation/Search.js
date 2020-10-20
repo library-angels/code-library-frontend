@@ -30,6 +30,7 @@ function Search({
     pageHeight,
     submitedFilterOption,
     toggleObjects,
+    resetAllFilterOptions,
 }) {
     const [showArrow, setShowArrow] = useState(false);
     const location = useLocation();
@@ -133,6 +134,9 @@ function Search({
                             background: 'black',
                             borderColor: 'white',
                         }}
+                        onClick={() => {
+                            resetAllFilterOptions();
+                        }}
                     >
                         Cancel
                     </Link>
@@ -143,6 +147,7 @@ function Search({
 }
 
 Search.propTypes = {
+    resetAllFilterOptions: PropTypes.func.isRequired,
     filteredOptions: PropTypes.func.isRequired,
     filterPublisherInput: PropTypes.func.isRequired,
     filterModalBackground: PropTypes.func.isRequired,

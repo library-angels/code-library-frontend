@@ -68,7 +68,7 @@ export default function SearchPage() {
     const [layout, setLayout] = useState(searchLayout.gridLayout);
 
     return (
-        <Box marginTop={['calc(75px + 2em)', 'calc(95px + 2em)']}>
+        <Box marginTop={['calc(75px + 2em)', 'calc(95px + 2em)']} minH="85vh">
             <Flex direction="column" alignItems="center">
                 {Object.keys(filteredBooks.result) <= 0 ? (
                     <Spinner marginTop="3rem" />

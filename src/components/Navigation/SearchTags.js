@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Tag, TagLabel, TagCloseButton, Flex } from '@chakra-ui/core';
+import { Tag, TagLabel, TagCloseButton, Flex, Link } from '@chakra-ui/core';
 import { useSearchSelector, useResetFilterDispatch } from '../../hooks/search';
 
 export default function SearchTags({ filteredOptions }) {
@@ -11,7 +11,7 @@ export default function SearchTags({ filteredOptions }) {
     const tagNumbers = tagsItems;
 
     return (
-        <Flex w="90%">
+        <Flex w="90%" mb="1rem">
             {showtags.result && (
                 <Flex flexWrap="wrap">
                     {tagNumbers.map(option => (
@@ -43,6 +43,7 @@ export default function SearchTags({ filteredOptions }) {
                         </Tag>
                     ))}
                     <Tag
+                        as={Link}
                         size="sm"
                         rounded="full"
                         variant="solid"
@@ -53,6 +54,7 @@ export default function SearchTags({ filteredOptions }) {
                         onClick={() => {
                             setShowAllTags(!showAllTags);
                         }}
+                        tabIndex="0"
                     >
                         <TagLabel fontSize={13} paddingX={2}>
                             {showAllTags
@@ -61,6 +63,8 @@ export default function SearchTags({ filteredOptions }) {
                         </TagLabel>
                     </Tag>
                     <Flex
+                        tabIndex="0"
+                        as={Link}
                         alignItems="center"
                         textDecoration="underline"
                         onClick={() => {
