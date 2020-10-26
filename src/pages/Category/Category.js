@@ -3,14 +3,10 @@ import { useParams, useLocation } from 'react-router-dom';
 
 import { Box, Flex, Spinner } from '@chakra-ui/core';
 
-import { Search } from '../../components/Navigation';
 import { BookCategory } from '../../components/Book';
 
 import Pagination from './Pagination';
-
 import { useBooksDispatch, useDesignationBooks } from '../../hooks/books';
-
-import { useSearchSelector, useSearchDispatch } from '../../hooks/search';
 
 function getPage(query) {
     return Number(query.split('=')[1]);
@@ -19,12 +15,12 @@ function getPage(query) {
 export default function Category() {
     const { search } = useLocation();
     const { designation_id } = useParams();
-
     const page = getPage(search);
     const { loadDesignationPages } = useBooksDispatch();
 
     useEffect(() => {
         loadDesignationPages({ page, designation_id });
+        // eslint-disable-next-line
     }, [search]);
 
     const { designationBooks, lastPageIndex } = useDesignationBooks({
@@ -32,17 +28,8 @@ export default function Category() {
         designation_id,
     });
 
-    const { allFields, currentField } = useSearchSelector();
-    const { setInput, setSelected } = useSearchDispatch();
-
     return (
-        <Box marginTop="calc(80px + 2em)">
-            <Search
-                currentOption={currentField}
-                allOptions={allFields}
-                onSelectOption={setSelected}
-                onSearchInput={setInput}
-            />
+        <Box marginTop={['calc(75px + 2em)', 'calc(95px + 2em)']}>
             <Flex direction="column" alignItems="center">
                 {designationBooks.length <= 0 ? (
                     <Spinner marginTop="3rem" />

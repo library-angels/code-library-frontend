@@ -1,25 +1,36 @@
 /* eslint-disable func-names */
 /* eslint-disable no-console */
 import { put, all, takeEvery, select, call } from 'redux-saga/effects';
+import { SEARCH_ACTION_CREATORS } from '../search/search.actions';
 
 import {
     REQUEST_DESIGNATIONS,
     RECEIVE_DESIGNATIONS,
     REQUEST_DESIGNATION_BOOKS,
     REQUEST_DESIGNATION_PAGES,
+    REQUEST_BOOKS_PUBLISHERS_SERIES,
     receiveDesignations,
     requestDesignationBooks,
     receiveDesignationBooks,
     setLastPageIndex,
+    receiveFilterOptions,
 } from './books.actions';
 
 import {
     getDesignationCache,
     getDesignationBooks,
     getDesignations,
+    getSearchBooksPublishers,
 } from './books.selectors';
 
-import { fetchDesignationBooks, fetchDesignations } from '../../api/books';
+import {
+    fetchDesignationBooks,
+    fetchDesignations,
+    fetchBooksPublisher,
+    fetchBooksSeries,
+} from '../../api/books';
+
+const { searchClonePublisher } = SEARCH_ACTION_CREATORS;
 
 function* fetchDesignationsGenerator() {
     try {
@@ -129,10 +140,26 @@ function* fetchInitialBooksForEachDesignation() {
     }
 }
 
+function* fetchBooksDetailsGenerator() {
+    try {
+        const publishers = yield call(fetchBooksPublisher);
+        const series = yield call(fetchBooksSeries);
+        yield put(receiveFilterOptions(publishers, series));
+        const filteredPublishers = yield select(getSearchBooksPublishers);
+        yield put(searchClonePublisher(filteredPublishers));
+    } catch (e) {
+        console.error(e);
+    }
+}
+
 // eslint-disable-next-line import/prefer-default-export
 export function* watcher() {
     yield takeEvery(REQUEST_DESIGNATIONS, fetchDesignationsGenerator);
     yield takeEvery(RECEIVE_DESIGNATIONS, fetchInitialBooksForEachDesignation);
     yield takeEvery(REQUEST_DESIGNATION_BOOKS, fetchDesignationBooksGenerator);
     yield takeEvery(REQUEST_DESIGNATION_PAGES, fetchDesignationPagesGenerator);
+    yield takeEvery(
+        REQUEST_BOOKS_PUBLISHERS_SERIES,
+        fetchBooksDetailsGenerator,
+    );
 }

@@ -97,7 +97,12 @@ function RequestExtention({ book, onModalClose }) {
                             />
                             <Text>{`day${requestedDays > 1 ? 's' : ''}`}</Text>
                         </Flex>
-                        <Button variantColor="blue" mr={3}>
+                        <Button
+                            variantColor="blue"
+                            mr={3}
+                            borderRadius="15px"
+                            h="36px"
+                        >
                             Request
                         </Button>
                         <Button
@@ -108,6 +113,8 @@ function RequestExtention({ book, onModalClose }) {
                                 onClose();
                                 onModalClose();
                             }}
+                            borderRadius="15px"
+                            h="36px"
                         >
                             Close
                         </Button>

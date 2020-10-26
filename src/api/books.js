@@ -36,3 +36,20 @@ export async function fetchDesignationBooks(
 
     return books;
 }
+
+export async function fetchBooksPublisher() {
+    const publishers = await fetchJSONfromRoot('/book/publishers');
+    return publishers;
+}
+
+export async function fetchBooksSeries() {
+    const series = await fetchJSONfromRoot('/book/series');
+    return series;
+}
+
+export async function fetchFilteredBooks(offset) {
+    const filteredList = await fetchJSONfromRoot(
+        `book/?designation_id=1&offset=${offset}&limit=12`,
+    );
+    return filteredList;
+}

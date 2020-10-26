@@ -4,6 +4,9 @@ export const getCache = store => store.booksCollection.cache;
 
 export const getDesignations = store => store.booksCollection.designations;
 
+export const getDashboardScrollHeight = store =>
+    store.booksCollection.dashboardScrollHeight;
+
 export const getDesignationCache = designation_id => store => {
     const designationCache = store.booksCollection.cache[designation_id];
 
@@ -56,3 +59,8 @@ export const getBookByID = id => store => {
 
     return null;
 };
+
+export const getSearchBooksPublishers = store =>
+    store.booksCollection.Publishers;
+
+export const getSearchBooksSeries = store => store.booksCollection.Series;

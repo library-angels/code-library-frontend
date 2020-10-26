@@ -5,6 +5,7 @@ import jwt from 'jwt-decode';
 import { LOGIN_ACTIONS, LOGIN_ACTION_CREATORS } from './login.actions';
 import { USER_ACTION_CREATORS } from '../user/user.actions';
 import { initializeGoogleAuth2 } from '../../api/GAPI';
+import { ERROR_ACTION_CREATORS } from '../errors/errors.actions';
 /* eslint-disable no-console */
 import { signInUser } from '../../api/loginApi';
 
@@ -19,6 +20,7 @@ function* signInUserGenerator() {
         yield put(USER_ACTION_CREATORS.userDetails(decodeAccessToken));
     } catch (e) {
         console.error(e);
+        yield put(ERROR_ACTION_CREATORS.errorType(e.error));
     }
 }
 

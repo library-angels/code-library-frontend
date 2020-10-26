@@ -4,12 +4,17 @@ import {
     RECEIVE_DESIGNATIONS,
     RECEIVE_DESIGNATION_BOOKS,
     SET_LAST_PAGE_INDEX,
+    DASHBOARD_SCROLL_HEIGHT,
+    RECEIVE_BOOKS_PUBLISHERS_SERIES,
 } from './books.actions';
 
 const initialState = {
     designations: {},
     cache: {},
     index: {},
+    Publishers: {},
+    Series: {},
+    dashboardScrollHeight: '0px',
 };
 
 export default function booksReducer(state = initialState, action) {
@@ -50,6 +55,29 @@ export default function booksReducer(state = initialState, action) {
                 const { designation_id, lastPageIndex } = action.payload;
 
                 draft.cache[designation_id].lastPageIndex = lastPageIndex;
+
+                return draft;
+            }
+
+            case RECEIVE_BOOKS_PUBLISHERS_SERIES: {
+                const filterOptions = Object.keys(action.payload);
+                filterOptions.map(key => {
+                    if (action.payload[key]) {
+                        action.payload[key].forEach(({ id, name }) => {
+                            draft[key][id] = name;
+                        });
+                    } else {
+                        draft[key] = {};
+                    }
+                    return null;
+                });
+                return draft;
+            }
+
+            case DASHBOARD_SCROLL_HEIGHT: {
+                const { height } = action.payload;
+
+                draft.dashboardScrollHeight = height;
 
                 return draft;
             }

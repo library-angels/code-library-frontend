@@ -1,16 +1,25 @@
 /* eslint-disable max-len */
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
-
 import Slider from 'react-slick';
-import { Flex, Link, Heading, Image, Box } from '@chakra-ui/core';
+import {
+    Flex,
+    Link,
+    Heading,
+    Image,
+    Box,
+    Skeleton,
+    PseudoBox,
+} from '@chakra-ui/core';
+import testing_missing_cover from '../../static/testing_missing_cover.png';
+import transparent from '../../static/transparent.png';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './styles.scss';
 
-function BookCarousel({ category, books, buttonLink }) {
+function BookCarousel({ category, books, buttonLink, onClick }) {
     const responsiveBreakpoints = [
         { breakpoint: 900, slides: 5 },
         { breakpoint: 800, slides: 4 },
@@ -24,7 +33,8 @@ function BookCarousel({ category, books, buttonLink }) {
             dots: true,
         },
     }));
-
+    const [loading, setLoading] = useState(false);
+    const [ImageFallBack, setImageFallBack] = useState(false);
     return (
         <Flex
             margin="0 auto"
@@ -39,26 +49,27 @@ function BookCarousel({ category, books, buttonLink }) {
                 margin="0 auto"
                 width={['100%']}
             >
-                <Heading as="h2" paddingLeft="1rem">
-                    {category}
-                </Heading>
-                <Link
-                    as={RouterLink}
-                    to={buttonLink}
-                    _hover={{
-                        textDecoration: 'none',
-                        color: 'white',
-                        background: 'black',
-                    }}
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                    paddingX="1rem"
-                    border="2px solid black"
-                    borderRadius=".250rem"
-                >
-                    Show All
-                </Link>
+                <Skeleton isLoaded={loading}>
+                    <Heading as="h2" paddingLeft="1rem">
+                        {category}
+                    </Heading>
+                </Skeleton>
+                <Skeleton isLoaded={loading}>
+                    <Link
+                        as={RouterLink}
+                        to={buttonLink}
+                        _hover={{
+                            color: 'white',
+                            background: 'black',
+                            borderColor: 'white',
+                        }}
+                        display="flex"
+                        alignSelf="flex-end"
+                        textDecoration="underline"
+                    >
+                        View all
+                    </Link>
+                </Skeleton>
             </Flex>
             {/* Slider */}
             <Slider
@@ -78,13 +89,34 @@ function BookCarousel({ category, books, buttonLink }) {
                         className="book-carousel-child"
                         marginTop="1rem"
                     >
-                        <Image
-                            src={`https://library.code.berlin/static/book_cover/${cover}.jpg`}
-                            alt={title}
-                            border="1px solid rgb(90, 90, 90)"
-                            maxWidth="100px"
-                            maxHeight="150px"
-                        />
+                        <Skeleton isLoaded={loading}>
+                            <PseudoBox
+                                tabIndex="0"
+                                _focus={{ outline: '4px solid #8ec2ed' }}
+                            >
+                                <Image
+                                    id={id}
+                                    src={`https://library.code.berlin/static/book_cover/${cover}.jpg`}
+                                    alt={title}
+                                    // border="1px solid rgb(90, 90, 90)"
+                                    maxWidth="100px"
+                                    maxHeight="150px"
+                                    onClick={() => onClick(id)}
+                                    onLoad={() => {
+                                        setLoading(true);
+                                    }}
+                                    onError={() => {
+                                        setLoading(true);
+                                        setImageFallBack(true);
+                                    }}
+                                    fallbackSrc={
+                                        ImageFallBack
+                                            ? testing_missing_cover
+                                            : transparent
+                                    }
+                                />
+                            </PseudoBox>
+                        </Skeleton>
                     </Box>
                 ))}
             </Slider>
@@ -102,6 +134,7 @@ BookCarousel.propTypes = {
         }),
     ).isRequired,
     buttonLink: PropTypes.string.isRequired,
+    onClick: PropTypes.func.isRequired,
 };
 
 export default BookCarousel;

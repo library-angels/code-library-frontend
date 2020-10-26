@@ -1,39 +1,40 @@
 // eslint-disable-next-line react-hooks/exhaustive-deps
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Box, Spinner } from '@chakra-ui/core';
+import { useAccountDispatch, useAccountSelector } from '../../hooks/account';
+import { useBooksSelector, useBookByID } from '../../hooks/books';
 
-import { Search } from '../../components/Navigation';
+import { RequestExtention } from '../../components/Account';
 import DesignationsCarousel from './DesignationsCarousel';
 
-import { useBooksSelector, useBooksDispatch } from '../../hooks/books';
-
-import { useSearchSelector, useSearchDispatch } from '../../hooks/search';
-
 function Dashboard() {
+    const { setShowID, toggleShowModal } = useAccountDispatch();
+    const { showID, showModal } = useAccountSelector();
     const { dashboardBooks } = useBooksSelector();
-    const { allFields, currentField } = useSearchSelector();
-    const { setInput, setSelected } = useSearchDispatch();
-    const { loadDesignations } = useBooksDispatch();
-
-    useEffect(() => {
-        loadDesignations();
-    }, []);
+    const selectedBook = useBookByID({ id: showID });
+    const handleRequestExtension = id => {
+        setShowID(id);
+        toggleShowModal();
+    };
 
     return (
-        <Box marginTop="calc(80px + 2em)">
-            <Search
-                currentOption={currentField}
-                allOptions={allFields}
-                onSelectOption={setSelected}
-                onSearchInput={setInput}
-            />
+        <Box marginTop={['calc(75px + 2em)', 'calc(95px + 2em)']}>
             <Box textAlign="center" marginBottom="3rem">
                 {dashboardBooks.length <= 0 ? (
                     <Spinner marginTop="3rem" />
                 ) : (
-                    <DesignationsCarousel designationBooks={dashboardBooks} />
+                    <DesignationsCarousel
+                        designationBooks={dashboardBooks}
+                        onDashboardCarouselBookClick={handleRequestExtension}
+                    />
                 )}
             </Box>
+            {showModal && selectedBook && (
+                <RequestExtention
+                    book={selectedBook}
+                    onModalClose={toggleShowModal}
+                />
+            )}
         </Box>
     );
 }

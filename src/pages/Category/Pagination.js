@@ -54,10 +54,14 @@ const Pagination = ({ lastPageIndex, page, designationID }) => {
             <Flex direction="row" justifyContent="center" alignItems="center">
                 <Link
                     as={RouterLink}
-                    to={createLink.toDesignationPage({
-                        designationID,
-                        page: prevPage,
-                    })}
+                    to={
+                        designationID
+                            ? createLink.toDesignationPage({
+                                  designationID,
+                                  page: prevPage,
+                              })
+                            : createLink.toSearchPage({ page: prevPage })
+                    }
                 >
                     <Icon name="chevron-left" size="30px" />
                 </Link>
@@ -71,10 +75,16 @@ const Pagination = ({ lastPageIndex, page, designationID }) => {
                     >
                         <Link
                             as={RouterLink}
-                            to={createLink.toDesignationPage({
-                                designationID,
-                                page: number,
-                            })}
+                            to={
+                                designationID
+                                    ? createLink.toDesignationPage({
+                                          designationID,
+                                          page: number,
+                                      })
+                                    : createLink.toSearchPage({
+                                          page: number,
+                                      })
+                            }
                         >
                             {number}
                         </Link>
@@ -82,10 +92,14 @@ const Pagination = ({ lastPageIndex, page, designationID }) => {
                 ))}
                 <Link
                     as={RouterLink}
-                    to={createLink.toDesignationPage({
-                        designationID,
-                        page: nextPage,
-                    })}
+                    to={
+                        designationID
+                            ? createLink.toDesignationPage({
+                                  designationID,
+                                  page: nextPage,
+                              })
+                            : createLink.toSearchPage({ page: nextPage })
+                    }
                 >
                     <Icon name="chevron-right" size="30px" />
                 </Link>
@@ -97,11 +111,12 @@ const Pagination = ({ lastPageIndex, page, designationID }) => {
 Pagination.propTypes = {
     lastPageIndex: PropTypes.number,
     page: PropTypes.number.isRequired,
-    designationID: PropTypes.string.isRequired,
+    designationID: PropTypes.string,
 };
 
 Pagination.defaultProps = {
     lastPageIndex: null,
+    designationID: null,
 };
 
 export default Pagination;

@@ -6,6 +6,7 @@ function Logout() {
     const { resetAllState } = useLogOutDispatch();
     useEffect(() => {
         resetAllState();
+        // eslint-disable-next-line
     }, []);
 
     return <Redirect to="/" />;

@@ -9,10 +9,12 @@ import {
 
 import { useBookByID, useAccountBooks } from '../../hooks/books';
 import { useAccountDispatch, useAccountSelector } from '../../hooks/account';
+import { UseUserDetails } from '../../hooks/user';
 
 function Account() {
     const { showID, showModal } = useAccountSelector();
     const { setShowID, toggleShowModal } = useAccountDispatch();
+    const { picture, firstname } = UseUserDetails();
 
     const handleRequestExtension = id => {
         setShowID(id);
@@ -23,8 +25,8 @@ function Account() {
     const selectedBook = useBookByID({ id: showID });
 
     return (
-        <Box margin="calc(80px + 2em) auto" maxWidth="760px">
-            <ProfilePic />
+        <Box marginTop="75px" maxWidth="1280px" m="auto">
+            <ProfilePic src={picture} alt={firstname} text="My Profile" />
             {accountBooks.length > 0 &&
                 accountBooks.map(({ title, books }) => (
                     <ProfileCarousel

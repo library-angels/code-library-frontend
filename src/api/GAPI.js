@@ -4,8 +4,10 @@ export function loadGoogleApi() {
     const params = {
         client_id: process.env.REACT_APP_CLIENT_ID,
         response_type: 'code',
+        include_granted_scopes: 'true',
         access_type: 'offline',
         promt: 'consent',
+        hd: 'code.berlin',
     };
     window.gapi.load('auth2', () => {
         if (!window.gapi.auth2.getAuthInstance()) {
