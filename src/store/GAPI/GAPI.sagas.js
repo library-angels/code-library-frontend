@@ -3,13 +3,14 @@
 import { call, takeLatest } from 'redux-saga/effects';
 import { GAPI_ACTIONS } from './GAPI.actions';
 
-import { loadGoogleApi } from '../../api/GAPI';
+import { loadGoogleApi,requestIdentifier } from '../../api/GAPI';
 
 const { REQUEST_LOAD_GAPI } = GAPI_ACTIONS;
 
 function* loadGoogleApiGenerator() {
     try {
-        yield call(loadGoogleApi);
+        const identifier = yield call(requestIdentifier)
+        yield call(loadGoogleApi,(identifier.identifier));
     } catch (e) {
         console.error(e);
     }
