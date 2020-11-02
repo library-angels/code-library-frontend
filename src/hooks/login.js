@@ -9,9 +9,15 @@ export function useLogintDispatch() {
     return { signInUser };
 }
 
+export function useCheckSession() {
+    const dispatch = useDispatch();
+    const sessionVerifier = () =>
+        dispatch(LOGIN_ACTION_CREATORS.checkSession());
+    return { sessionVerifier };
+}
+
 export function useLoginSelector() {
     return {
         accessToken: useSelector(LOGIN_SELECTORS.getAccessToken),
-        refreshToken: useSelector(LOGIN_SELECTORS.getRefreshToken),
     };
 }
