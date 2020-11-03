@@ -16,10 +16,3 @@ jobs:
         run: yarn install --production --frozen-lockfile
       - name: "Build the static files"
         run: yarn run build
-      - name: "Compress the static files"
-        run: zip -r build.zip build/
-      - name: "Upload the compressed static files"
-        uses: actions/upload-artifact@v2
-        with:
-          name: build.zip
-          path: build.zip
