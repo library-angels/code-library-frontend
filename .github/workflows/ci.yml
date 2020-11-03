@@ -1,0 +1,25 @@
+on:
+  push:
+    branches-ignore:
+      - 'master'
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: "Install Yarn"
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+      - name: "Install build dependencies"
+        run: yarn install --production --frozen-lockfile
+      - name: "Build the static files"
+        run: yarn run build
+      - name: "Compress the static files"
+        run: zip -r build.zip build/
+      - name: "Upload the compressed static files"
+        uses: actions/upload-artifact@v2
+        with:
+          name: build.zip
+          path: build.zip
