@@ -1,0 +1,44 @@
+on:
+  release:
+    types: [released]
+    branches:
+      - 'master'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: "Install Yarn"
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+      - name: "Install build dependencies"
+        run: yarn install --production --frozen-lockfile
+      - name: "Build the static files"
+        run: yarn run build
+      - name: "Compress the static files"
+        run: zip -r build.zip build/
+      - name: "Upload the compressed static files"
+        uses: actions/upload-artifact@v2
+        with:
+          name: build.zip
+          path: build.zip
+  deploy:
+    needs: ci
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Configure AWS Credentials"
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-central-1
+      - name: "Download compressed static files"
+        uses: actions/download-artifact@v2
+        with:
+          name: build.zip
+      - name: "Extract the compressed files"
+        run: unzip build.zip
+      - name: "Deploy static site to S3 bucket"
+        run: aws s3 sync build/ s3://${{ secrets.AWS_S3_BUCKET_PRO }} --delete
