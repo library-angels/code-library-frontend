@@ -4,19 +4,19 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Getting Started
 
-In order to run the project you'll need [node](https://nodejs.org/en/) installed on your machine and a package manager of your choice ([npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)).
+In order to run the project you'll need [node](https://nodejs.org/en/) installed on your machine and the package manager [npm](https://www.npmjs.com/).
 Make sure to install the depencies of the application before starting the development server.
 
 ### Installing dependenies
 
 ```
-yarn install
+npm install
 ```
 
 ### Running the development server locally
 
 ```
-yarn run
+npm run-script start
 ```
 
 Access the server on [http://localhost:3000](http://localhost:3000) to view it in the browser.
@@ -26,7 +26,7 @@ Access the server on [http://localhost:3000](http://localhost:3000) to view it i
 ### Building the application for deployment
 
 ```
-yarn build
+npm run-script build
 ```
 
 Builds the app for production to the `build` folder.
@@ -59,7 +59,6 @@ The application revolves around the Redux store, which is the central place wher
 -   [Create React App](https://create-react-app.dev/docs/getting-started/) - Officially supported way to create single-page React applications.
     It offers a modern build setup with no configuration.
 -   [Node](https://nodejs.org/en/) - A JavaScript runtime built on Chrome's V8 JavaScript engine
--   [Yarn](https://yarnpkg.com/) - Our package manager of choice
 -   [React](https://reactjs.org/) - A JavaScript library for building user interfaces
 -   [Redux](https://redux.js.org/) - A Predictable State Container for JS Apps
 -   [ReduxSaga](https://redux-saga.js.org/) - A library that aims to make application side effects (i.e. asynchronous things like data fetching and impure things like accessing the browser cache) easier to manage, more efficient to execute, easy to test, and better at handling failures.
