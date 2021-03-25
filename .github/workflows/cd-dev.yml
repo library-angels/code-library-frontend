@@ -8,14 +8,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: "Install Yarn"
+      - name: "Install Npm"
         uses: actions/setup-node@v1
         with:
-          node-version: "12.x"
+          node-version: "14"
       - name: "Install build dependencies"
-        run: yarn install --production --frozen-lockfile
+        run: npm install
       - name: "Build the static files"
-        run: yarn run build
+        run: npm run-script build
       - name: "Compress the static files"
         run: zip -r build.zip build/
       - name: "Upload the compressed static files"
